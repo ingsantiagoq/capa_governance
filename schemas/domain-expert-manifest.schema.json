@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "UBP Domain Expert Manifest v2",
+  "title": "UBP Domain Expert Manifest v3",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -14,14 +14,16 @@
     "escalationTriggers",
     "prohibitedActions",
     "handoffTargets",
-    "retrieval"
+    "retrieval",
+    "knowledgeSources",
+    "semanticAnchors"
   ],
   "properties": {
     "kind": {
       "const": "domain-expert"
     },
     "version": {
-      "const": 2
+      "const": 3
     },
     "id": {
       "type": "string",
@@ -165,6 +167,122 @@
           "type": "string",
           "minLength": 1,
           "pattern": "\\S"
+        }
+      }
+    },
+    "knowledgeSources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ubp",
+        "market"
+      ],
+      "properties": {
+        "ubp": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "type",
+              "reference",
+              "purpose"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+              },
+              "type": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        "market": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "vendor",
+              "reference",
+              "purpose",
+              "sourcePolicy"
+            ],
+            "properties": {
+              "vendor": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "sourcePolicy": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "semanticAnchors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "term",
+          "ubpMeaning",
+          "marketLens",
+          "decisionRule"
+        ],
+        "properties": {
+          "term": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+          },
+          "ubpMeaning": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "marketLens": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "decisionRule": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
         }
       }
     }

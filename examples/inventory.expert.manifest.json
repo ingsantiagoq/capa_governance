@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 2,
+  "version": 3,
   "id": "inventory-expert",
   "domain": "inventory",
   "scope": [
@@ -160,5 +160,97 @@
     "maxExpansions": 1,
     "sourcePolicy": "only-after-manifest-and-graph",
     "provenance": "Inventory expert derived from UBP ADR-0021, CAPA ADR-0021 manifests and the curated Inventory Market Lens on 2026-09-07. Graphify verified StockBalance node under the current UBP graph with raised graph size limit; remaining UBP seeds are curated from ADR/CAPA manifests and must be resolved against a pinned UBP revision before production enforcement. Market sources are comparison pressure, not proof of UBP implementation."
-  }
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0021",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0021-inventario-y-sucursales.md",
+        "purpose": "Vision accepted for inventory, branches, stock balances, movements, costing boundaries and market gap backlog"
+      },
+      {
+        "id": "capa-stock-types-reservas-y-atp",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0021-inventario-y-sucursales/stock-types-reservas-y-atp/manifest.json",
+        "purpose": "Verified reservation and ATP behavior; prevents overselling without moving physical stock"
+      },
+      {
+        "id": "capa-reorden-min-max-safety-stock",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0021-inventario-y-sucursales/reorden-min-max-safety-stock/manifest.json",
+        "purpose": "Verified replenishment recommendation policy; recommendations do not create AP documents automatically"
+      },
+      {
+        "id": "capa-trazabilidad-financiera-fiscal-por-sucursal",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0021-inventario-y-sucursales/trazabilidad-financiera-fiscal-por-sucursal/manifest.json",
+        "purpose": "Branch, legal entity, warehouse and financial/tax propagation boundary"
+      },
+      {
+        "id": "inventory-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/inventory/market-lens.md",
+        "purpose": "Curated comparison pressure for SAP, Dynamics, Epicor and Odoo without claiming UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://learning.sap.com/courses/inventory-management-and-physical-inventory-in-sap-s-4hana/setting-up-movement-types-1",
+        "purpose": "Movement types, quantity and value update, account grouping, reservations, availability, transfers, physical inventory and valuation controls",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/supply-chain/warehousing/warehouse-management-overview",
+        "purpose": "Warehouse integration with purchasing, sales, transfers, production, returns, quality, reservations, mobile work, batch and serial support",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-resource-planning-erp/epicor-kinetic/supply-chain-management/ptw-warehouse/",
+        "purpose": "Mobile warehouse execution, scan validation, bins, lots, PCIDs, receiving, material queue, cycle counts and WIP movement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory.html",
+        "purpose": "Inventory app scope for routes, replenishment, lots, serials and valuation concepts",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "movement",
+      "ubpMeaning": "Append-only StockMovement that changes stock facts and may carry value; history is not mutated.",
+      "marketLens": "SAP movement types show that movement semantics should govern quantity, value, reversal, reason and account impact; Odoo stock moves and Dynamics warehouse work show process integration pressure.",
+      "decisionRule": "If a change modifies quantity, value, reversal or account semantics, escalate to architect and reviewer before implementation."
+    },
+    {
+      "term": "reservation",
+      "ubpMeaning": "Reservation reduces ATP without moving stock or cost; physical stock remains in StockBalance until fulfillment.",
+      "marketLens": "SAP and Dynamics treat reservations and availability as planning/fulfillment controls; Epicor material queues show operational allocation pressure.",
+      "decisionRule": "The expert can answer read/recommendation intents; policy changes, oversell behavior or source-document coupling escalate."
+    },
+    {
+      "term": "valued-adjustment",
+      "ubpMeaning": "Manual quantity or value adjustment affects stock and may require Ledger posting through governed account roles.",
+      "marketLens": "SAP value update and account grouping, Dynamics financial integration and Odoo valuation imply accounting consequences for value changes.",
+      "decisionRule": "Any real adjustment, costing method change, GL-control mapping or migration requires approval and often Ledger escalation."
+    },
+    {
+      "term": "branch-scope",
+      "ubpMeaning": "Inventory derives branch from warehouse and exposes branch-scoped facts through BFF; tenant isolation is mandatory.",
+      "marketLens": "Dynamics warehouse setup and Epicor site/warehouse workflows reinforce location-specific operations; UBP keeps branch as fiscal/operational coordinate.",
+      "decisionRule": "Any bypass of BFF, tenant isolation or contradictory branch attribution is blocked."
+    },
+    {
+      "term": "interoperability",
+      "ubpMeaning": "Inventory feeds AR, AP, POS, Production, Tax, Ledger and Edge through contracts; it does not own those domains.",
+      "marketLens": "Market ERPs integrate inventory deeply with source documents and financial processes, but UBP must keep domain boundaries explicit.",
+      "decisionRule": "Cross-domain semantic impact routes to architect/reviewer and the relevant domain expert."
+    }
+  ]
 }

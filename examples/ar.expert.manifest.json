@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 2,
+  "version": 3,
   "id": "ar-expert",
   "domain": "ar",
   "scope": [
@@ -109,5 +109,85 @@
     "maxExpansions": 1,
     "sourcePolicy": "only-after-manifest-and-graph",
     "provenance": "AR domain scope supplied for CAPA Governance v2. Logical seed labels are proposed anchors, not verified UBP symbols or Graphify IDs. Resolve and approve against a pinned UBP revision before production use."
-  }
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "ar-domain-scope",
+        "type": "domain-scope",
+        "reference": "AR domain scope supplied for CAPA Governance v2",
+        "purpose": "Initial AR expert boundary for invoices, credit notes, receipts, reversals and Ledger handoff"
+      },
+      {
+        "id": "ar-ledger-boundary",
+        "type": "boundary",
+        "reference": "AR to Ledger posting boundary",
+        "purpose": "Keep AR commercial document logic separated from accounting posting authority"
+      },
+      {
+        "id": "ar-electronic-invoicing-policy",
+        "type": "policy",
+        "reference": "AR electronic invoicing policy",
+        "purpose": "Route fiscal/electronic invoicing impact to compliance and reviewer"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "market-reference-required-for-ar-v3",
+        "purpose": "Accounts receivable document lifecycle, clearing, credit memo and posting semantics to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "market-reference-required-for-ar-v3",
+        "purpose": "Customer invoice, payment settlement, credit management and financial integration patterns to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "oracle",
+        "reference": "market-reference-required-for-ar-v3",
+        "purpose": "Receivables transaction, receipt, adjustment and accounting patterns to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "market-reference-required-for-ar-v3",
+        "purpose": "Invoice, payment, reconciliation and credit note semantics to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "invoice",
+      "ubpMeaning": "AR commercial receivable document that may require Ledger and tax/electronic invoicing consequences.",
+      "marketLens": "ERP suites treat customer invoices as commercial, fiscal and accounting boundary objects.",
+      "decisionRule": "Inspecting invoice state can remain in AR; posting, tax policy or legal document changes escalate."
+    },
+    {
+      "term": "receipt",
+      "ubpMeaning": "Customer payment application or reversal under AR control with Ledger impact boundary.",
+      "marketLens": "Market ERPs separate payment capture, settlement/clearing and accounting effects.",
+      "decisionRule": "Applying or reversing a receipt requires approval; cross-period or Ledger impact escalates."
+    },
+    {
+      "term": "credit-note",
+      "ubpMeaning": "AR corrective document that may alter receivable balance and fiscal/electronic reporting.",
+      "marketLens": "Market ERPs treat credit memo semantics as governed corrections with audit implications.",
+      "decisionRule": "Issuing credit notes without approval is blocked; fiscal impact escalates to compliance."
+    },
+    {
+      "term": "period-close",
+      "ubpMeaning": "AR operations must respect closed-period policy and never erase posted history.",
+      "marketLens": "ERP receivables modules protect closed periods and use controlled reversals/adjustments.",
+      "decisionRule": "Reopen or backdated changes escalate to PO and reviewer."
+    },
+    {
+      "term": "interoperability",
+      "ubpMeaning": "AR interacts with Ledger, Tax, Inventory, POS and BFF through explicit contracts.",
+      "marketLens": "Market ERPs integrate AR with order-to-cash and financial posting, but domain boundaries remain explicit.",
+      "decisionRule": "Cross-domain semantic changes route to architect and reviewer."
+    }
+  ]
 }
