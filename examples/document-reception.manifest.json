@@ -70,7 +70,10 @@
     "document workflow must preserve separation of duties",
     "approval and payment roles must be governed by Control Plane",
     "document state transitions must be auditable",
-    "workflow cannot skip AP, Inventory or Ledger ownership boundaries"
+    "workflow cannot skip AP, Inventory or Ledger ownership boundaries",
+    "document workflow must use document-workflow-deliberation v9",
+    "state transitions require owner and audit trail",
+    "payment authorization and accounting approval are separate workflow states"
   ],
   "governance": {
     "deterministic": [
@@ -149,7 +152,8 @@
       "CAPA ADR-0044 captura-entrante-ocr-inbox",
       "CAPA ADR-0044 object-linking-polimorfico",
       "ADR-0042 Procesos Automatizados Workflow BPM",
-      "CAPA Governance v6 document workflow policy"
+      "CAPA Governance v6 document workflow policy",
+      "protocol/document-workflow-deliberation.md"
     ],
     "maxExpansions": 1,
     "sourcePolicy": "only-after-manifest-and-graph",

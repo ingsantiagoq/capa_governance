@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 8,
+  "version": 9,
   "id": "inventory-expert",
   "domain": "inventory",
   "scope": [

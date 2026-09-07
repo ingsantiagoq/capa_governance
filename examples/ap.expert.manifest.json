@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 8,
+  "version": 9,
   "id": "ap-expert",
   "domain": "ap",
   "scope": [
@@ -331,6 +331,11 @@
       "id": "domain-deliberation",
       "reference": "protocol/domain-deliberation.md",
       "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "document-workflow-deliberation",
+      "reference": "protocol/document-workflow-deliberation.md",
+      "scope": "mandatory governed workflow for inbound documents, approvals, payment authorization and accounting handoff"
     }
   ]
 }

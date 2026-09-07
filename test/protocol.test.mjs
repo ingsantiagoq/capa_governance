@@ -321,3 +321,14 @@ test('cross-domain escalation carries deliberation policy for impacted experts',
     assert.ok(expert.policies.some(policy => policy.id === 'domain-deliberation'), `${expert.id} missing deliberation policy`);
   }
 });
+
+
+test('document workflow policy is mandatory for AP handoff', async () => {
+  const receptionCapability = JSON.parse(await readFile(new URL('../examples/document-reception.manifest.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validate(receptionCapability), []);
+  for (const expert of [apExpert, ledgerExpert, controlPlaneExpert]) {
+    assert.ok(expert.policies.some(policy => policy.id === 'document-workflow-deliberation'), `${expert.id} missing document workflow policy`);
+  }
+  assert.ok(receptionCapability.retrieval.seedNodes.includes('protocol/document-workflow-deliberation.md'));
+  assert.ok(receptionCapability.restrictions.some(item => item.includes('payment authorization and accounting approval')));
+});
