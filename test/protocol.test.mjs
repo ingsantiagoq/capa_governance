@@ -229,3 +229,13 @@ test('Cost center context routes through Ledger and Control Plane experts', () =
   assert.equal(policyRoute.state, 'block');
   assert.equal(policyRoute.reason, 'expert-approval-missing');
 });
+
+
+test('expert manifests reference mandatory policies', () => {
+  const requiredPolicies = new Set(['context-order', 'route-conformance', 'design-patterns', 'configuration-governance', 'tenant-boundaries', 'testing-gates', 'approval-boundaries']);
+  for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert]) {
+    assert.deepEqual(validateManifest(expert), []);
+    const ids = new Set(expert.policies.map(policy => policy.id));
+    for (const id of requiredPolicies) assert.ok(ids.has(id), `${expert.id} missing ${id}`);
+  }
+});

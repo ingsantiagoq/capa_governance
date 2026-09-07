@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "UBP Domain Expert Manifest v4",
+  "title": "UBP Domain Expert Manifest v5",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,14 +16,15 @@
     "handoffTargets",
     "retrieval",
     "knowledgeSources",
-    "semanticAnchors"
+    "semanticAnchors",
+    "policies"
   ],
   "properties": {
     "kind": {
       "const": "domain-expert"
     },
     "version": {
-      "const": 4
+      "const": 5
     },
     "id": {
       "type": "string",
@@ -279,6 +280,36 @@
             "pattern": "\\S"
           },
           "decisionRule": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "policies": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reference",
+          "scope"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "scope": {
             "type": "string",
             "minLength": 1,
             "pattern": "\\S"

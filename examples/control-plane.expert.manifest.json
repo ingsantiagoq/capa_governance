@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 4,
+  "version": 5,
   "id": "control-plane-expert",
   "domain": "control-plane",
   "scope": [
@@ -227,6 +227,43 @@
       "ubpMeaning": "Activation hook that seeds governed defaults idempotently and audibly for a tenant.",
       "marketLens": "Enterprise systems use setup/provisioning flows to avoid half-enabled modules.",
       "decisionRule": "Cross-service provisioning or dependency changes escalate to architect and reviewer."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
     }
   ]
 }

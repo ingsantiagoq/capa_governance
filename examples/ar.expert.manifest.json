@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 4,
+  "version": 5,
   "id": "ar-expert",
   "domain": "ar",
   "scope": [
@@ -188,6 +188,43 @@
       "ubpMeaning": "AR interacts with Ledger, Tax, Inventory, POS and BFF through explicit contracts.",
       "marketLens": "Market ERPs integrate AR with order-to-cash and financial posting, but domain boundaries remain explicit.",
       "decisionRule": "Cross-domain semantic changes route to architect and reviewer."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
     }
   ]
 }

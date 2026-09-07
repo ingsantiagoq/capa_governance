@@ -1,4 +1,4 @@
-# CAPA Governance v4
+# CAPA Governance v5
 
 El conocimiento se publica, no se busca.
 
@@ -9,7 +9,7 @@ y la logica de negocio. Este repositorio central contiene especificacion,
 ejemplos y funciones de referencia pequenas; no es un framework de agentes.
 
 Los Capability Manifests y Domain Expert Manifests versionados son la fuente
-oficial. En v4, los expertos de dominio declaran fuentes UBP y fuentes de mercado
+oficial. En v5, los expertos de dominio declaran fuentes UBP y fuentes de mercado
 explicitas para anclar semantica sin convertir benchmarks en verdad implementada. Una intencion tiene un experto primario; solo se escala por riesgo o
 impacto entre dominios. El Context Pack conserva
 sus siete campos. El Capability Router aplica manifest-first, graphify-second,
@@ -41,7 +41,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
-  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v4.
+  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v5.
 - [Experto AR](examples/ar.expert.manifest.json): cuentas por cobrar y gates;
   anclas propuestas pendientes de verificar contra UBP.
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
@@ -67,6 +67,22 @@ consumidor antes de usarse. No se inventan IDs Graphify ni rutas de archivos.
 Las restricciones absolutas, como aislamiento y roles inmutables, no se eliminan
 con una aprobacion; las acciones condicionadas a aprobacion estan separadas.
 
+
+## Policies obligatorias
+
+La v5 separa conocimiento de reglas duras. `knowledge/` contiene contexto y referencias blandas; `policies/` contiene reglas obligatorias que el verificador debe hacer cumplir. Los Domain Experts no duplican esas reglas: las referencian mediante `policies[]`.
+
+Capas iniciales:
+
+- `policies/architecture/design-patterns.md`
+- `policies/architecture/configuration-governance.md`
+- `policies/frontend/frontend-architecture.md`
+- `policies/security/tenant-boundaries.md`
+- `policies/testing/gates.md`
+- `policies/context/context-order.md`
+- `policies/context/route-conformance.md`
+- `policies/approvals/approval-boundaries.md`
+
 ## Publicacion y consumo
 
 Un cambio de manifest se revisa y se publica en Git con su revision. UBP consume
@@ -83,11 +99,11 @@ La clasificacion de intencion, el registro de aprobaciones y la ejecucion real
 pertenecen al consumidor. Debe invocar el broker antes de recuperar contexto o
 actuar y hacer cumplir su salida; el skill por si solo no garantiza enforcement.
 
-## Compatibilidad v4
+## Compatibilidad v5
 
 transition(previous, facts) conserva v1. El tercer argumento expertContext activa
 el flujo de expertos y agrega primaryExpert y expertDecision al sobre, sin modificar el pack.
-El schema v4 exige knowledgeSources y semanticAnchors para que el experto no improvise
+El schema v5 exige knowledgeSources, semanticAnchors y policies para que el experto no improvise
 conceptos de dominio ni benchmarks de mercado.
 Ver el [contrato de entrada](protocol/domain-experts.md) antes de integrar.
 El CLI historico valida ambos tipos de manifest; validate conserva el schema
