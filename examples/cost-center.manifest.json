@@ -1,0 +1,130 @@
+{
+  "capability": {
+    "id": "cost-center",
+    "name": "Centro de costo y cuenta segmentada",
+    "intents": [
+      "analizar cuenta segmentada",
+      "definir dimension centro de costo",
+      "derivar centro de costo desde sucursal",
+      "derivar separacion contable desde bodega",
+      "validar tercero como segmento o subledger reference",
+      "evaluar document splitting por segmento",
+      "disenar migracion o backfill de dimensiones contables"
+    ]
+  },
+  "services": [
+    "ledger-service",
+    "admin-service",
+    "inventory-service",
+    "ubp-bff",
+    "ar-service",
+    "ap-service",
+    "pos-service"
+  ],
+  "contracts": [
+    "ledger.proto: LedgerService",
+    "admin-catalog.proto",
+    "inventory.proto: InventoryService",
+    "JournalEntry",
+    "JournalLine",
+    "PostingDimensions",
+    "AccountMap",
+    "AccountingPeriod",
+    "Branch",
+    "Warehouse",
+    "DocumentRef"
+  ],
+  "dependencies": [
+    "ledger capability",
+    "control-plane capability",
+    "inventory capability",
+    "tenant context",
+    "legal entity scope",
+    "branch dimension",
+    "warehouse operational origin",
+    "party or subledger reference",
+    "natural account catalog",
+    "cost center policy",
+    "account map",
+    "document splitting policy",
+    "period close policy"
+  ],
+  "restrictions": [
+    "segmented account display cannot become an opaque flat AccountCode",
+    "NaturalAccount, BranchId, WarehouseId, PartyId and CostCenterId must remain typed separately",
+    "BranchId is already a typed dimension; do not assume Branch equals CostCenter without a policy decision",
+    "WarehouseId must be evaluated as operational origin, accounting segment or additional dimension before implementation",
+    "PartyId must be evaluated as segment, auxiliary dimension or subledger reference before implementation",
+    "Inventory cannot post Ledger entries directly",
+    "Control Plane governs segment order, masks, defaults, requirements and tenant policy",
+    "Ledger governs posting, balancing, account maps, periods, reversals and reporting",
+    "historical accounting data cannot be changed without migration or backfill CAPA",
+    "BFF remains the user-facing boundary"
+  ],
+  "governance": {
+    "deterministic": [
+      "classify segmented account input into candidate typed segments",
+      "identify signed BranchId dimension precedent",
+      "identify required domains for cost center analysis",
+      "separate display code from natural account and dimensions",
+      "produce non-mutating CAPA analysis when evidence is sufficient"
+    ],
+    "poDecision": [
+      "whether Branch can default CostCenter",
+      "whether Warehouse is accounting segment or operational dimension",
+      "whether Party is accounting segment, auxiliary dimension or subledger reference",
+      "whether segmented display format is accepted for customer-facing reporting",
+      "migration and backfill scope"
+    ],
+    "architectHandoff": [
+      "new segmented chart of accounts semantics",
+      "document splitting design",
+      "cross-domain propagation from Inventory to Ledger through BFF or service contracts",
+      "new dimensional model or migration",
+      "new Graphify or manifest enforcement path"
+    ],
+    "reviewerGate": [
+      "typed dimensions are preserved",
+      "no hardcoded customer, country, branch, warehouse, party, account or cost center logic",
+      "Ledger, Control Plane and Inventory route conformance",
+      "period close and posted history protections",
+      "tenant isolation",
+      "BFF boundary",
+      "policy references exist in CAPA Governance v5"
+    ],
+    "forbiddenWithoutApproval": [
+      "implementing segmented account persistence",
+      "changing account maps",
+      "changing cost center policy",
+      "backfilling historical journal entries",
+      "running ledger or inventory migrations",
+      "posting real journal entries",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "CAPA Governance v5 policies/context/context-order.md",
+      "CAPA Governance v5 policies/context/route-conformance.md",
+      "CAPA Governance v5 policies/architecture/configuration-governance.md",
+      "CAPA Governance v5 policies/architecture/design-patterns.md",
+      "ADR-0011 Contabilidad GL",
+      "ADR-0008 Estructura Organizacional Multi Entidad",
+      "ADR-0021 Inventario y Sucursales",
+      "ADR-0006 Control Plane",
+      "ADR-0043 Analytics e IA",
+      "ADR-0009 Auditoria e Integridad Contable",
+      "ubp_ledger_domain_journalline_journalline",
+      "ubp_inventory_domain_branch_branch",
+      "ubp_inventory_domain_warehouse_warehouse"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Cost-center capability manifest added for CAPA Governance v5 on 2026-09-07 after segmented-account analysis exposed that the cross-domain capability was implicit but unpublished. This manifest routes analysis; it does not approve implementation."
+  }
+}

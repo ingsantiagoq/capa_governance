@@ -239,3 +239,15 @@ test('expert manifests reference mandatory policies', () => {
     for (const id of requiredPolicies) assert.ok(ids.has(id), `${expert.id} missing ${id}`);
   }
 });
+
+
+test('cost-center capability manifest validates as cross-domain route seed', async () => {
+  const costCenter = JSON.parse(await readFile(new URL('../examples/cost-center.manifest.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validate(costCenter), []);
+  assert.equal(costCenter.capability.id, 'cost-center');
+  assert.ok(costCenter.services.includes('ledger-service'));
+  assert.ok(costCenter.services.includes('admin-service'));
+  assert.ok(costCenter.services.includes('inventory-service'));
+  assert.ok(costCenter.governance.architectHandoff.some(item => item.includes('segmented')));
+  assert.ok(costCenter.restrictions.some(item => item.includes('opaque flat AccountCode')));
+});
