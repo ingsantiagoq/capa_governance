@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 3,
+  "version": 4,
   "id": "ar-expert",
   "domain": "ar",
   "scope": [

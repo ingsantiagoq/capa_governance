@@ -101,6 +101,8 @@ test('missing and inconsistent facts fail closed; no implicit approval', () => {
 
 const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.json', import.meta.url), 'utf8'));
 const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory.expert.manifest.json', import.meta.url), 'utf8'));
+const ledgerExpert = JSON.parse(await readFile(new URL('../examples/ledger.expert.manifest.json', import.meta.url), 'utf8'));
+const controlPlaneExpert = JSON.parse(await readFile(new URL('../examples/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
 const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
 const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
 
@@ -193,4 +195,37 @@ test('Inventory expert selects one primary and escalates market-sensitive cross-
   const blocked = transition('ready', facts, { ...inventoryIntent, action: 'apply-stock-adjustment' });
   assert.equal(blocked.state, 'block');
   assert.equal(blocked.reason, 'expert-approval-missing');
+});
+
+
+test('Cost center context routes through Ledger and Control Plane experts', () => {
+  assert.deepEqual(validateManifest(ledgerExpert), []);
+  assert.deepEqual(validateManifest(controlPlaneExpert), []);
+  const experts = [ar, inventoryExpert, ledgerExpert, controlPlaneExpert];
+  const ledgerIntent = {
+    domain: 'ledger',
+    capability: 'ledger',
+    action: 'inspect-cost-center-dimension',
+    impactedDomains: ['ledger', 'inventory', 'control-plane'],
+    risks: ['cost-center-policy'],
+    approvedActions: [],
+    experts
+  };
+  const ledgerRoute = transition('ready', facts, ledgerIntent);
+  assert.equal(ledgerRoute.state, 'escalate');
+  assert.equal(ledgerRoute.primaryExpert, 'ledger-expert');
+  assert.deepEqual(ledgerRoute.expertDecision.targets, ['architect', 'control-plane-expert', 'po', 'reviewer']);
+
+  const policyIntent = {
+    domain: 'control-plane',
+    capability: 'control-plane',
+    action: 'change-cost-center-policy',
+    impactedDomains: ['control-plane', 'ledger', 'inventory'],
+    risks: ['cost-center-policy'],
+    approvedActions: [],
+    experts
+  };
+  const policyRoute = transition('ready', facts, policyIntent);
+  assert.equal(policyRoute.state, 'block');
+  assert.equal(policyRoute.reason, 'expert-approval-missing');
 });

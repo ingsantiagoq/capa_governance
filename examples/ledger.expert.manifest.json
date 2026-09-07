@@ -1,0 +1,219 @@
+{
+  "kind": "domain-expert",
+  "version": 4,
+  "id": "ledger-expert",
+  "domain": "ledger",
+  "scope": [
+    "Contabilidad GL: cuentas, asientos, periodos, posting behaviors, account maps, balances, reversas y dimensiones contables",
+    "Centros de costo y dimensiones analiticas son criterio Ledger cuando afectan asiento, reporte, balance dimensional, cierre o reconciliacion",
+    "Ledger postea resultados recibidos desde dominios operativos; no calcula impuestos, no decide inventario fisico y no reemplaza politicas comerciales",
+    "El experto compara contra patrones de SAP, Dynamics, Oracle/Odoo y Epicor solo como presion semantica, no como implementacion UBP",
+    "Cualquier cambio en historia contable, periodo cerrado, document splitting, cuenta control o dimension obligatoria requiere escalamiento"
+  ],
+  "coveredCapabilities": [
+    "ledger"
+  ],
+  "seedNodes": [
+    "ADR-0011 Contabilidad GL",
+    "ADR-0009 Auditoria e Integridad Contable",
+    "ADR-0008 Estructura Organizacional Multi Entidad",
+    "ADR-0043 Analytics e IA contabilidad analitica dimensiones",
+    "ubp_ledger_domain_journalentry_journalentry",
+    "ubp_ledger_domain_journalline_journalline",
+    "ubp_ledger_domain_accountingperiod_accountingperiod",
+    "ubp_ledger_domain_tenantaccount_tenantaccount",
+    "services_ledgergrpcservice_ledgergrpcservice"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "period-close",
+      "targets": [
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "historical-posting",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "cost-center-policy",
+      "targets": [
+        "po",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "inventory-valuation",
+      "targets": [
+        "architect",
+        "inventory-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tax-impact",
+      "targets": [
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-isolation",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "bff-boundary",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "bypass-tenant-isolation",
+      "erase-posted-ledger-history",
+      "mutate-balanced-entry-in-place",
+      "bypass-period-lock"
+    ],
+    "withoutApproval": [
+      "post-journal-entry",
+      "reverse-journal-entry",
+      "reopen-period",
+      "change-account-map",
+      "change-cost-center-policy",
+      "run-ledger-migration",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "inventory-expert",
+    "control-plane-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0011 Contabilidad GL",
+      "ADR-0009 Auditoria e Integridad Contable",
+      "ADR-0008 Estructura Organizacional Multi Entidad",
+      "ADR-0043 Analytics e IA contabilidad analitica dimensiones",
+      "ubp_ledger_domain_journalentry_journalentry",
+      "ubp_ledger_domain_journalline_journalline",
+      "ubp_ledger_domain_accountingperiod_accountingperiod",
+      "ubp_ledger_domain_tenantaccount_tenantaccount",
+      "services_ledgergrpcservice_ledgergrpcservice"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Ledger expert derived from UBP ADR-0011, ADR-0009, ADR-0008 and ADR-0043 references on 2026-09-07. Seeds are curated from UBP ADR/CAPA context and must be resolved against a pinned UBP graph before production enforcement."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0011",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0011-contabilidad-gl.md",
+        "purpose": "Accepted vision for GL, posting, account maps, balances and document splitting pressure"
+      },
+      {
+        "id": "adr-0009",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0009-auditoria-integridad-contable.md",
+        "purpose": "Audit, immutability, closed period and reversal rules"
+      },
+      {
+        "id": "adr-0008",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0008-estructura-organizacional-multi-entidad.md",
+        "purpose": "Legal entity, branch and cost center as organizational/dimensional context"
+      },
+      {
+        "id": "adr-0043",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0043-analytics-e-ia.md",
+        "purpose": "Analytic accounting and profitability dimensions as reporting pressure"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "market-reference-required-for-ledger-v3",
+        "purpose": "FI/CO document splitting, cost center and profit center semantics to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "market-reference-required-for-ledger-v3",
+        "purpose": "Financial dimensions and posting profile semantics to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "oracle",
+        "reference": "market-reference-required-for-ledger-v3",
+        "purpose": "Subledger accounting, chart of accounts segments and accounting rules to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "market-reference-required-for-ledger-v3",
+        "purpose": "Analytic accounts, plans and accounting move semantics to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "journal-entry",
+      "ubpMeaning": "Immutable balanced accounting fact; corrections use reversal or governed adjustment, not mutation.",
+      "marketLens": "ERP ledgers treat posted accounting documents as auditable records with controlled reversal.",
+      "decisionRule": "Posting, reversal, reopening periods or history changes require approval and reviewer gate."
+    },
+    {
+      "term": "cost-center",
+      "ubpMeaning": "Analytic/dimensional coordinate for reporting and allocation, separate from account code and branch.",
+      "marketLens": "Market ERPs separate account, organizational unit and analytic dimension for segment reporting.",
+      "decisionRule": "If cost center becomes mandatory, defaulted or backfilled, involve Control Plane and reviewer."
+    },
+    {
+      "term": "document-splitting",
+      "ubpMeaning": "Balancing accounting views by dimension when reports need branch, center or segment balances.",
+      "marketLens": "SAP-style splitting shows why dimensional balances must remain internally balanced.",
+      "decisionRule": "Any splitting or dimensional rebalance change escalates to architect."
+    },
+    {
+      "term": "account-map",
+      "ubpMeaning": "Governed mapping from domain behavior to account roles and concrete accounts.",
+      "marketLens": "Posting profiles and account determination are configuration, not hardcoded logic.",
+      "decisionRule": "Changing account determination requires Control Plane policy and approval."
+    },
+    {
+      "term": "interoperability",
+      "ubpMeaning": "Ledger receives accounting intent from AR, AP, Inventory, Tax, POS and Production through contracts.",
+      "marketLens": "ERP suites integrate subledgers with GL through explicit posting rules.",
+      "decisionRule": "Cross-domain posting semantics route to architect and relevant domain experts."
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "kind": "domain-expert",
+  "version": 4,
+  "id": "control-plane-expert",
+  "domain": "control-plane",
+  "scope": [
+    "Control Plane: capabilities, tenant configuration, plan packaging, permission scopes, role templates, feature flags, provisioning hooks and governed runtime policy",
+    "Centros de costo son politica de configuracion cuando se decide obligatoriedad, herencia, defaults, activacion por tenant o comportamiento por modulo",
+    "Control Plane define y audita la politica; no ejecuta movimientos de inventario ni postea asientos Ledger",
+    "ADMIN y OWNER son inmutables; cualquier expansion de permisos o capabilities se gobierna por catalogo y reconciliador",
+    "El experto puede responder sobre configuracion y gobernanza; cruces con Ledger o Inventory escalan"
+  ],
+  "coveredCapabilities": [
+    "control-plane"
+  ],
+  "seedNodes": [
+    "ADR-0006 Control Plane",
+    "ADR-0003 Identidad y Acceso",
+    "ADR-0005 Config no Codigo Pais Agnostico",
+    "ADR-0082 Navegacion Capability Derivada del Catalogo",
+    "CapabilityConfiguration",
+    "RoleTemplateService",
+    "TenantAddOnGovernanceService",
+    "CapabilityGraphRepository",
+    "CapabilityDependencyService",
+    "TenantCapabilityInstallService",
+    "FeatureFlagService",
+    "admin-catalog.proto",
+    "membership.proto"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "cost-center-policy",
+      "targets": [
+        "po",
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "inventory-valuation",
+      "targets": [
+        "architect",
+        "inventory-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "permission-expansion",
+      "targets": [
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "role-immutability",
+      "targets": [
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "provisioning-hook",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-isolation",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "bff-boundary",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "modify-admin-role-directly",
+      "modify-owner-role-directly",
+      "bypass-tenant-isolation",
+      "bypass-bff"
+    ],
+    "withoutApproval": [
+      "expand-tenant-capability",
+      "change-role-template",
+      "change-permission-scope",
+      "change-cost-center-policy",
+      "run-control-plane-migration",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "ledger-expert",
+    "inventory-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0006 Control Plane",
+      "ADR-0003 Identidad y Acceso",
+      "ADR-0005 Config no Codigo Pais Agnostico",
+      "ADR-0082 Navegacion Capability Derivada del Catalogo",
+      "CapabilityConfiguration",
+      "RoleTemplateService",
+      "TenantAddOnGovernanceService",
+      "CapabilityGraphRepository",
+      "CapabilityDependencyService",
+      "TenantCapabilityInstallService",
+      "FeatureFlagService",
+      "admin-catalog.proto",
+      "membership.proto"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Control Plane expert derived from existing CAPA Governance control-plane capability manifest plus UBP ADR-0006, ADR-0003, ADR-0005 and ADR-0082 references on 2026-09-07. Seeds must be resolved against a pinned UBP graph before production enforcement."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0006",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0006-control-plane.md",
+        "purpose": "Control Plane vision for capability catalog, plans, feature flags, runtime config and provisioning"
+      },
+      {
+        "id": "adr-0003",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0003-identidad-y-acceso.md",
+        "purpose": "Identity, access, permission enforcement and immutable role boundaries"
+      },
+      {
+        "id": "adr-0005",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0005-config-no-codigo-pais-agnostico.md",
+        "purpose": "Configuration-first policy boundary and country-agnostic behavior"
+      },
+      {
+        "id": "control-plane-capability",
+        "type": "capability-manifest",
+        "reference": "examples/control-plane.manifest.json",
+        "purpose": "Published control-plane capability context pack used by the broker"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "market-reference-required-for-control-plane-v3",
+        "purpose": "Role/catalog/customizing and configuration governance patterns to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "market-reference-required-for-control-plane-v3",
+        "purpose": "Feature management, security roles, financial dimensions and tenant configuration patterns to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "oracle",
+        "reference": "market-reference-required-for-control-plane-v3",
+        "purpose": "Enterprise configuration, roles, ledgers and flexfield governance to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "market-reference-required-for-control-plane-v3",
+        "purpose": "App/module activation, access groups and configuration semantics to be curated before production enforcement",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "capability",
+      "ubpMeaning": "Governed feature or business ability activated for a tenant or plan through catalog and dependencies.",
+      "marketLens": "Enterprise suites separate licensed/activated functions from runtime transactions.",
+      "decisionRule": "Capability expansion in production requires PO approval and reviewer gate."
+    },
+    {
+      "term": "policy",
+      "ubpMeaning": "Runtime behavior configured by tenant, plan, country pack or module without hardcoding customer forks.",
+      "marketLens": "ERP customizing and feature management make behavior configurable rather than code-specific.",
+      "decisionRule": "If behavior differs by tenant or module, model it as config and audit it."
+    },
+    {
+      "term": "cost-center",
+      "ubpMeaning": "Governed dimension whose requirement/default can be configured, but whose accounting meaning belongs to Ledger.",
+      "marketLens": "Market ERPs configure dimensions centrally while consuming them in finance and operations.",
+      "decisionRule": "Control Plane decides enablement/default policy; Ledger validates accounting consequence; Inventory validates operational origin."
+    },
+    {
+      "term": "role-template",
+      "ubpMeaning": "Canonical permission bundle reconciled through governance; ADMIN and OWNER remain immutable.",
+      "marketLens": "ERP security models use roles/profiles, but privileged templates need guarded lifecycle.",
+      "decisionRule": "Direct privileged role mutation is blocked; permission expansion requires approval."
+    },
+    {
+      "term": "provisioning",
+      "ubpMeaning": "Activation hook that seeds governed defaults idempotently and audibly for a tenant.",
+      "marketLens": "Enterprise systems use setup/provisioning flows to avoid half-enabled modules.",
+      "decisionRule": "Cross-service provisioning or dependency changes escalate to architect and reviewer."
+    }
+  ]
+}
