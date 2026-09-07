@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 6,
+  "version": 7,
   "id": "ap-expert",
   "domain": "ap",
   "scope": [
@@ -321,6 +321,11 @@
       "id": "approval-boundaries",
       "reference": "policies/approvals/approval-boundaries.md",
       "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
     }
   ]
 }

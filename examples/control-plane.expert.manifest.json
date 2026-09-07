@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 6,
+  "version": 7,
   "id": "control-plane-expert",
   "domain": "control-plane",
   "scope": [
@@ -264,6 +264,11 @@
       "id": "approval-boundaries",
       "reference": "policies/approvals/approval-boundaries.md",
       "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
     }
   ]
 }

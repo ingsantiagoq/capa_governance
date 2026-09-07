@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "UBP Domain Expert Manifest v6",
+  "title": "UBP Domain Expert Manifest v7",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -24,7 +24,7 @@
       "const": "domain-expert"
     },
     "version": {
-      "const": 6
+      "const": 7
     },
     "id": {
       "type": "string",

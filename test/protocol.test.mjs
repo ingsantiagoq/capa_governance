@@ -233,7 +233,7 @@ test('Cost center context routes through Ledger and Control Plane experts', () =
 
 
 test('expert manifests reference mandatory policies', () => {
-  const requiredPolicies = new Set(['context-order', 'route-conformance', 'design-patterns', 'configuration-governance', 'tenant-boundaries', 'testing-gates', 'approval-boundaries']);
+  const requiredPolicies = new Set(['context-order', 'route-conformance', 'design-patterns', 'configuration-governance', 'tenant-boundaries', 'testing-gates', 'approval-boundaries', 'escalation-recommendations']);
   for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert]) {
     assert.deepEqual(validateManifest(expert), []);
     const ids = new Set(expert.policies.map(policy => policy.id));
@@ -278,4 +278,26 @@ test('document reception routes to AP and blocks auto-posting', async () => {
   const blocked = transition('ready', facts, { ...intakeIntent, action: 'post-ap-liability-from-email' });
   assert.equal(blocked.state, 'block');
   assert.equal(blocked.reason, 'expert-restriction');
+});
+
+
+test('valid escalation requires recommendation policy while hard blocks stay blocks', () => {
+  const experts = [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert];
+  const costCenterIntent = {
+    domain: 'ledger',
+    capability: 'ledger',
+    action: 'inspect-cost-center-dimension',
+    impactedDomains: ['ledger', 'inventory', 'control-plane'],
+    risks: ['cost-center-policy'],
+    approvedActions: [],
+    experts
+  };
+  const escalated = transition('ready', facts, costCenterIntent);
+  assert.equal(escalated.state, 'escalate');
+  assert.equal(escalated.primaryExpert, 'ledger-expert');
+  assert.ok(ledgerExpert.policies.some(policy => policy.id === 'escalation-recommendations'));
+
+  const hardBlock = transition('ready', facts, { ...costCenterIntent, action: 'bypass-period-lock' });
+  assert.equal(hardBlock.state, 'block');
+  assert.equal(hardBlock.reason, 'expert-restriction');
 });
