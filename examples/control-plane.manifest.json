@@ -1,0 +1,101 @@
+{
+  "capability": {
+    "id": "control-plane",
+    "name": "Control Plane",
+    "intents": [
+      "previsualizar capacidades de un plan",
+      "resolver permisos efectivos",
+      "reconciliar permisos de roles"
+    ]
+  },
+  "services": [
+    "admin-service",
+    "membership-service",
+    "ubp-bff",
+    "ubp-admin-bff"
+  ],
+  "contracts": [
+    "admin-catalog.proto",
+    "membership.proto",
+    "PreviewPlanCapabilityBatch",
+    "PreviewTenantCapabilityAddOns",
+    "ResolveActorPermissions",
+    "CheckActorPermission",
+    "PreviewRolePermissionReconciliation",
+    "ApplyRolePermissionReconciliation"
+  ],
+  "dependencies": [
+    "tenant context",
+    "actor permissions",
+    "capability catalog",
+    "plan capability grants",
+    "capability permission scopes",
+    "role templates",
+    "feature flags",
+    "control plane audit",
+    "provisioning hooks",
+    "reconciliation jobs"
+  ],
+  "restrictions": [
+    "ADMIN and OWNER roles are immutable",
+    "BFF remains the user-facing boundary",
+    "capability activation must respect dependencies",
+    "permission expansion requires governed scope",
+    "tenant config changes must be audited",
+    "runtime config resolves through canonical admin surface"
+  ],
+  "governance": {
+    "deterministic": [
+      "resolve effective permissions",
+      "evaluate feature flags",
+      "preview capability changes",
+      "resolve dependency order",
+      "audit control plane mutations"
+    ],
+    "poDecision": [
+      "plan packaging",
+      "commercial availability of add-ons",
+      "scope of permissions exposed by a capability",
+      "exceptions for tenant-specific enablement"
+    ],
+    "architectHandoff": [
+      "new capability graph semantics",
+      "cross-service permission model changes",
+      "new provisioning hooks",
+      "runtime config contract changes"
+    ],
+    "reviewerGate": [
+      "tenant isolation",
+      "role immutability",
+      "permission-scope drift",
+      "capability dependency cycles",
+      "walkthrough impact"
+    ],
+    "forbiddenWithoutApproval": [
+      "expanding tenant capabilities in production",
+      "deploying Control Plane changes to production",
+      "schema migrations"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "CapabilityConfiguration",
+      "RoleTemplateService",
+      "TenantAddOnGovernanceService",
+      "CapabilityGraphRepository",
+      "CapabilityDependencyService",
+      "TenantCapabilityInstallService",
+      "FeatureFlagService",
+      "admin-catalog.proto",
+      "membership.proto"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Example transcribed from UBP context-pack trials on 2026-09-07. Seed labels require resolution against the consumer's pinned Graphify index; this is not a live production catalog."
+  }
+}
