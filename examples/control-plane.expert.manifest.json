@@ -15,6 +15,7 @@
   ],
   "seedNodes": [
     "ADR-0006 Control Plane",
+    "knowledge/control-plane/market-lens.md",
     "ADR-0003 Identidad y Acceso",
     "ADR-0005 Config no Codigo Pais Agnostico",
     "ADR-0082 Navegacion Capability Derivada del Catalogo",
@@ -118,6 +119,7 @@
     ],
     "seedNodes": [
       "ADR-0006 Control Plane",
+      "knowledge/control-plane/market-lens.md",
       "ADR-0003 Identidad y Acceso",
       "ADR-0005 Config no Codigo Pais Agnostico",
       "ADR-0082 Navegacion Capability Derivada del Catalogo",
@@ -160,6 +162,12 @@
         "type": "capability-manifest",
         "reference": "examples/control-plane.manifest.json",
         "purpose": "Published control-plane capability context pack used by the broker"
+      },
+      {
+        "id": "control-plane-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/control-plane/market-lens.md",
+        "purpose": "Curated market comparison pressure for the domain without claiming UBP implementation"
       }
     ],
     "market": [

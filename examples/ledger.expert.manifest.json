@@ -15,6 +15,7 @@
   ],
   "seedNodes": [
     "ADR-0011 Contabilidad GL",
+    "knowledge/ledger/market-lens.md",
     "ADR-0009 Auditoria e Integridad Contable",
     "ADR-0008 Estructura Organizacional Multi Entidad",
     "ADR-0043 Analytics e IA contabilidad analitica dimensiones",
@@ -117,6 +118,7 @@
     ],
     "seedNodes": [
       "ADR-0011 Contabilidad GL",
+      "knowledge/ledger/market-lens.md",
       "ADR-0009 Auditoria e Integridad Contable",
       "ADR-0008 Estructura Organizacional Multi Entidad",
       "ADR-0043 Analytics e IA contabilidad analitica dimensiones",
@@ -155,6 +157,12 @@
         "type": "adr",
         "reference": "btw-ubp-backend/docs/adr/ADR-0043-analytics-e-ia.md",
         "purpose": "Analytic accounting and profitability dimensions as reporting pressure"
+      },
+      {
+        "id": "ledger-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/ledger/market-lens.md",
+        "purpose": "Curated market comparison pressure for the domain without claiming UBP implementation"
       }
     ],
     "market": [

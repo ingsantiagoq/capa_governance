@@ -50,6 +50,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Control Plane](examples/control-plane.expert.manifest.json): capabilities, permisos, configuracion por tenant y politicas runtime.
 - [Inventory Market Lens](knowledge/inventory/market-lens.md): comparacion curada contra SAP, Dynamics, Epicor y Odoo;
   funciona como presion de diseno, no como prueba de implementacion UBP.
+- [Ledger Market Lens](knowledge/ledger/market-lens.md): comparacion curada para asientos, dimensiones, centros de costo, periodos y account maps.
+- [Control Plane Market Lens](knowledge/control-plane/market-lens.md): comparacion curada para capabilities, permisos, politicas por tenant y provisioning.
 - [Context Pack](protocol/context-pack.md): siete campos y procedencia.
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
