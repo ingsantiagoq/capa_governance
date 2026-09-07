@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 7,
+  "version": 8,
   "id": "ar-expert",
   "domain": "ar",
   "scope": [
@@ -230,6 +230,11 @@
       "id": "escalation-recommendations",
       "reference": "protocol/escalation-recommendations.md",
       "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
     }
   ]
 }

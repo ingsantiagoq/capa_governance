@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 7,
+  "version": 8,
   "id": "ledger-expert",
   "domain": "ledger",
   "scope": [
@@ -11,7 +11,8 @@
     "Cualquier cambio en historia contable, periodo cerrado, document splitting, cuenta control o dimension obligatoria requiere escalamiento"
   ],
   "coveredCapabilities": [
-    "ledger"
+    "ledger",
+    "cost-center"
   ],
   "seedNodes": [
     "ADR-0011 Contabilidad GL",
@@ -264,6 +265,11 @@
       "id": "escalation-recommendations",
       "reference": "protocol/escalation-recommendations.md",
       "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
     }
   ]
 }

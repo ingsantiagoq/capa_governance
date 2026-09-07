@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 7,
+  "version": 8,
   "id": "control-plane-expert",
   "domain": "control-plane",
   "scope": [
@@ -11,7 +11,8 @@
     "El experto puede responder sobre configuracion y gobernanza; cruces con Ledger o Inventory escalan"
   ],
   "coveredCapabilities": [
-    "control-plane"
+    "control-plane",
+    "cost-center"
   ],
   "seedNodes": [
     "ADR-0006 Control Plane",
@@ -269,6 +270,11 @@
       "id": "escalation-recommendations",
       "reference": "protocol/escalation-recommendations.md",
       "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
     }
   ]
 }

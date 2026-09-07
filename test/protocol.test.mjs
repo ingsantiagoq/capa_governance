@@ -233,7 +233,7 @@ test('Cost center context routes through Ledger and Control Plane experts', () =
 
 
 test('expert manifests reference mandatory policies', () => {
-  const requiredPolicies = new Set(['context-order', 'route-conformance', 'design-patterns', 'configuration-governance', 'tenant-boundaries', 'testing-gates', 'approval-boundaries', 'escalation-recommendations']);
+  const requiredPolicies = new Set(['context-order', 'route-conformance', 'design-patterns', 'configuration-governance', 'tenant-boundaries', 'testing-gates', 'approval-boundaries', 'escalation-recommendations', 'domain-deliberation']);
   for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert]) {
     assert.deepEqual(validateManifest(expert), []);
     const ids = new Set(expert.policies.map(policy => policy.id));
@@ -300,4 +300,24 @@ test('valid escalation requires recommendation policy while hard blocks stay blo
   const hardBlock = transition('ready', facts, { ...costCenterIntent, action: 'bypass-period-lock' });
   assert.equal(hardBlock.state, 'block');
   assert.equal(hardBlock.reason, 'expert-restriction');
+});
+
+
+test('cross-domain escalation carries deliberation policy for impacted experts', () => {
+  const experts = [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert];
+  const intent = {
+    domain: 'ledger',
+    capability: 'cost-center',
+    action: 'inspect-cost-center-dimension',
+    impactedDomains: ['ledger', 'inventory', 'control-plane'],
+    risks: ['cost-center-policy'],
+    approvedActions: [],
+    experts
+  };
+  const result = transition('ready', facts, intent);
+  assert.equal(result.state, 'escalate');
+  assert.equal(result.primaryExpert, 'ledger-expert');
+  for (const expert of [ledgerExpert, inventoryExpert, controlPlaneExpert]) {
+    assert.ok(expert.policies.some(policy => policy.id === 'domain-deliberation'), `${expert.id} missing deliberation policy`);
+  }
 });
