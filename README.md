@@ -45,6 +45,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
   anclas propuestas pendientes de verificar contra UBP.
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
   separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
+- [Inventory Market Lens](knowledge/inventory/market-lens.md): comparacion curada contra SAP, Dynamics, Epicor y Odoo;
+  funciona como presion de diseno, no como prueba de implementacion UBP.
 - [Context Pack](protocol/context-pack.md): siete campos y procedencia.
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.

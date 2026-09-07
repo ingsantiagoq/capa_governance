@@ -17,6 +17,7 @@
   ],
   "seedNodes": [
     "ADR-0021 Inventario y Sucursales",
+    "Market Lens Inventory 2026-09-07",
     "CAPA ADR-0021 stock-types-reservas-y-atp",
     "CAPA ADR-0021 reorden-min-max-safety-stock",
     "CAPA ADR-0021 trazabilidad-financiera-fiscal-por-sucursal",
@@ -139,6 +140,7 @@
     ],
     "seedNodes": [
       "ADR-0021 Inventario y Sucursales",
+      "Market Lens Inventory 2026-09-07",
       "CAPA ADR-0021 stock-types-reservas-y-atp",
       "CAPA ADR-0021 reorden-min-max-safety-stock",
       "CAPA ADR-0021 trazabilidad-financiera-fiscal-por-sucursal",
@@ -157,6 +159,6 @@
     ],
     "maxExpansions": 1,
     "sourcePolicy": "only-after-manifest-and-graph",
-    "provenance": "Inventory expert derived from UBP ADR-0021 and CAPA ADR-0021 manifests on 2026-09-07. Graphify verified StockBalance node under the current UBP graph with raised graph size limit; remaining seeds are curated from ADR/CAPA manifests and must be resolved against a pinned UBP revision before production enforcement."
+    "provenance": "Inventory expert derived from UBP ADR-0021, CAPA ADR-0021 manifests and the curated Inventory Market Lens on 2026-09-07. Graphify verified StockBalance node under the current UBP graph with raised graph size limit; remaining UBP seeds are curated from ADR/CAPA manifests and must be resolved against a pinned UBP revision before production enforcement. Market sources are comparison pressure, not proof of UBP implementation."
   }
 }
