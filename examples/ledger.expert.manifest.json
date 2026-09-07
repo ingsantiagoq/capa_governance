@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 9,
+  "version": 10,
   "id": "ledger-expert",
   "domain": "ledger",
   "scope": [
@@ -8,13 +8,16 @@
     "Centros de costo y dimensiones analiticas son criterio Ledger cuando afectan asiento, reporte, balance dimensional, cierre o reconciliacion",
     "Ledger postea resultados recibidos desde dominios operativos; no calcula impuestos, no decide inventario fisico y no reemplaza politicas comerciales",
     "El experto compara contra patrones de SAP, Dynamics, Oracle/Odoo y Epicor solo como presion semantica, no como implementacion UBP",
-    "Cualquier cambio en historia contable, periodo cerrado, document splitting, cuenta control o dimension obligatoria requiere escalamiento"
+    "Cualquier cambio en historia contable, periodo cerrado, document splitting, cuenta control o dimension obligatoria requiere escalamiento",
+    "Gobierna el motor contable segmentado: cuenta natural mas segmentos tipados, DisplayCode derivado y balance/reporting por dimensiones."
   ],
   "coveredCapabilities": [
     "ledger",
-    "cost-center"
+    "cost-center",
+    "accounting-segmentation"
   ],
   "seedNodes": [
+    "policies/architecture/accounting-segmentation-engine.md",
     "ADR-0011 Contabilidad GL",
     "knowledge/ledger/market-lens.md",
     "ADR-0009 Auditoria e Integridad Contable",
@@ -84,6 +87,24 @@
         "architect",
         "reviewer"
       ]
+    },
+    {
+      "risk": "accounting-segmentation",
+      "targets": [
+        "architect",
+        "control-plane-expert",
+        "reviewer",
+        "po"
+      ]
+    },
+    {
+      "risk": "document-splitting",
+      "targets": [
+        "architect",
+        "control-plane-expert",
+        "reviewer",
+        "po"
+      ]
     }
   ],
   "prohibitedActions": {
@@ -100,7 +121,8 @@
       "change-account-map",
       "change-cost-center-policy",
       "run-ledger-migration",
-      "production-deploy"
+      "production-deploy",
+      "change-account-segmentation-policy"
     ]
   },
   "handoffTargets": [
@@ -118,6 +140,7 @@
       "source"
     ],
     "seedNodes": [
+      "policies/architecture/accounting-segmentation-engine.md",
       "ADR-0011 Contabilidad GL",
       "knowledge/ledger/market-lens.md",
       "ADR-0009 Auditoria e Integridad Contable",
@@ -275,6 +298,11 @@
       "id": "document-workflow-deliberation",
       "reference": "protocol/document-workflow-deliberation.md",
       "scope": "mandatory governed workflow for inbound documents, approvals, payment authorization and accounting handoff"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
     }
   ]
 }

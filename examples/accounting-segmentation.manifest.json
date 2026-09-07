@@ -1,0 +1,142 @@
+{
+  "capability": {
+    "id": "accounting-segmentation",
+    "name": "Motor contable segmentado configurable",
+    "intents": [
+      "analizar cuenta contable segmentada",
+      "definir motor contable segmentado",
+      "definir mascara contable por tenant",
+      "asociar segmentos contables a dimensiones de negocio",
+      "derivar display code contable",
+      "validar bodega sucursal tercero como segmentos",
+      "evaluar document splitting por segmentos",
+      "comparar modelo contable tipo Epicor SAP Oracle Odoo Dynamics"
+    ]
+  },
+  "services": [
+    "ledger-service",
+    "admin-service",
+    "inventory-service",
+    "ar-service",
+    "ap-service",
+    "pos-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "ledger.proto: LedgerService",
+    "admin-catalog.proto",
+    "inventory.proto: InventoryService",
+    "JournalEntry",
+    "JournalLine",
+    "PostingDimensions",
+    "TenantAccount",
+    "AccountMap",
+    "CostCenter",
+    "Branch",
+    "Warehouse",
+    "Party",
+    "DocumentRef"
+  ],
+  "dependencies": [
+    "ledger capability",
+    "control-plane capability",
+    "inventory capability",
+    "ar capability",
+    "ap capability",
+    "cost-center capability",
+    "tenant context",
+    "legal entity scope",
+    "natural account catalog",
+    "segment mask policy",
+    "effective-dated configuration",
+    "branch dimension",
+    "warehouse dimension",
+    "party or subledger reference",
+    "document splitting policy",
+    "period close policy",
+    "audit policy"
+  ],
+  "restrictions": [
+    "DisplayCode cannot become the only persisted accounting identity",
+    "NaturalAccount and typed segments must remain separate and queryable",
+    "segment masks must be configured and effective-dated by Control Plane",
+    "branch, warehouse, cost center, party and reserved segments require explicit semantic owner and source rule",
+    "Inventory, AP, AR and POS provide operational facts but do not post Ledger directly",
+    "historical DisplayCode semantics cannot change retroactively without migration or backfill CAPA",
+    "document splitting must be evaluated before promising balances by warehouse or any segment",
+    "BFF and frontend may render DisplayCode but cannot own mask assembly truth",
+    "no customer, country, branch, warehouse, account, party or mask hardcoding"
+  ],
+  "governance": {
+    "deterministic": [
+      "parse segmented account examples into candidate typed segments",
+      "separate natural account from branch warehouse party reserved and future segments",
+      "identify required impacted domains",
+      "distinguish DisplayCode from posting truth",
+      "produce CAPA analysis without mutating code when evidence is sufficient"
+    ],
+    "poDecision": [
+      "accepted customer-visible segment format",
+      "whether branch defaults cost center",
+      "whether warehouse is accounting segment operational dimension or both",
+      "whether party is segment or subledger reference",
+      "reserved segment semantics",
+      "migration and backfill scope",
+      "default policies by tenant plan or country pack"
+    ],
+    "architectHandoff": [
+      "segmented chart of accounts semantic model",
+      "new PostingDimensions persistence or contracts",
+      "document splitting design",
+      "cross-domain segment derivation",
+      "interoperability parser renderer responsibility",
+      "migration affecting posted accounting data"
+    ],
+    "reviewerGate": [
+      "typed dimensions are preserved",
+      "mask policy is effective-dated",
+      "no hardcoded mask or customer logic",
+      "Ledger remains posting authority",
+      "Control Plane remains policy authority",
+      "operational domains do not post Ledger directly",
+      "period close and posted history protections remain intact",
+      "tenant isolation and BFF boundary hold"
+    ],
+    "forbiddenWithoutApproval": [
+      "implementing segmented account persistence",
+      "changing PostingDimensions schema",
+      "changing account maps or natural account catalog",
+      "enabling warehouse as account determinant",
+      "changing DisplayCode mask in production",
+      "backfilling historical journal lines",
+      "running ledger migrations",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "policies/architecture/accounting-segmentation-engine.md",
+      "policies/architecture/configuration-governance.md",
+      "protocol/domain-deliberation.md",
+      "protocol/escalation-recommendations.md",
+      "ADR-0011 Contabilidad GL",
+      "ADR-0008 Estructura Organizacional Multi Entidad",
+      "ADR-0021 Inventario y Sucursales",
+      "ADR-0006 Control Plane",
+      "ADR-0043 Analytics e IA",
+      "ADR-0009 Auditoria e Integridad Contable",
+      "legacy COASegment and COASegValue references",
+      "ubp_ledger_domain_journalline_journalline",
+      "ubp_ledger_domain_tenantaccount_tenantaccount",
+      "ubp_inventory_domain_warehouse_warehouse"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Accounting segmentation capability added for CAPA Governance v10 on 2026-09-07 to formalize the original UBP/Epicor-style segmented chart of accounts intent as governed policy rather than free-form account-code interpretation. This manifest routes analysis; it does not approve implementation."
+  }
+}

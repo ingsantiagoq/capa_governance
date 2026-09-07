@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 9,
+  "version": 10,
   "id": "ar-expert",
   "domain": "ar",
   "scope": [
@@ -235,6 +235,11 @@
       "id": "domain-deliberation",
       "reference": "protocol/domain-deliberation.md",
       "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
     }
   ]
 }

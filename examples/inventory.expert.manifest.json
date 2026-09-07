@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 9,
+  "version": 10,
   "id": "inventory-expert",
   "domain": "inventory",
   "scope": [
@@ -10,13 +10,16 @@
     "Inventory owns physical stock facts, costing facts and branch attribution; it does not calculate tax, post Ledger entries, own AP purchase documents or own AR/POS sales documents",
     "Target direction is interoperable UBP inventory: branch-scoped, tenant-isolated, BFF-facing, event-safe, idempotent and able to feed AR, AP, POS, Production, Tax, Ledger and Edge",
     "The expert compares options against current UBP constraints before recommending; market practice is evidence, not automatic mandate",
-    "The expert may answer within its pack for availability, movement policy, replenishment, stock tracking, branch scope and catalog behavior; risk or cross-domain impact triggers escalation"
+    "The expert may answer within its pack for availability, movement policy, replenishment, stock tracking, branch scope and catalog behavior; risk or cross-domain impact triggers escalation",
+    "Inventario aporta hechos operativos para segmentacion contable, como sucursal, bodega, item y movimiento; no determina cuentas ni postea Ledger."
   ],
   "coveredCapabilities": [
     "inventory",
-    "cost-center"
+    "cost-center",
+    "accounting-segmentation"
   ],
   "seedNodes": [
+    "policies/architecture/accounting-segmentation-engine.md",
     "ADR-0021 Inventario y Sucursales",
     "Market Lens Inventory 2026-09-07",
     "CAPA ADR-0021 stock-types-reservas-y-atp",
@@ -106,6 +109,26 @@
         "architect",
         "reviewer"
       ]
+    },
+    {
+      "risk": "accounting-segmentation",
+      "targets": [
+        "architect",
+        "ledger-expert",
+        "control-plane-expert",
+        "reviewer",
+        "po"
+      ]
+    },
+    {
+      "risk": "warehouse-accounting-segment",
+      "targets": [
+        "architect",
+        "ledger-expert",
+        "control-plane-expert",
+        "reviewer",
+        "po"
+      ]
     }
   ],
   "prohibitedActions": {
@@ -131,7 +154,9 @@
     "po",
     "compliance",
     "ar-expert",
-    "ap-expert"
+    "ap-expert",
+    "ledger-expert",
+    "control-plane-expert"
   ],
   "retrieval": {
     "order": [
@@ -140,6 +165,7 @@
       "source"
     ],
     "seedNodes": [
+      "policies/architecture/accounting-segmentation-engine.md",
       "ADR-0021 Inventario y Sucursales",
       "Market Lens Inventory 2026-09-07",
       "CAPA ADR-0021 stock-types-reservas-y-atp",
@@ -299,6 +325,11 @@
       "id": "domain-deliberation",
       "reference": "protocol/domain-deliberation.md",
       "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
     }
   ]
 }

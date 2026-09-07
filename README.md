@@ -1,4 +1,4 @@
-# CAPA Governance v9
+# CAPA Governance v10
 
 El conocimiento se publica, no se busca.
 
@@ -9,8 +9,7 @@ y la logica de negocio. Este repositorio central contiene especificacion,
 ejemplos y funciones de referencia pequenas; no es un framework de agentes.
 
 Los Capability Manifests y Domain Expert Manifests versionados son la fuente
-oficial. En v9, los expertos de dominio declaran fuentes UBP y fuentes de mercado
-explicitas para anclar semantica sin convertir benchmarks en verdad implementada. Una intencion tiene un experto primario; solo se escala por riesgo o
+oficial. En v10, los expertos de dominio declaran fuentes UBP, fuentes de mercado y politicas transversales explicitas. La nueva politica `accounting-segmentation-engine` formaliza el motor contable segmentado configurable: cuenta natural mas segmentos tipados, con DisplayCode derivado y mascaras gobernadas por Control Plane. Una intencion tiene un experto primario; solo se escala por riesgo o
 impacto entre dominios. El Context Pack conserva
 sus siete campos. El Capability Router aplica manifest-first, graphify-second,
 source-last. El Context Broker produce ready, expand, escalate o block mediante
@@ -57,7 +56,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
 - [Inventory](examples/inventory.manifest.json),
   [Ledger](examples/ledger.manifest.json),
-  [Cost Center](examples/cost-center.manifest.json) y
+  [Cost Center](examples/cost-center.manifest.json),
+  [Accounting Segmentation](examples/accounting-segmentation.manifest.json) y
   [Control Plane](examples/control-plane.manifest.json): ejemplos de las pruebas
   de contexto UBP del 2026-09-07; no son un catalogo de produccion aprobado.
 - [Adaptador](skills/ubp-context-broker/SKILL.md): arranque de tareas UBP.
@@ -78,6 +78,7 @@ Capas iniciales:
 
 - `policies/architecture/design-patterns.md`
 - `policies/architecture/configuration-governance.md`
+- `policies/architecture/accounting-segmentation-engine.md`
 - `policies/frontend/frontend-architecture.md`
 - `policies/security/tenant-boundaries.md`
 - `policies/testing/gates.md`
@@ -101,12 +102,18 @@ La clasificacion de intencion, el registro de aprobaciones y la ejecucion real
 pertenecen al consumidor. Debe invocar el broker antes de recuperar contexto o
 actuar y hacer cumplir su salida; el skill por si solo no garantiza enforcement.
 
-## Compatibilidad v9
+## Compatibilidad v10
 
 transition(previous, facts) conserva v1. El tercer argumento expertContext activa
 el flujo de expertos y agrega primaryExpert y expertDecision al sobre, sin modificar el pack.
-El schema v9 exige knowledgeSources, semanticAnchors y policies para que el experto no improvise
+El schema v10 exige knowledgeSources, semanticAnchors y policies para que el experto no improvise
 conceptos de dominio ni benchmarks de mercado.
+
+La v10 agrega la capacidad `accounting-segmentation` y la policy
+`policies/architecture/accounting-segmentation-engine.md`. Esta policy recupera y formaliza
+el motor contable segmentado de UBP: la cuenta visible es un DisplayCode derivado; la verdad
+primaria es cuenta natural mas segmentos tipados y configurables. Ledger gobierna el asiento,
+Control Plane gobierna mascaras y vigencias, y los dominios operativos aportan hechos.
 Ver el [contrato de entrada](protocol/domain-experts.md) antes de integrar.
 El CLI historico valida ambos tipos de manifest; validate conserva el schema
 de capacidad por defecto y validateManifest selecciona por kind. La validacion

@@ -332,3 +332,29 @@ test('document workflow policy is mandatory for AP handoff', async () => {
   assert.ok(receptionCapability.retrieval.seedNodes.includes('protocol/document-workflow-deliberation.md'));
   assert.ok(receptionCapability.restrictions.some(item => item.includes('payment authorization and accounting approval')));
 });
+
+
+test('accounting segmentation capability formalizes DisplayCode as derived and routes cross-domain', async () => {
+  const segmentation = JSON.parse(await readFile(new URL('../examples/accounting-segmentation.manifest.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validate(segmentation), []);
+  assert.equal(segmentation.capability.id, 'accounting-segmentation');
+  assert.ok(segmentation.restrictions.some(item => item.includes('DisplayCode')));
+  assert.ok(segmentation.retrieval.seedNodes.includes('policies/architecture/accounting-segmentation-engine.md'));
+  for (const expert of [ledgerExpert, controlPlaneExpert, inventoryExpert]) {
+    assert.equal(expert.version, 10);
+    assert.ok(expert.coveredCapabilities.includes('accounting-segmentation'), expert.id);
+    assert.ok(expert.policies.some(policy => policy.id === 'accounting-segmentation-engine'), expert.id);
+  }
+  const result = transition('ready', facts, {
+    domain: 'ledger',
+    capability: 'accounting-segmentation',
+    action: 'inspect-segmented-account-code',
+    impactedDomains: ['ledger', 'control-plane', 'inventory'],
+    risks: ['accounting-segmentation'],
+    approvedActions: [],
+    experts: [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert]
+  });
+  assert.equal(result.state, 'escalate');
+  assert.equal(result.primaryExpert, 'ledger-expert');
+  assert.deepEqual(result.expertDecision.targets, ['architect', 'control-plane-expert', 'po', 'reviewer']);
+});

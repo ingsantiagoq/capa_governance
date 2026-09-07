@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 9,
+  "version": 10,
   "id": "ap-expert",
   "domain": "ap",
   "scope": [
@@ -336,6 +336,11 @@
       "id": "document-workflow-deliberation",
       "reference": "protocol/document-workflow-deliberation.md",
       "scope": "mandatory governed workflow for inbound documents, approvals, payment authorization and accounting handoff"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
     }
   ]
 }
