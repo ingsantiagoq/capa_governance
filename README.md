@@ -40,7 +40,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
-  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v9.
+  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v10.
 - [Experto AR](examples/ar.expert.manifest.json): cuentas por cobrar y gates;
   anclas propuestas pendientes de verificar contra UBP.
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
