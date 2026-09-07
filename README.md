@@ -1,4 +1,4 @@
-# CAPA Governance v5
+# CAPA Governance v6
 
 El conocimiento se publica, no se busca.
 
@@ -9,7 +9,7 @@ y la logica de negocio. Este repositorio central contiene especificacion,
 ejemplos y funciones de referencia pequenas; no es un framework de agentes.
 
 Los Capability Manifests y Domain Expert Manifests versionados son la fuente
-oficial. En v5, los expertos de dominio declaran fuentes UBP y fuentes de mercado
+oficial. En v6, los expertos de dominio declaran fuentes UBP y fuentes de mercado
 explicitas para anclar semantica sin convertir benchmarks en verdad implementada. Una intencion tiene un experto primario; solo se escala por riesgo o
 impacto entre dominios. El Context Pack conserva
 sus siete campos. El Capability Router aplica manifest-first, graphify-second,
@@ -41,7 +41,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
-  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v5.
+  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v6.
 - [Experto AR](examples/ar.expert.manifest.json): cuentas por cobrar y gates;
   anclas propuestas pendientes de verificar contra UBP.
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
@@ -101,14 +101,18 @@ La clasificacion de intencion, el registro de aprobaciones y la ejecucion real
 pertenecen al consumidor. Debe invocar el broker antes de recuperar contexto o
 actuar y hacer cumplir su salida; el skill por si solo no garantiza enforcement.
 
-## Compatibilidad v5
+## Compatibilidad v6
 
 transition(previous, facts) conserva v1. El tercer argumento expertContext activa
 el flujo de expertos y agrega primaryExpert y expertDecision al sobre, sin modificar el pack.
-El schema v5 exige knowledgeSources, semanticAnchors y policies para que el experto no improvise
+El schema v6 exige knowledgeSources, semanticAnchors y policies para que el experto no improvise
 conceptos de dominio ni benchmarks de mercado.
 Ver el [contrato de entrada](protocol/domain-experts.md) antes de integrar.
 El CLI historico valida ambos tipos de manifest; validate conserva el schema
 de capacidad por defecto y validateManifest selecciona por kind. La validacion
 es estructural y comprueba relaciones internas; no certifica cobertura contra
 un catalogo UBP. No se incluyen logica contable ni un runtime de agentes.
+
+## Document Reception y AP Automation
+
+La v6 agrega `ap` y `document-reception` como capacidades publicadas y `ap-expert` como experto de dominio. El flujo correo/webhook/OCR crea un envelope documental y candidatos estructurados; no crea una CxP posteada sin validacion, matching, workflow y handoff a Ledger/Inventory/Control Plane cuando aplique.

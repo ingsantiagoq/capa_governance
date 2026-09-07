@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 5,
+  "version": 6,
   "id": "control-plane-expert",
   "domain": "control-plane",
   "scope": [

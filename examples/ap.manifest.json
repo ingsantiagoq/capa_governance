@@ -1,0 +1,32 @@
+{
+  "capability": {
+    "id": "ap",
+    "name": "Compras y cuentas por pagar",
+    "intents": [
+      "analizar factura de proveedor",
+      "crear borrador de cuenta por pagar",
+      "validar recepcion contra factura",
+      "analizar three-way-match",
+      "evaluar GRIR",
+      "analizar aging de proveedor"
+    ]
+  },
+  "services": ["ap-service", "ubp-bff", "inventory-service", "ledger-service", "tax-service", "admin-service"],
+  "contracts": ["ap.proto: ApService", "PurchaseReceipt", "PurchaseReceiptLine", "PurchaseOrder", "VendorBill", "LedgerService", "InventoryService"],
+  "dependencies": ["tenant context", "supplier/party", "purchase order", "purchase receipt", "document reception", "inventory receipt", "ledger posting", "tax facts", "payment terms", "control plane policy"],
+  "restrictions": ["AP orchestrates stock and accounting but does not own Inventory or Ledger semantics", "Vendor Bill and three-way-match are not assumed implemented unless verified", "receipt cannot silently create unsupported payable semantics", "BFF remains the user-facing boundary", "tenant isolation is mandatory"],
+  "governance": {
+    "deterministic": ["read AP receipt state", "classify PO/receipt/bill relationship", "identify missing Vendor Bill or three-way-match evidence", "produce non-mutating AP analysis"],
+    "poDecision": ["matching tolerances", "approval workflow", "automatic bill creation policy", "migration scope", "commercial payment behavior"],
+    "architectHandoff": ["Vendor Bill aggregate design", "GRIR clearing design", "three-way-match workflow", "AP to Ledger posting change", "AP to Inventory receipt change", "document reception integration"],
+    "reviewerGate": ["idempotency", "tenant isolation", "posting correctness", "inventory costing impact", "tax boundary", "BFF boundary", "route conformance"],
+    "forbiddenWithoutApproval": ["creating real vendor bill", "confirming purchase receipt", "posting AP invoice", "changing matching tolerances", "running AP migrations", "production deploy"]
+  },
+  "retrieval": {
+    "order": ["manifest", "graphify", "source"],
+    "seedNodes": ["ADR-0023 Compras y Cuentas por Pagar", "ADR-0044 Gestion Documental", "CAPA ADR-0023 captura-factura-ocr", "CAPA ADR-0023 grir-clearing-account", "ubp_ap_domain_purchasereceipt_purchasereceipt", "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice", "endpoints_v1apendpoints_v1apendpoints"],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "AP capability manifest added for CAPA Governance v6 on 2026-09-07. It routes AP analysis and does not certify that Vendor Bill or three-way-match are implemented."
+  }
+}

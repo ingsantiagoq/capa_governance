@@ -1,0 +1,326 @@
+{
+  "kind": "domain-expert",
+  "version": 6,
+  "id": "ap-expert",
+  "domain": "ap",
+  "scope": [
+    "Compras y cuentas por pagar: PurchaseReceipt, PurchaseOrder, VendorBill, supplier validation, due dates, aging, three-way-match, GR/IR and payment handoff",
+    "AP orchestrates procure-to-pay documents; Inventory owns stock movement and costing facts; Ledger owns accounting posting; Tax owns tax calculation; DMS owns document envelope and object links",
+    "Document reception can feed AP but must not directly create posted liabilities without governed validation and approval",
+    "Market lens covers SAP invoice verification, Dynamics vendor invoice automation, Epicor AP automation and Odoo vendor bill digitization as comparison pressure",
+    "Cross-domain changes for bill posting, inventory receipt, OCR, webhook security, matching tolerances or workflow require escalation",
+    "Document workflow must route secretary intake, goods receipt authorization, purchase approval, payment authorization and accounting posting without collapsing role ownership",
+    "AP can own supplier bill validation and payable creation, but payment authorization and Ledger posting require handoff"
+  ],
+  "coveredCapabilities": [
+    "ap",
+    "document-reception"
+  ],
+  "seedNodes": [
+    "ADR-0023 Compras y Cuentas por Pagar",
+    "ADR-0044 Gestion Documental",
+    "knowledge/ap/market-lens.md",
+    "knowledge/document-reception/market-lens.md",
+    "CAPA ADR-0023 captura-factura-ocr",
+    "CAPA ADR-0023 grir-clearing-account",
+    "CAPA ADR-0023 conversion-oc-a-factura-muestra-sus-lineas",
+    "CAPA ADR-0023 compra-del-dia-entra-despues-de-las-ventas",
+    "ubp_ap_domain_purchasereceipt_purchasereceipt",
+    "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice",
+    "endpoints_v1apendpoints_v1apendpoints"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "ledger-impact",
+      "targets": [
+        "architect",
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "inventory-impact",
+      "targets": [
+        "architect",
+        "inventory-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tax-impact",
+      "targets": [
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "document-management",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "webhook-security",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "workflow-policy",
+      "targets": [
+        "po",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "matching-tolerance",
+      "targets": [
+        "po",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-isolation",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "bff-boundary",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "payment-authorization",
+      "targets": [
+        "po",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "separation-of-duties",
+      "targets": [
+        "architect",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-posting",
+      "targets": [
+        "architect",
+        "ledger-expert",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "bypass-tenant-isolation",
+      "bypass-bff",
+      "post-ap-liability-from-email",
+      "post-ledger-from-document-reception"
+    ],
+    "withoutApproval": [
+      "create-vendor-bill",
+      "confirm-purchase-receipt",
+      "post-ap-invoice",
+      "change-matching-tolerance",
+      "change-ocr-extraction-policy",
+      "change-webhook-provider-policy",
+      "run-ap-migration",
+      "production-deploy",
+      "auto-authorize-payment",
+      "auto-approve-document-workflow",
+      "auto-post-accounting-from-workflow"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "ledger-expert",
+    "inventory-expert",
+    "control-plane-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0023 Compras y Cuentas por Pagar",
+      "ADR-0044 Gestion Documental",
+      "knowledge/ap/market-lens.md",
+      "knowledge/document-reception/market-lens.md",
+      "CAPA ADR-0023 captura-factura-ocr",
+      "CAPA ADR-0023 grir-clearing-account",
+      "CAPA ADR-0023 conversion-oc-a-factura-muestra-sus-lineas",
+      "CAPA ADR-0023 compra-del-dia-entra-despues-de-las-ventas",
+      "ubp_ap_domain_purchasereceipt_purchasereceipt",
+      "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice",
+      "endpoints_v1apendpoints_v1apendpoints"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "AP expert added for CAPA Governance v6 on 2026-09-07 from UBP ADR-0023, ADR-0044 and curated market lenses. Seeds must be resolved against a pinned UBP Graphify index before production enforcement."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0023",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0023-compras-cxp.md",
+        "purpose": "Accepted AP vision for PurchaseReceipt, missing Vendor Bill, PO, three-way-match, GR/IR, aging and payments"
+      },
+      {
+        "id": "adr-0044",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0044-gestion-documental.md",
+        "purpose": "Document Management vision for incoming capture, OCR inbox, object linking and DMS workflow"
+      },
+      {
+        "id": "ap-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/ap/market-lens.md",
+        "purpose": "Curated AP comparison pressure without claiming UBP implementation"
+      },
+      {
+        "id": "document-reception-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/document-reception/market-lens.md",
+        "purpose": "Curated document reception comparison pressure without claiming UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://learning.sap.com/courses/invoice-verification-in-sap-s-4hana/using-different-types-of-invoice-verification",
+        "purpose": "GR-based invoice verification and PO history matching semantics",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-payable/auto-vendr-invc-process",
+        "purpose": "Vendor invoice automation, workflow submission, receipt matching and posting simulation",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/guidance/techtalks/finance-invoice-capture-ga-features-functionality",
+        "purpose": "Invoice capture from email/file/sharepoint with vendor validation and correction",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-content-management/ecm/ap-automation/",
+        "purpose": "Inbound invoice data capture and matching against POs or receipts",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/vendor_bills/invoice_digitization.html",
+        "purpose": "Vendor bill OCR and purchase order matching",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "document-envelope",
+      "ubpMeaning": "Inbound document record with source, file, metadata, provenance and review state before it becomes a business transaction.",
+      "marketLens": "Dynamics, Odoo and Epicor separate capture/digitization from validated AP posting.",
+      "decisionRule": "Email or webhook may create an envelope and extraction candidate, not a posted AP liability."
+    },
+    {
+      "term": "vendor-bill",
+      "ubpMeaning": "Supplier invoice document that creates payable liability only after validation, matching and Ledger-governed posting.",
+      "marketLens": "ERP AP flows treat vendor invoice as the payable document, distinct from receipt and purchase order.",
+      "decisionRule": "Creating/posting vendor bill requires AP route, Ledger handoff and approval policy."
+    },
+    {
+      "term": "three-way-match",
+      "ubpMeaning": "Governed comparison of PO, receipt and supplier invoice with tolerances and exception workflow.",
+      "marketLens": "SAP, Dynamics, Epicor and Odoo use PO/receipt/invoice matching to prevent overbilling and payment errors.",
+      "decisionRule": "Matching tolerance or automatic approval policy belongs to Control Plane and PO decision."
+    },
+    {
+      "term": "grir",
+      "ubpMeaning": "Clearing concept between goods received and invoice received; avoids direct AP liability from receipt when bill is not validated.",
+      "marketLens": "SAP-style GR/IR and market AP automation separate receipt from invoice liability.",
+      "decisionRule": "Switching receipt accounting to GR/IR requires Ledger and Architect review."
+    },
+    {
+      "term": "workflow-exception",
+      "ubpMeaning": "Mismatch, low confidence, unknown supplier, duplicate invoice or policy violation requiring review before AP creation/posting.",
+      "marketLens": "Market automation routes humans to exceptions rather than manual entry for every invoice.",
+      "decisionRule": "Automatic progression is allowed only for deterministic, policy-approved cases with audit trail."
+    },
+    {
+      "term": "document-workflow",
+      "ubpMeaning": "Stateful movement of an inbound document through intake, validation, approvals, payment authorization and accounting handoff.",
+      "marketLens": "AP automation suites route documents through workflow so people review exceptions, approve liabilities and authorize payment.",
+      "decisionRule": "Workflow state changes can be deterministic only when policy and role ownership are explicit; otherwise escalate."
+    },
+    {
+      "term": "separation-of-duties",
+      "ubpMeaning": "Secretary intake, goods receipt authorization, purchase validation, payment and accounting are distinct responsibilities unless policy permits combining them.",
+      "marketLens": "Enterprise AP workflows separate requester, receiver, approver, payer and accountant to reduce fraud and error.",
+      "decisionRule": "Any policy that combines roles or skips an approval requires Control Plane and reviewer."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    }
+  ]
+}

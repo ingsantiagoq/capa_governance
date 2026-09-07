@@ -1,0 +1,158 @@
+{
+  "capability": {
+    "id": "document-reception",
+    "name": "Recepcion documental entrante",
+    "intents": [
+      "recibir documento por email o webhook",
+      "extraer factura de proveedor por OCR",
+      "validar proveedor y metadatos",
+      "comparar factura contra orden de compra",
+      "comparar factura contra recepcion",
+      "crear candidato de cuenta por pagar",
+      "enrutar excepcion documental",
+      "enrutar documento por workflow interno",
+      "registrar aprobacion documental",
+      "validar rol responsable de recepcion mercancia",
+      "validar autorizacion de pago",
+      "validar contabilizacion desde flujo documental"
+    ]
+  },
+  "services": [
+    "ubp-bff",
+    "ap-service",
+    "admin-service",
+    "ledger-service",
+    "inventory-service",
+    "notification-service"
+  ],
+  "contracts": [
+    "document intake envelope",
+    "webhook event",
+    "OCR extraction result",
+    "VendorBillDraft",
+    "PurchaseOrder",
+    "PurchaseReceipt",
+    "ObjectLink",
+    "AuditTrail",
+    "WorkflowState",
+    "ApprovalTask",
+    "RoleAssignment",
+    "PaymentAuthorization",
+    "AccountingApproval",
+    "DocumentFlowAudit"
+  ],
+  "dependencies": [
+    "tenant context",
+    "mailbox or webhook provider",
+    "document metadata",
+    "supplier/party resolution",
+    "purchase order",
+    "purchase receipt",
+    "AP draft bill",
+    "control plane capture policy",
+    "approval workflow",
+    "audit trail",
+    "secretary intake role",
+    "goods receipt authorization role",
+    "purchase approval role",
+    "payment authorization role",
+    "accounting posting role",
+    "document workflow state",
+    "approval audit trail"
+  ],
+  "restrictions": [
+    "incoming document creates envelope and candidates, not posted liability",
+    "OCR confidence and provenance must be preserved",
+    "mailbox/provider/tolerance rules must be configurable",
+    "supplier, tax, account and item mappings require validation",
+    "BFF remains review boundary",
+    "tenant isolation and anti-IDOR are mandatory",
+    "document workflow must preserve separation of duties",
+    "approval and payment roles must be governed by Control Plane",
+    "document state transitions must be auditable",
+    "workflow cannot skip AP, Inventory or Ledger ownership boundaries"
+  ],
+  "governance": {
+    "deterministic": [
+      "receive envelope",
+      "classify source",
+      "extract candidate fields",
+      "identify supplier candidate",
+      "identify PO/receipt references",
+      "route clean analysis without mutation",
+      "route document envelope through internal workflow",
+      "identify responsible role for current document state",
+      "record non-mutating approval intent",
+      "show workflow history and pending actor"
+    ],
+    "poDecision": [
+      "automation threshold",
+      "matching tolerance",
+      "exception workflow",
+      "email/provider rollout",
+      "auto-create draft bill policy",
+      "workflow state model",
+      "separation of duties policy",
+      "approval thresholds",
+      "payment authorization workflow",
+      "automatic transition policy"
+    ],
+    "architectHandoff": [
+      "webhook trust model",
+      "document object ownership",
+      "OCR provider integration",
+      "DMS object-linking",
+      "AP bill creation boundary",
+      "event/outbox design",
+      "workflow engine integration",
+      "role-based routing model",
+      "document state machine design",
+      "payment and accounting handoff design"
+    ],
+    "reviewerGate": [
+      "tenant isolation",
+      "webhook authenticity",
+      "duplicate detection",
+      "OCR provenance",
+      "BFF review boundary",
+      "AP/Ledger/Inventory route conformance",
+      "separation of duties",
+      "approval audit trail",
+      "no skipped state transition",
+      "payment authorization boundary",
+      "accounting posting boundary"
+    ],
+    "forbiddenWithoutApproval": [
+      "auto-posting AP liability",
+      "auto-confirming inventory receipt",
+      "changing OCR provider policy",
+      "changing matching tolerance",
+      "enabling production webhook",
+      "production deploy",
+      "auto-approving document workflow",
+      "auto-authorizing payment",
+      "auto-posting accounting from workflow",
+      "changing separation-of-duties policy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0044 Gestion Documental",
+      "ADR-0023 Compras y Cuentas por Pagar",
+      "knowledge/document-reception/market-lens.md",
+      "CAPA ADR-0023 captura-factura-ocr",
+      "CAPA ADR-0044 captura-entrante-ocr-inbox",
+      "CAPA ADR-0044 object-linking-polimorfico",
+      "ADR-0042 Procesos Automatizados Workflow BPM",
+      "CAPA Governance v6 document workflow policy"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Document reception capability manifest updated for CAPA Governance v6 on 2026-09-07 to include internal document workflow, approvals, payment authorization and accounting handoff. It routes and governs the flow; it does not approve automatic payment or posting."
+  }
+}

@@ -103,6 +103,7 @@ const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.jso
 const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory.expert.manifest.json', import.meta.url), 'utf8'));
 const ledgerExpert = JSON.parse(await readFile(new URL('../examples/ledger.expert.manifest.json', import.meta.url), 'utf8'));
 const controlPlaneExpert = JSON.parse(await readFile(new URL('../examples/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
+const apExpert = JSON.parse(await readFile(new URL('../examples/ap.expert.manifest.json', import.meta.url), 'utf8'));
 const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
 const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
 
@@ -233,7 +234,7 @@ test('Cost center context routes through Ledger and Control Plane experts', () =
 
 test('expert manifests reference mandatory policies', () => {
   const requiredPolicies = new Set(['context-order', 'route-conformance', 'design-patterns', 'configuration-governance', 'tenant-boundaries', 'testing-gates', 'approval-boundaries']);
-  for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert]) {
+  for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert]) {
     assert.deepEqual(validateManifest(expert), []);
     const ids = new Set(expert.policies.map(policy => policy.id));
     for (const id of requiredPolicies) assert.ok(ids.has(id), `${expert.id} missing ${id}`);
@@ -250,4 +251,31 @@ test('cost-center capability manifest validates as cross-domain route seed', asy
   assert.ok(costCenter.services.includes('inventory-service'));
   assert.ok(costCenter.governance.architectHandoff.some(item => item.includes('segmented')));
   assert.ok(costCenter.restrictions.some(item => item.includes('opaque flat AccountCode')));
+});
+
+
+test('document reception routes to AP and blocks auto-posting', async () => {
+  const apCapability = JSON.parse(await readFile(new URL('../examples/ap.manifest.json', import.meta.url), 'utf8'));
+  const receptionCapability = JSON.parse(await readFile(new URL('../examples/document-reception.manifest.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validate(apCapability), []);
+  assert.deepEqual(validate(receptionCapability), []);
+  assert.deepEqual(validateManifest(apExpert), []);
+  const experts = [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert];
+  const intakeIntent = {
+    domain: 'ap',
+    capability: 'document-reception',
+    action: 'inspect-inbound-vendor-invoice',
+    impactedDomains: ['ap', 'ledger', 'inventory', 'control-plane'],
+    risks: ['document-management'],
+    approvedActions: [],
+    experts
+  };
+  const routed = transition('ready', facts, intakeIntent);
+  assert.equal(routed.state, 'escalate');
+  assert.equal(routed.primaryExpert, 'ap-expert');
+  assert.deepEqual(routed.expertDecision.targets, ['architect', 'reviewer']);
+
+  const blocked = transition('ready', facts, { ...intakeIntent, action: 'post-ap-liability-from-email' });
+  assert.equal(blocked.state, 'block');
+  assert.equal(blocked.reason, 'expert-restriction');
 });
