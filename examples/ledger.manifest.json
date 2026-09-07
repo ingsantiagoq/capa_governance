@@ -1,0 +1,115 @@
+{
+  "capability": {
+    "id": "ledger",
+    "name": "Contabilidad GL",
+    "intents": [
+      "analizar cuenta segmentada",
+      "resolver dimensiones contables",
+      "evaluar centro de costo",
+      "validar impacto en asiento contable",
+      "analizar document splitting"
+    ]
+  },
+  "services": [
+    "ledger-service",
+    "ubp-bff",
+    "admin-service",
+    "inventory-service",
+    "ar-service",
+    "ap-service",
+    "tax-service"
+  ],
+  "contracts": [
+    "ledger.proto: LedgerService",
+    "JournalEntry",
+    "JournalLine",
+    "PostingBehavior",
+    "AccountMap",
+    "AccountingPeriod",
+    "DocumentRef",
+    "PostingDimensions"
+  ],
+  "dependencies": [
+    "tenant context",
+    "legal entity scope",
+    "branch dimension",
+    "account catalog",
+    "posting behavior catalog",
+    "account map",
+    "accounting period",
+    "source document reference",
+    "control plane policy",
+    "inventory valuation facts",
+    "tax calculation facts",
+    "AR/AP/POS source documents"
+  ],
+  "restrictions": [
+    "posted journal history is immutable",
+    "closed or locked periods cannot be bypassed",
+    "journal entries must remain balanced",
+    "account code and analytic dimensions must remain typed separately",
+    "branch, warehouse, party and cost center cannot become an opaque flat account string",
+    "tenant isolation is mandatory",
+    "BFF remains the user-facing boundary"
+  ],
+  "governance": {
+    "deterministic": [
+      "read journal entry state",
+      "read account map configuration",
+      "read accounting period state",
+      "validate balance invariants",
+      "classify account and dimensions when manifests provide enough context"
+    ],
+    "poDecision": [
+      "accepting new accounting dimension semantics",
+      "approving cost center policy",
+      "approving segmented account display conventions",
+      "approving migration or backfill scope"
+    ],
+    "architectHandoff": [
+      "new cross-domain posting semantics",
+      "document splitting design",
+      "changing account map model",
+      "new segmented chart of accounts model",
+      "migration or backfill over historical accounting data"
+    ],
+    "reviewerGate": [
+      "journal balance invariants",
+      "period lock enforcement",
+      "tenant isolation",
+      "typed dimension preservation",
+      "route conformance for Ledger, Control Plane and Inventory",
+      "no hardcoded account, branch, warehouse, party or cost center behavior"
+    ],
+    "forbiddenWithoutApproval": [
+      "posting real journal entries",
+      "reversing journal entries",
+      "reopening accounting periods",
+      "changing account maps",
+      "changing cost center policy",
+      "running ledger migrations",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0011 Contabilidad GL",
+      "ADR-0009 Auditoria e Integridad Contable",
+      "ADR-0008 Estructura Organizacional Multi Entidad",
+      "ADR-0043 Analytics e IA contabilidad analitica dimensiones",
+      "ubp_ledger_domain_journalentry_journalentry",
+      "ubp_ledger_domain_journalline_journalline",
+      "ubp_ledger_domain_accountingperiod_accountingperiod",
+      "ubp_ledger_domain_tenantaccount_tenantaccount",
+      "services_ledgergrpcservice_ledgergrpcservice"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Ledger capability manifest added for CAPA Governance v5 on 2026-09-07 after cost-center routing exposed that ledger-expert existed without a matching published ledger capability. Seeds are curated and require resolution against a pinned UBP Graphify index before production enforcement."
+  }
+}

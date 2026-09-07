@@ -55,7 +55,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Context Pack](protocol/context-pack.md): siete campos y procedencia.
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
-- [Inventory](examples/inventory.manifest.json) y
+- [Inventory](examples/inventory.manifest.json),
+  [Ledger](examples/ledger.manifest.json) y
   [Control Plane](examples/control-plane.manifest.json): ejemplos de las pruebas
   de contexto UBP del 2026-09-07; no son un catalogo de produccion aprobado.
 - [Adaptador](skills/ubp-context-broker/SKILL.md): arranque de tareas UBP.
