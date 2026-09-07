@@ -61,3 +61,10 @@ hasta completar sus gates. No usar Graphify directamente desde escalate.
 
 Las pruebas ejercitan transiciones, orden de recuperacion, prioridad de bloqueo,
 recuperacion agotada y hechos incompletos con node --test.
+
+## Extension v2
+
+El [protocolo de expertos](domain-experts.md) agrega seleccion de un primario
+por dominio y capacidad, bloqueos de experto y handoffs por riesgo o cruce.
+Las reglas v1 anteriores siguen vigentes; una capacidad ausente bloquea,
+un experto ausente para una capacidad valida escala de forma controlada.

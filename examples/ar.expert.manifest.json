@@ -1,0 +1,113 @@
+{
+  "kind": "domain-expert",
+  "version": 2,
+  "id": "ar-expert",
+  "domain": "ar",
+  "scope": [
+    "Cuentas por cobrar (AR): facturas, notas credito, recibos y reversas",
+    "Evaluar impacto en Ledger y cierre de periodo antes de proponer cambios",
+    "Facturacion electronica cuando aplique; decisiones de producto con PO y fiscales con compliance",
+    "Conservar BFF como frontera de usuario y aislamiento de tenant"
+  ],
+  "coveredCapabilities": [
+    "ar"
+  ],
+  "seedNodes": [
+    "AR invoices and credit notes",
+    "AR receipts and reversals",
+    "AR to Ledger posting boundary",
+    "AR period close policy",
+    "AR electronic invoicing policy",
+    "AR BFF and tenant boundary"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "ledger-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "period-close",
+      "targets": [
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "electronic-invoicing",
+      "targets": [
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "product-policy",
+      "targets": [
+        "po"
+      ]
+    },
+    {
+      "risk": "tenant-isolation",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "bff-boundary",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "bypass-tenant-isolation",
+      "bypass-bff",
+      "erase-posted-ledger-history"
+    ],
+    "withoutApproval": [
+      "post-invoice",
+      "issue-credit-note",
+      "apply-receipt",
+      "reverse-posting",
+      "reopen-period",
+      "change-tax-policy",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "AR invoices and credit notes",
+      "AR receipts and reversals",
+      "AR to Ledger posting boundary",
+      "AR period close policy",
+      "AR electronic invoicing policy",
+      "AR BFF and tenant boundary"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "AR domain scope supplied for CAPA Governance v2. Logical seed labels are proposed anchors, not verified UBP symbols or Graphify IDs. Resolve and approve against a pinned UBP revision before production use."
+  }
+}

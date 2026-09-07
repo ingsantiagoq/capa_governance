@@ -98,3 +98,67 @@ test('missing and inconsistent facts fail closed; no implicit approval', () => {
   assert.throws(() => transition('unknown', facts));
   assert.equal(transition('block', { ...facts, approvalRequired: true, approvalGranted: true }).state, 'ready');
 });
+
+const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.json', import.meta.url), 'utf8'));
+const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
+const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
+
+test('expert schema requires all governance and retrieval declarations', () => {
+  assert.deepEqual(validateManifest(ar), []);
+  for (const key of Object.keys(ar)) {
+    const bad = structuredClone(ar); delete bad[key];
+    assert.ok(validateManifest(bad).length, key);
+  }
+  for (const key of ['scope', 'coveredCapabilities', 'seedNodes', 'escalationTriggers', 'handoffTargets']) {
+    const bad = structuredClone(ar); bad[key] = [];
+    assert.ok(validateManifest(bad).length, key);
+  }
+  for (const mutate of [m => m.escalationTriggers[0].targets.push('unknown'), m => m.seedNodes.push('drift'), m => m.prohibitedActions.absolute = [], m => m.escalationTriggers.shift()]) {
+    const bad = structuredClone(ar); mutate(bad); assert.ok(validateManifest(bad).length);
+  }
+});
+
+test('AR intent selects one primary; cross-domain and risk require handoff', () => {
+  const selected = transition('block', facts, intent);
+  assert.equal(selected.state, 'ready'); assert.equal(selected.primaryExpert, 'ar-expert');
+  for (const previous of ['block', 'ready', 'expand', 'escalate']) {
+    const crossed = transition(previous, facts, { ...intent, impactedDomains: ['ar', 'ledger'] });
+    assert.equal(crossed.state, 'escalate'); assert.equal(crossed.primaryExpert, 'ar-expert');
+    assert.deepEqual(crossed.expertDecision.targets, ['architect', 'reviewer']);
+  }
+  assert.deepEqual(transition('ready', facts, { ...intent, risks: ['electronic-invoicing'] }).expertDecision.targets, ['compliance', 'reviewer']);
+  assert.equal(transition('ready', facts, { ...intent, risks: ['unknown-risk'] }).state, 'escalate');
+});
+
+test('prohibitions and action-scoped approvals precede handoff and readiness', () => {
+  const posting = { ...intent, action: 'post-invoice', impactedDomains: ['ar', 'ledger'] };
+  assert.equal(transition('ready', { ...facts, approvalGranted: true }, posting).state, 'block');
+  assert.equal(transition('ready', facts, { ...posting, approvedActions: ['apply-receipt'] }).state, 'block');
+  assert.equal(transition('block', facts, { ...posting, approvedActions: ['post-invoice'] }).state, 'escalate');
+  assert.equal(transition('block', facts, { ...intent, action: 'post-invoice', approvedActions: ['post-invoice'] }).state, 'ready');
+  assert.equal(transition('ready', facts, { ...intent, action: 'bypass-tenant-isolation', approvedActions: ['bypass-tenant-isolation'] }).state, 'block');
+  assert.equal(transition('ready', { ...facts, policyDenied: true }, intent).state, 'block');
+});
+
+test('missing or ambiguous experts never manufacture a primary; malformed input blocks', () => {
+  for (const changed of [{ experts: [] }, { domain: 'ap', impactedDomains: ['ap'] }, { capability: 'unknown' }, { experts: [ar, { ...ar, id: 'ar-other' }] }]) {
+    const result = transition('ready', facts, { ...intent, ...changed });
+    assert.equal(result.state, 'escalate'); assert.equal(result.primaryExpert, null);
+    assert.deepEqual(result.expertDecision.targets, ['architect']);
+  }
+  for (const key of Object.keys(intent)) {
+    const bad = { ...intent }; delete bad[key];
+    assert.equal(transition('ready', facts, bad).state, 'block', key);
+  }
+  for (const bad of [null, {}, { ...intent, experts: [ar, ar] }, { ...intent, risks: [null] }, { ...intent, impactedDomains: [] }, { ...intent, experts: [{}] }]) {
+    assert.equal(transition('ready', facts, bad).state, 'block');
+  }
+  assert.equal(transition('expand', { ...facts, contextSufficient: false, graphAttempted: true, expansions: 1, maxExpansions: 3 }, intent).action, 'source');
+});
+
+test('CLI accepts expert manifests and rejects duplicate expert IDs', () => {
+  const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
+  const example = fileURLToPath(new URL('../examples/ar.expert.manifest.json', import.meta.url));
+  assert.equal(spawnSync(process.execPath, [cli, example]).status, 0);
+  assert.equal(spawnSync(process.execPath, [cli, example, example]).status, 1);
+});

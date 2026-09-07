@@ -5,6 +5,8 @@ import { isDeepStrictEqual } from 'node:util';
 
 export const schema = JSON.parse(await readFile(new URL('../schemas/capability-manifest.schema.json', import.meta.url), 'utf8'));
 
+export const expertSchema = JSON.parse(await readFile(new URL('../schemas/domain-expert-manifest.schema.json', import.meta.url), 'utf8'));
+
 // Deliberately limited to the keywords used by the bundled schema. Fail closed
 // when the schema evolves; this is not a general JSON Schema implementation.
 const keywords = new Set(['$schema', 'title', 'type', 'additionalProperties', 'required', 'properties', 'minLength', 'pattern', 'minItems', 'uniqueItems', 'items', 'const', 'minimum', 'maximum']);
@@ -17,6 +19,7 @@ export function assertSupported(s) {
   if (s.items) assertSupported(s.items);
 }
 assertSupported(schema);
+assertSupported(expertSchema);
 
 export function validate(value, s = schema, path = '$') {
   const errors = [];
@@ -44,6 +47,22 @@ export function validate(value, s = schema, path = '$') {
   return errors;
 }
 
+export function validateManifest(value) {
+  const expert = value?.kind === 'domain-expert';
+  const errors = validate(value, expert ? expertSchema : schema);
+  if (expert && !errors.length) {
+    for (const trigger of value.escalationTriggers) {
+      for (const target of trigger.targets) {
+        if (!value.handoffTargets.includes(target)) errors.push(`undeclared handoff target: ${target}`);
+      }
+    }
+    if (!value.escalationTriggers.some(t => t.risk === 'cross-domain-impact')) errors.push('missing cross-domain-impact trigger');
+    if (new Set(value.escalationTriggers.map(t => t.risk)).size !== value.escalationTriggers.length) errors.push('duplicate risk trigger');
+    if (!isDeepStrictEqual(value.seedNodes, value.retrieval.seedNodes)) errors.push('seedNodes must match retrieval.seedNodes');
+  }
+  return errors;
+}
+
 async function main() {
   let paths = process.argv.slice(2);
   if (!paths.length) {
@@ -55,10 +74,11 @@ async function main() {
   for (const path of paths) {
     try {
       const manifest = JSON.parse(await readFile(path, 'utf8'));
-      const errors = validate(manifest);
-      if (manifest?.capability?.id) {
-        if (ids.has(manifest.capability.id)) errors.push('duplicate capability id in input catalog');
-        ids.add(manifest.capability.id);
+      const errors = validateManifest(manifest);
+      const id = manifest?.kind === 'domain-expert' ? `expert:${manifest.id}` : `capability:${manifest?.capability?.id}`;
+      if (id) {
+        if (ids.has(id)) errors.push('duplicate manifest id in input catalog');
+        ids.add(id);
       }
       if (errors.length) throw new Error(errors.join('\n'));
       console.log(`PASS ${path}`);

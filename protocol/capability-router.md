@@ -30,3 +30,10 @@ una capacidad no gobernada desde codigo.
 
 Manifest-first publica conocimiento; graphify-second expande relaciones;
 source-last comprueba evidencia exacta. Ninguna recuperacion cambia autoridad.
+
+## Extension v2
+
+El [protocolo de expertos](domain-experts.md) agrega seleccion de un primario
+por dominio y capacidad, bloqueos de experto y handoffs por riesgo o cruce.
+Las reglas v1 anteriores siguen vigentes; una capacidad ausente bloquea,
+un experto ausente para una capacidad valida escala de forma controlada.
