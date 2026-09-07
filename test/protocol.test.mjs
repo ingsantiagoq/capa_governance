@@ -100,6 +100,7 @@ test('missing and inconsistent facts fail closed; no implicit approval', () => {
 });
 
 const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.json', import.meta.url), 'utf8'));
+const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory.expert.manifest.json', import.meta.url), 'utf8'));
 const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
 const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
 
@@ -161,4 +162,35 @@ test('CLI accepts expert manifests and rejects duplicate expert IDs', () => {
   const example = fileURLToPath(new URL('../examples/ar.expert.manifest.json', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, example]).status, 0);
   assert.equal(spawnSync(process.execPath, [cli, example, example]).status, 1);
+});
+
+
+test('Inventory expert selects one primary and escalates market-sensitive cross-domain work', () => {
+  assert.deepEqual(validateManifest(inventoryExpert), []);
+  const inventoryIntent = {
+    domain: 'inventory',
+    capability: 'inventory',
+    action: 'inspect-availability',
+    impactedDomains: ['inventory'],
+    risks: [],
+    approvedActions: [],
+    experts: [ar, inventoryExpert]
+  };
+  const selected = transition('block', facts, inventoryIntent);
+  assert.equal(selected.state, 'ready');
+  assert.equal(selected.primaryExpert, 'inventory-expert');
+  assert.equal(selected.expertDecision.status, 'selected');
+
+  const crossed = transition('ready', facts, { ...inventoryIntent, impactedDomains: ['inventory', 'ledger'] });
+  assert.equal(crossed.state, 'escalate');
+  assert.equal(crossed.primaryExpert, 'inventory-expert');
+  assert.deepEqual(crossed.expertDecision.targets, ['architect', 'reviewer']);
+
+  const costing = transition('ready', facts, { ...inventoryIntent, risks: ['costing-policy'] });
+  assert.equal(costing.state, 'escalate');
+  assert.deepEqual(costing.expertDecision.targets, ['architect', 'po', 'reviewer']);
+
+  const blocked = transition('ready', facts, { ...inventoryIntent, action: 'apply-stock-adjustment' });
+  assert.equal(blocked.state, 'block');
+  assert.equal(blocked.reason, 'expert-approval-missing');
 });

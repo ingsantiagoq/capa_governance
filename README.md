@@ -43,6 +43,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
   [protocolo de expertos](protocol/domain-experts.md): seleccion determinista v2.
 - [Experto AR](examples/ar.expert.manifest.json): cuentas por cobrar y gates;
   anclas propuestas pendientes de verificar contra UBP.
+- [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
+  separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
 - [Context Pack](protocol/context-pack.md): siete campos y procedencia.
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
