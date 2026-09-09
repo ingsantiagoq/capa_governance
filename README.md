@@ -38,6 +38,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 
 ## Contenido
 
+- [Inventario inicial de Domain Experts UBP](inventory/ubp-domain-experts.md):
+  30 autoridades candidatas, cobertura actual, fronteras, handoffs y secuencia de activacion.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
   [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v10.
