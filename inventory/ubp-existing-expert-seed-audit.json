@@ -1,0 +1,760 @@
+{
+  "kind": "domain-expert-seed-audit",
+  "version": 1,
+  "graphRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13",
+  "experts": [
+    {
+      "expertId": "ap-expert",
+      "manifestSha256": "5aabca5a6d2ef1c6686172bfcf98d06177325c1fdc363020764452c2e7759042",
+      "decision": "BLOCK",
+      "counts": {
+        "resolved": 9,
+        "ambiguous": 0,
+        "missing": 2
+      },
+      "seedVerificationSha256": null,
+      "seeds": [
+        {
+          "seed": "ADR-0023 Compras y Cuentas por Pagar",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0023_compras_cxp",
+              "sourceFile": "docs/adr/ADR-0023-compras-cxp.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0044 Gestion Documental",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0044_gestion_documental_adr_0044_gestión_documental",
+              "sourceFile": "docs/adr/ADR-0044-gestion-documental.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "knowledge/ap/market-lens.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "knowledge/document-reception/market-lens.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "CAPA ADR-0023 captura-factura-ocr",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "captura_factura_ocr_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/captura-factura-ocr/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 grir-clearing-account",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "grir_clearing_account_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/grir-clearing-account/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 conversion-oc-a-factura-muestra-sus-lineas",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "conversion_oc_a_factura_muestra_sus_lineas_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/conversion-oc-a-factura-muestra-sus-lineas/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 compra-del-dia-entra-despues-de-las-ventas",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "compra_del_dia_entra_despues_de_las_ventas_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/compra-del-dia-entra-despues-de-las-ventas/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ap_domain_purchasereceipt_purchasereceipt",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ap_domain_purchasereceipt_purchasereceipt",
+              "sourceFile": "ubp-ap-service/src/Ubp.Ap.Domain/PurchaseReceipt.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice",
+              "sourceFile": "ubp-ap-service/src/Ubp.Ap.Application/IPurchaseReceiptService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "endpoints_v1apendpoints_v1apendpoints",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "endpoints_v1apendpoints_v1apendpoints",
+              "sourceFile": "ubp-bff/src/Ubp.Bff.Api/Endpoints/V1ApEndpoints.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
+      "expertId": "ar-expert",
+      "manifestSha256": "f719ba9112d7fc153a54b23677bd020b434eabe7d4f4796c6c2839eea9294ff8",
+      "decision": "BLOCK",
+      "counts": {
+        "resolved": 0,
+        "ambiguous": 0,
+        "missing": 6
+      },
+      "seedVerificationSha256": null,
+      "seeds": [
+        {
+          "seed": "AR invoices and credit notes",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "AR receipts and reversals",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "AR to Ledger posting boundary",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "AR period close policy",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "AR electronic invoicing policy",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "AR BFF and tenant boundary",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        }
+      ]
+    },
+    {
+      "expertId": "control-plane-expert",
+      "manifestSha256": "6eb2ed268a8af806ba87ecc4e5a0eb4f5517f0c1966f792328b7d842bc2cb927",
+      "decision": "BLOCK",
+      "counts": {
+        "resolved": 6,
+        "ambiguous": 5,
+        "missing": 4
+      },
+      "seedVerificationSha256": null,
+      "seeds": [
+        {
+          "seed": "policies/architecture/accounting-segmentation-engine.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "ADR-0006 Control Plane",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0006_control_plane_adr_0006_control_plane",
+              "sourceFile": "docs/adr/ADR-0006-control-plane.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "knowledge/control-plane/market-lens.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "ADR-0003 Identidad y Acceso",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0003_identidad_y_acceso",
+              "sourceFile": "docs/adr/ADR-0003-identidad-y-acceso.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0005 Config no Codigo Pais Agnostico",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0005_config_no_codigo_pais_agnostico",
+              "sourceFile": "docs/adr/ADR-0005-config-no-codigo-pais-agnostico.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0082 Navegacion Capability Derivada del Catalogo",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0082_navegacion_capability_derivada_del_catalogo",
+              "sourceFile": "docs/adr/ADR-0082-navegacion-capability-derivada-del-catalogo.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CapabilityConfiguration",
+          "status": "resolved",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "configurations_capabilityconfiguration_capabilityconfiguration",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Infrastructure/Configurations/CapabilityConfiguration.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "RoleTemplateService",
+          "status": "ambiguous",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "ubp_membership_application_roletemplateservice_roletemplateservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Application/RoleTemplateService.cs"
+            },
+            {
+              "id": "roletemplateservice",
+              "sourceFile": "ubp-membership-service/tests/Ubp.Membership.Tests/RoleTemplateServiceTests.cs"
+            }
+          ],
+          "matchCount": 2
+        },
+        {
+          "seed": "TenantAddOnGovernanceService",
+          "status": "ambiguous",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "commercialexperience_tenantaddongovernanceservice_tenantaddongovernanceservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/CommercialExperience/TenantAddOnGovernanceService.cs"
+            },
+            {
+              "id": "tenantaddongovernanceservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CommercialExperiencePostgresTests.cs"
+            }
+          ],
+          "matchCount": 2
+        },
+        {
+          "seed": "CapabilityGraphRepository",
+          "status": "resolved",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "ubp_admin_infrastructure_capabilitygraphrepository_capabilitygraphrepository",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Infrastructure/CapabilityGraphRepository.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CapabilityDependencyService",
+          "status": "ambiguous",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/Capabilities/CapabilityDependencyService.cs"
+            },
+            {
+              "id": "capabilitydependencyservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CapabilityDependencyServiceTests.cs"
+            }
+          ],
+          "matchCount": 2
+        },
+        {
+          "seed": "TenantCapabilityInstallService",
+          "status": "ambiguous",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/Capabilities/TenantCapabilityInstallService.cs"
+            },
+            {
+              "id": "ubp_admin_service_tests_ubp_admin_tests_capabilityconflictpostgrestests_cs_tenantcapabilityinstallservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CapabilityConflictPostgresTests.cs"
+            },
+            {
+              "id": "ubp_admin_service_tests_ubp_admin_tests_capabilityscopereapplytests_cs_tenantcapabilityinstallservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CapabilityScopeReapplyTests.cs"
+            },
+            {
+              "id": "ubp_admin_service_tests_ubp_admin_tests_tenantcapabilityinstallpostgrestests_cs_tenantcapabilityinstallservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/TenantCapabilityInstallPostgresTests.cs"
+            },
+            {
+              "id": "ubp_admin_service_tests_ubp_admin_tests_tenantcapabilityinstallservicetests_cs_tenantcapabilityinstallservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/TenantCapabilityInstallServiceTests.cs"
+            },
+            {
+              "id": "ubp_admin_service_tests_ubp_admin_tests_tenantcapabilityuninstallservicetests_cs_tenantcapabilityinstallservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/TenantCapabilityUninstallServiceTests.cs"
+            }
+          ],
+          "matchCount": 6
+        },
+        {
+          "seed": "FeatureFlagService",
+          "status": "ambiguous",
+          "method": "exact-label",
+          "matches": [
+            {
+              "id": "ubp_admin_application_featureflagservice_featureflagservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/FeatureFlagService.cs"
+            },
+            {
+              "id": "featureflagservice",
+              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/FeatureFlagTests.cs"
+            }
+          ],
+          "matchCount": 2
+        },
+        {
+          "seed": "admin-catalog.proto",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "membership.proto",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        }
+      ]
+    },
+    {
+      "expertId": "inventory-expert",
+      "manifestSha256": "1471108fe0f86ca0e27ac5fb129ec005b3a07b46da4aa7b439e5512fda62da44",
+      "decision": "BLOCK",
+      "counts": {
+        "resolved": 16,
+        "ambiguous": 0,
+        "missing": 2
+      },
+      "seedVerificationSha256": null,
+      "seeds": [
+        {
+          "seed": "policies/architecture/accounting-segmentation-engine.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "ADR-0021 Inventario y Sucursales",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0021_inventario_y_sucursales",
+              "sourceFile": "docs/adr/ADR-0021-inventario-y-sucursales.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "Market Lens Inventory 2026-09-07",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "CAPA ADR-0021 stock-types-reservas-y-atp",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "stock_types_reservas_y_atp_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/stock-types-reservas-y-atp/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 reorden-min-max-safety-stock",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "reorden_min_max_safety_stock_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/reorden-min-max-safety-stock/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 trazabilidad-financiera-fiscal-por-sucursal",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "trazabilidad_financiera_fiscal_por_sucursal_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/trazabilidad-financiera-fiscal-por-sucursal/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 ajustes-manuales-inventario-contabilizados",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "ajustes_manuales_inventario_contabilizados_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/ajustes-manuales-inventario-contabilizados/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 carga-saldos-iniciales-inventario",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "carga_saldos_iniciales_inventario_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/carga-saldos-iniciales-inventario/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 lote-loop-s2a-recepcion-lote-inventory",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "lote_loop_s2a_recepcion_lote_inventory_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/lote-loop-s2a-recepcion-lote-inventory/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 kardex-saldo-por-bodega",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "kardex_saldo_por_bodega_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/kardex-saldo-por-bodega/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_stockbalance_stockbalance",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_stockbalance_stockbalance",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/StockBalance.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_stockmovement_stockmovement",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_stockmovement_stockmovement",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/StockMovement.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_item_item",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_item_item",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Item.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_warehouse_warehouse",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_warehouse_warehouse",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Warehouse.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_branch_branch",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_branch_branch",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Branch.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_application_stockservice_stockservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_application_stockservice_stockservice",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/StockService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "services_inventorygrpcservice_inventorygrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_inventorygrpcservice_inventorygrpcservice",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Api/Services/InventoryGrpcService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "endpoints_v1inventoryendpoints_v1inventoryendpoints",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "endpoints_v1inventoryendpoints_v1inventoryendpoints",
+              "sourceFile": "ubp-bff/src/Ubp.Bff.Api/Endpoints/V1InventoryEndpoints.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
+      "expertId": "ledger-expert",
+      "manifestSha256": "8e235d33fbb92187a86dcc6018eb43ae09dc6a20f8d6167bd0725712e8162299",
+      "decision": "BLOCK",
+      "counts": {
+        "resolved": 9,
+        "ambiguous": 0,
+        "missing": 2
+      },
+      "seedVerificationSha256": null,
+      "seeds": [
+        {
+          "seed": "policies/architecture/accounting-segmentation-engine.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "ADR-0011 Contabilidad GL",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0011_contabilidad_gl_adr_0011_contabilidad_gl",
+              "sourceFile": "docs/adr/ADR-0011-contabilidad-gl.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "knowledge/ledger/market-lens.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "ADR-0009 Auditoria e Integridad Contable",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0009_auditoria_integridad_contable",
+              "sourceFile": "docs/adr/ADR-0009-auditoria-integridad-contable.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0008 Estructura Organizacional Multi Entidad",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0008_estructura_organizacional_multi_entidad_adr_0008_estructura_organizacional_multi_entidad",
+              "sourceFile": "docs/adr/ADR-0008-estructura-organizacional-multi-entidad.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0043 Analytics e IA contabilidad analitica dimensiones",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0043_analytics_e_ia",
+              "sourceFile": "docs/adr/ADR-0043-analytics-e-ia.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_journalentry_journalentry",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_journalentry_journalentry",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/JournalEntry.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_journalline_journalline",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_journalline_journalline",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/JournalLine.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_accountingperiod_accountingperiod",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_accountingperiod_accountingperiod",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/AccountingPeriod.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_tenantaccount_tenantaccount",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_tenantaccount_tenantaccount",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/TenantAccount.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "services_ledgergrpcservice_ledgergrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_ledgergrpcservice_ledgergrpcservice",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Api/Services/LedgerGrpcService.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    }
+  ]
+}

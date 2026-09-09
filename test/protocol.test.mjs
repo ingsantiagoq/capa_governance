@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { validate, validateRegistry, assertSupported } from '../tools/validate-capability-manifests.mjs';
 import { transition } from '../tools/context-broker.mjs';
 import { evaluateGovernanceReadiness, seedVerificationSha256, sha256 } from '../tools/governance-readiness-gate.mjs';
+import { auditExpertSeeds, resolveSeed } from '../tools/audit-expert-seeds.mjs';
 
 const examples = await Promise.all(['inventory', 'control-plane'].map(name => readFile(new URL(`../examples/${name}.manifest.json`, import.meta.url), 'utf8').then(JSON.parse)));
 const facts = { route: 'matched', manifestValid: true, policyDenied: false, approvalRequired: false, approvalGranted: false, decisionRequired: false, contextSufficient: true, graphAvailable: true, graphAttempted: false, expansions: 0, maxExpansions: 1, sourceAllowed: true, sourceAttempted: false };
@@ -465,4 +466,44 @@ test('UBP registry publishes every inventoried expert as a blocked candidate', a
   assert.ok(registry.entries.every(entry => entry.status === 'candidate'));
   const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
+});
+
+test('seed audit resolves only deterministic graph anchors', () => {
+  const nodes = [
+    { id: 'ubp_ledger_domain_journalentry_journalentry', label: 'JournalEntry', source_file: 'src/JournalEntry.cs' },
+    { id: 'adr_adr_0011_contabilidad_gl', label: 'ADR-0011-contabilidad-gl.md', source_file: 'docs/adr/ADR-0011-contabilidad-gl.md' },
+    { id: 'captura_factura_ocr_manifest', label: 'manifest.json', source_file: 'capa/ADR-0023-compras-cxp/captura-factura-ocr/manifest.json' },
+    { id: 'one', label: 'Repeated', source_file: 'one.cs' },
+    { id: 'two', label: 'Repeated', source_file: 'two.cs' }
+  ];
+  assert.equal(resolveSeed('ubp_ledger_domain_journalentry_journalentry', nodes).status, 'resolved');
+  assert.equal(resolveSeed('ADR-0011 Contabilidad GL', nodes).status, 'resolved');
+  assert.equal(resolveSeed('CAPA ADR-0023 captura-factura-ocr', nodes).status, 'resolved');
+  assert.equal(resolveSeed('Repeated', nodes).status, 'ambiguous');
+  assert.equal(resolveSeed('Absent', nodes).status, 'missing');
+});
+
+test('seed audit emits an attestation only when every seed resolves', () => {
+  const nodes = ar.seedNodes.map(seed => ({ id: seed, label: seed, source_file: `${seed}.txt` }));
+  const ready = auditExpertSeeds({ nodes }, [ar], 'ubp-test-revision');
+  assert.equal(ready.experts[0].decision, 'READY');
+  assert.match(ready.experts[0].seedVerificationSha256, /^[a-f0-9]{64}$/);
+
+  const blocked = auditExpertSeeds({ nodes: nodes.slice(1) }, [ar], 'ubp-test-revision');
+  assert.equal(blocked.experts[0].decision, 'BLOCK');
+  assert.equal(blocked.experts[0].seedVerificationSha256, null);
+});
+
+test('committed UBP seed audit remains tied to current manifests and registry revision', async () => {
+  const report = JSON.parse(await readFile(new URL('../inventory/ubp-existing-expert-seed-audit.json', import.meta.url), 'utf8'));
+  const registry = JSON.parse(await readFile(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url), 'utf8'));
+  const manifests = [apExpert, ar, controlPlaneExpert, inventoryExpert, ledgerExpert];
+  assert.equal(report.graphRevision, registry.ubpRevision);
+  assert.equal(report.experts.length, manifests.length);
+  for (const manifest of manifests) {
+    const audited = report.experts.find(expert => expert.expertId === manifest.id);
+    assert.equal(audited.manifestSha256, sha256(manifest), manifest.id);
+    assert.equal(audited.decision, 'BLOCK');
+    assert.equal(audited.seedVerificationSha256, null);
+  }
 });

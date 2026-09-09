@@ -24,6 +24,8 @@ Todas las condiciones son necesarias. Una sola falla produce `BLOCK`; no existe 
 
 `manifestSha256` detecta cambios posteriores a la aprobación. `seedVerificationSha256` vincula la lista de semillas con el commit declarado en `seedGraphRevision`. El consumidor que genera esa atestación debe resolver antes todas las semillas en Graphify; el hash por sí solo no demuestra que la consulta ocurrió.
 
+La herramienta de referencia `tools/audit-expert-seeds.mjs` solo emite esa atestación cuando cada semilla resuelve a un nodo único. Coincidencias ambiguas y ausencias producen `BLOCK` y código de salida `1`.
+
 `approvedRevision` registra la revisión Git donde la autoridad competente aprobó el manifiesto. No se compara con el HEAD completo porque un cambio independiente en Governance no debe invalidar manifests que conservan el mismo digest.
 
 `reviewDueAt` establece una caducidad explícita. Un experto vencido se bloquea aunque su manifiesto siga validando estructuralmente.

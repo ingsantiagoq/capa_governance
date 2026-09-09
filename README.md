@@ -23,6 +23,8 @@ Requiere Node >=22, sin dependencias externas ni npm install:
 ```sh
 npm run check
 node tools/validate-capability-manifests.mjs examples/*.manifest.json
+node tools/audit-expert-seeds.mjs graph.json examples/*.expert.manifest.json \
+  --graph-revision <ubp-commit> --output seed-audit.json
 ```
 
 El validador falla con codigo 1 ante JSON invalido, archivos ausentes, campos
@@ -41,6 +43,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Inventario inicial de Domain Experts UBP](inventory/ubp-domain-experts.md):
   30 autoridades candidatas, cobertura actual, fronteras, handoffs y secuencia de activacion.
 - [Registry UBP](inventory/ubp-domain-expert-registry.json): estado operativo y revision de código usada por el gate.
+- [Auditoria inicial de semillas](inventory/ubp-existing-expert-seed-audit.json): resolución determinista de los cinco expertos existentes contra el índice UBP fijado.
 - [Governance Readiness Gate](protocol/governance-readiness-gate.md) y
   [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.

@@ -87,6 +87,21 @@ Resultado inicial: **30 autoridades de dominio**: 5 con manifiesto de ejemplo y 
 
 Todos comienzan como `candidate`. Los cinco manifests existentes tampoco pasan a `active` por existir: necesitan dueño, suplente, aprobación, digest, revisión vigente y semillas verificadas contra el commit UBP declarado.
 
+## Auditoría inicial de semillas
+
+La auditoría reproducible en [`ubp-existing-expert-seed-audit.json`](ubp-existing-expert-seed-audit.json) evaluó los cinco manifests existentes contra el índice Graphify generado desde UBP `8a90e057c5e65d536163bba01ed30adc9c209b13`.
+
+| Expert ID | Resueltas | Ambiguas | Ausentes | Decisión |
+|---|---:|---:|---:|---|
+| `ap-expert` | 9 | 0 | 2 | `BLOCK` |
+| `ar-expert` | 0 | 0 | 6 | `BLOCK` |
+| `control-plane-expert` | 6 | 5 | 4 | `BLOCK` |
+| `inventory-expert` | 16 | 0 | 2 | `BLOCK` |
+| `ledger-expert` | 9 | 0 | 2 | `BLOCK` |
+| **Total** | **40** | **5** | **16** | **BLOCK** |
+
+Los faltantes de AP, Inventory y Ledger son principalmente knowledge lenses y policies alojadas en Governance, fuera del índice UBP auditado. AR usa seis descripciones conceptuales que no resuelven como nodos. Control Plane combina fuentes externas al índice, como protos, con nombres de servicios que producen varios nodos. Ningún experto obtiene `seedVerificationSha256` mientras conserve una semilla ausente o ambigua.
+
 ## Fronteras y handoffs obligatorios
 
 | Intención | Experto primario | Handoffs mínimos según impacto |
