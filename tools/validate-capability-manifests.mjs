@@ -7,6 +7,8 @@ export const schema = JSON.parse(await readFile(new URL('../schemas/capability-m
 
 export const expertSchema = JSON.parse(await readFile(new URL('../schemas/domain-expert-manifest.schema.json', import.meta.url), 'utf8'));
 
+export const registrySchema = JSON.parse(await readFile(new URL('../schemas/domain-expert-registry.schema.json', import.meta.url), 'utf8'));
+
 // Deliberately limited to the keywords used by the bundled schema. Fail closed
 // when the schema evolves; this is not a general JSON Schema implementation.
 const keywords = new Set(['$schema', 'title', 'type', 'additionalProperties', 'required', 'properties', 'minLength', 'pattern', 'minItems', 'uniqueItems', 'items', 'const', 'minimum', 'maximum']);
@@ -20,6 +22,7 @@ export function assertSupported(s) {
 }
 assertSupported(schema);
 assertSupported(expertSchema);
+assertSupported(registrySchema);
 
 export function validate(value, s = schema, path = '$') {
   const errors = [];
@@ -63,6 +66,20 @@ export function validateManifest(value) {
   return errors;
 }
 
+export function validateRegistry(value) {
+  const errors = validate(value, registrySchema);
+  if (!errors.length && new Set(value.entries.map(entry => entry.expertId)).size !== value.entries.length) {
+    errors.push('duplicate expertId in registry');
+  }
+  return errors;
+}
+
+export function validateArtifact(value) {
+  if (value?.kind === 'domain-expert') return validateManifest(value);
+  if (value?.kind === 'domain-expert-registry') return validateRegistry(value);
+  return validate(value);
+}
+
 async function main() {
   let paths = process.argv.slice(2);
   if (!paths.length) {
@@ -74,8 +91,12 @@ async function main() {
   for (const path of paths) {
     try {
       const manifest = JSON.parse(await readFile(path, 'utf8'));
-      const errors = validateManifest(manifest);
-      const id = manifest?.kind === 'domain-expert' ? `expert:${manifest.id}` : `capability:${manifest?.capability?.id}`;
+      const errors = validateArtifact(manifest);
+      const id = manifest?.kind === 'domain-expert'
+        ? `expert:${manifest.id}`
+        : manifest?.kind === 'domain-expert-registry'
+          ? `registry:${manifest.version}`
+          : `capability:${manifest?.capability?.id}`;
       if (id) {
         if (ids.has(id)) errors.push('duplicate manifest id in input catalog');
         ids.add(id);

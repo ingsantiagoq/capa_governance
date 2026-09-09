@@ -1,0 +1,128 @@
+{
+  "kind": "domain-expert-registry",
+  "version": 1,
+  "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13",
+  "graphSourceRevision": "unverified",
+  "entries": [
+    {
+      "expertId": "control-plane-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "ledger-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "tax-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "identity-access-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "audit-integrity-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "tenant-organization-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "localization-country-pack-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "legal-numbering-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "electronic-fiscal-documents-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "fx-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "treasury-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "document-management-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "workflow-approvals-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "parties-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "inventory-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "ar-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "ap-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "pos-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "payroll-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "fixed-assets-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "production-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "b2b-intercompany-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "financing-credit-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "logistics-fulfillment-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "notifications-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "analytics-bi-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "ai-assistant-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "platform-reliability-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "integration-events-expert",
+      "status": "candidate"
+    },
+    {
+      "expertId": "experience-delivery-expert",
+      "status": "candidate"
+    }
+  ]
+}

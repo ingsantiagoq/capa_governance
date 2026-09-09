@@ -5,6 +5,8 @@ Fecha de corte: 2026-09-09
 Base de gobierno: CAPA Governance V10  
 Fuente de verdad funcional y técnica: código y ADR de UBP
 
+El estado operativo de este inventario se publica en [`ubp-domain-expert-registry.json`](ubp-domain-expert-registry.json). Este documento conserva el razonamiento, las fronteras y la secuencia; el Registry es la entrada ejecutable del gate.
+
 ## Propósito
 
 Este inventario identifica los Domain Experts que CAPA Governance necesita para enrutar intenciones, obtener contexto especializado, detectar impactos cruzados y escalar decisiones. No asigna personas todavía: define los puestos de autoridad que UBP debe cubrir y la evidencia mínima para convertir cada uno en un manifiesto V10 aprobado.
@@ -82,6 +84,8 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 | P2 | `experience-delivery-expert` | BFF, navegación, diseño de interacción, formatos impresos y coherencia de experiencia | BFF y `ubp-app`; ADR-0002, ADR-0030, ADR-0034, ADR-0035, ADR-0055 | Faltante; autoridad de producto transversal |
 
 Resultado inicial: **30 autoridades de dominio**: 5 con manifiesto de ejemplo y 25 sin manifiesto. Este número es una hipótesis de catálogo, no una decisión cerrada. La deliberación puede fusionar expertos si conservan vocabulario e invariantes coherentes, o dividirlos si el enrutamiento produce autoridad ambigua.
+
+Todos comienzan como `candidate`. Los cinco manifests existentes tampoco pasan a `active` por existir: necesitan dueño, suplente, aprobación, digest, revisión vigente y semillas verificadas contra el commit UBP declarado.
 
 ## Fronteras y handoffs obligatorios
 

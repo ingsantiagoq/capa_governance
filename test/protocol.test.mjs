@@ -5,8 +5,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { validate, assertSupported } from '../tools/validate-capability-manifests.mjs';
+import { validate, validateRegistry, assertSupported } from '../tools/validate-capability-manifests.mjs';
 import { transition } from '../tools/context-broker.mjs';
+import { evaluateGovernanceReadiness, seedVerificationSha256, sha256 } from '../tools/governance-readiness-gate.mjs';
 
 const examples = await Promise.all(['inventory', 'control-plane'].map(name => readFile(new URL(`../examples/${name}.manifest.json`, import.meta.url), 'utf8').then(JSON.parse)));
 const facts = { route: 'matched', manifestValid: true, policyDenied: false, approvalRequired: false, approvalGranted: false, decisionRequired: false, contextSufficient: true, graphAvailable: true, graphAttempted: false, expansions: 0, maxExpansions: 1, sourceAllowed: true, sourceAttempted: false };
@@ -357,4 +358,111 @@ test('accounting segmentation capability formalizes DisplayCode as derived and r
   assert.equal(result.state, 'escalate');
   assert.equal(result.primaryExpert, 'ledger-expert');
   assert.deepEqual(result.expertDecision.targets, ['architect', 'control-plane-expert', 'po', 'reviewer']);
+});
+
+const ledgerCapability = JSON.parse(await readFile(new URL('../examples/ledger.manifest.json', import.meta.url), 'utf8'));
+
+function activeEntry(manifest, overrides = {}) {
+  const graphRevision = 'ubp-test-revision';
+  return {
+    expertId: manifest.id,
+    status: 'active',
+    accountableOwner: `${manifest.id}-owner`,
+    backupOwner: `${manifest.id}-backup`,
+    approvedBy: 'santiago',
+    approvedRevision: 'governance-test-revision',
+    manifestSha256: sha256(manifest),
+    reviewDueAt: '2026-12-31T23:59:59Z',
+    seedGraphRevision: graphRevision,
+    seedVerificationSha256: seedVerificationSha256(graphRevision, manifest.seedNodes),
+    blockedActions: [],
+    ...overrides
+  };
+}
+
+function readinessInput(overrides = {}) {
+  return {
+    registry: {
+      kind: 'domain-expert-registry',
+      version: 1,
+      ubpRevision: 'ubp-test-revision',
+      graphSourceRevision: 'ubp-test-revision',
+      entries: [activeEntry(ledgerExpert)]
+    },
+    expertManifests: [ledgerExpert],
+    capabilityManifests: [ledgerCapability],
+    request: {
+      domain: 'ledger',
+      capability: 'ledger',
+      action: 'inspect-journal-entry',
+      impactedDomains: ['ledger']
+    },
+    evaluatedAt: '2026-09-09T12:00:00Z',
+    ...overrides
+  };
+}
+
+test('governance readiness advances only with complete current evidence', () => {
+  const result = evaluateGovernanceReadiness(readinessInput());
+  assert.equal(result.decision, 'READY');
+  assert.equal(result.primaryExpert, 'ledger-expert');
+  assert.equal(result.ubpRevision, 'ubp-test-revision');
+});
+
+test('governance readiness blocks inactive, stale, altered or incomplete authority', () => {
+  const cases = [
+    input => { input.registry.entries[0].status = 'candidate'; },
+    input => { delete input.registry.entries[0].accountableOwner; },
+    input => { input.registry.entries[0].backupOwner = input.registry.entries[0].accountableOwner; },
+    input => { input.registry.entries[0].manifestSha256 = '0'.repeat(64); },
+    input => { input.registry.graphSourceRevision = 'old-ubp-revision'; },
+    input => { input.registry.entries[0].seedGraphRevision = 'old-ubp-revision'; },
+    input => { input.registry.entries[0].seedVerificationSha256 = '0'.repeat(64); },
+    input => { input.registry.entries[0].reviewDueAt = '2026-09-08T23:59:59Z'; },
+    input => { input.registry.entries[0].blockedActions = ['inspect-journal-entry']; }
+  ];
+  for (const mutate of cases) {
+    const input = readinessInput();
+    mutate(input);
+    assert.equal(evaluateGovernanceReadiness(input).decision, 'BLOCK');
+  }
+});
+
+test('governance readiness blocks missing catalogs and uncovered impacted domains', () => {
+  assert.deepEqual(evaluateGovernanceReadiness(readinessInput({ capabilityManifests: [] })).reasons, ['missing-capability']);
+  assert.deepEqual(evaluateGovernanceReadiness(readinessInput({ expertManifests: [] })).reasons, ['missing-primary-expert']);
+
+  const crossDomain = readinessInput();
+  crossDomain.request.impactedDomains.push('inventory');
+  assert.deepEqual(evaluateGovernanceReadiness(crossDomain).reasons, ['inventory:missing-impacted-expert']);
+
+  crossDomain.expertManifests.push(inventoryExpert);
+  crossDomain.registry.entries.push(activeEntry(inventoryExpert));
+  assert.equal(evaluateGovernanceReadiness(crossDomain).decision, 'READY');
+
+  crossDomain.registry.entries[1].status = 'suspended';
+  const suspended = evaluateGovernanceReadiness(crossDomain);
+  assert.equal(suspended.decision, 'BLOCK');
+  assert.ok(suspended.reasons.includes('impacted:inventory-expert:expert-not-active'));
+});
+
+test('governance readiness rejects invalid registry state and ambiguous authority', () => {
+  const invalidStatus = readinessInput();
+  invalidStatus.registry.entries[0].status = 'invented';
+  assert.equal(evaluateGovernanceReadiness(invalidStatus).decision, 'BLOCK');
+
+  const ambiguous = readinessInput();
+  ambiguous.expertManifests.push({ ...ledgerExpert, id: 'ledger-other-expert' });
+  assert.deepEqual(evaluateGovernanceReadiness(ambiguous).reasons, ['ambiguous-primary-expert']);
+});
+
+test('UBP registry publishes every inventoried expert as a blocked candidate', async () => {
+  const registryPath = fileURLToPath(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url));
+  const registry = JSON.parse(await readFile(registryPath, 'utf8'));
+  assert.deepEqual(validateRegistry(registry), []);
+  assert.equal(registry.entries.length, 30);
+  assert.equal(new Set(registry.entries.map(entry => entry.expertId)).size, 30);
+  assert.ok(registry.entries.every(entry => entry.status === 'candidate'));
+  const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
+  assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
 });

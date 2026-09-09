@@ -40,6 +40,9 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 
 - [Inventario inicial de Domain Experts UBP](inventory/ubp-domain-experts.md):
   30 autoridades candidatas, cobertura actual, fronteras, handoffs y secuencia de activacion.
+- [Registry UBP](inventory/ubp-domain-expert-registry.json): estado operativo y revision de código usada por el gate.
+- [Governance Readiness Gate](protocol/governance-readiness-gate.md) y
+  [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
   [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v10.
