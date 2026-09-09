@@ -58,6 +58,11 @@ function activeEvidenceErrors(entry, manifest, registry, evaluatedAt, prefix) {
   const at = Date.parse(evaluatedAt);
   if (!Number.isFinite(due) || !Number.isFinite(at)) errors.push(`${prefix}:invalid-review-date`);
   else if (at > due) errors.push(`${prefix}:review-expired`);
+  const marketVerifiedAt = Date.parse(`${manifest.marketIntelligence.verifiedAt}T00:00:00Z`);
+  const marketExpiresAt = marketVerifiedAt + manifest.marketIntelligence.refreshDays * 86_400_000;
+  if (!Number.isFinite(marketVerifiedAt) || !Number.isFinite(at)) errors.push(`${prefix}:invalid-market-review-date`);
+  else if (marketVerifiedAt > at) errors.push(`${prefix}:market-review-from-future`);
+  else if (at > marketExpiresAt) errors.push(`${prefix}:market-intelligence-stale`);
   return errors;
 }
 

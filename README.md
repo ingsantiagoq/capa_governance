@@ -1,4 +1,4 @@
-# CAPA Governance v10
+# CAPA Governance v11
 
 El conocimiento se publica, no se busca.
 
@@ -9,7 +9,7 @@ y la logica de negocio. Este repositorio central contiene especificacion,
 ejemplos y funciones de referencia pequenas; no es un framework de agentes.
 
 Los Capability Manifests y Domain Expert Manifests versionados son la fuente
-oficial. En v10, los expertos de dominio declaran fuentes UBP, fuentes de mercado y politicas transversales explicitas. La nueva politica `accounting-segmentation-engine` formaliza el motor contable segmentado configurable: cuenta natural mas segmentos tipados, con DisplayCode derivado y mascaras gobernadas por Control Plane. Una intencion tiene un experto primario; solo se escala por riesgo o
+oficial. En v11, los expertos de dominio declaran fuentes UBP, fuentes de mercado y politicas transversales explicitas. La nueva politica `accounting-segmentation-engine` formaliza el motor contable segmentado configurable: cuenta natural mas segmentos tipados, con DisplayCode derivado y mascaras gobernadas por Control Plane. Una intencion tiene un experto primario; solo se escala por riesgo o
 impacto entre dominios. El Context Pack conserva
 sus siete campos. El Capability Router aplica manifest-first, graphify-second,
 source-last. El Context Broker produce ready, expand, escalate o block mediante
@@ -48,7 +48,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
   [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
-  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v10.
+  [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v11.
 - [Experto AR](examples/ar.expert.manifest.json): cuentas por cobrar y gates;
   anclas propuestas pendientes de verificar contra UBP.
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
@@ -87,6 +87,7 @@ Capas iniciales:
 - `policies/architecture/design-patterns.md`
 - `policies/architecture/configuration-governance.md`
 - `policies/architecture/accounting-segmentation-engine.md`
+- `policies/architecture/agnostic-engine-sovereignty.md`
 - `policies/frontend/frontend-architecture.md`
 - `policies/security/tenant-boundaries.md`
 - `policies/testing/gates.md`
@@ -102,22 +103,28 @@ fuente de verdad. El pipeline de este repo ejecuta npm run check.
 
 El gate de UBP debe validar su catalogo y comprobar referencias y frescura:
 registrar revisiones/digests de protos, ADRs, endpoints y semillas; si cambia una
-referencia relevante sin republicar el manifest, debe fallar el build. Ese gate
-cross-repo y la integracion Graphify no estan implementados en esta v2. Aprobar
-el schema demuestra estructura, no que el conocimiento refleje el codigo actual.
+referencia relevante sin republicar el manifest, debe fallar el build. El
+Governance Readiness Gate y la auditoría de seeds ya bloquean autoridad
+incompleta o evidencia desalineada. La integración automática con el pipeline
+de cada repositorio consumidor sigue pendiente; hasta entonces, aprobar el
+schema demuestra estructura, no cobertura del código actual.
 
 La clasificacion de intencion, el registro de aprobaciones y la ejecucion real
 pertenecen al consumidor. Debe invocar el broker antes de recuperar contexto o
 actuar y hacer cumplir su salida; el skill por si solo no garantiza enforcement.
 
-## Compatibilidad v10
+## Compatibilidad v11
+
+La v11 agrega una [constitución de producto UBP](protocol/ubp-product-constitution.md), el [protocolo de inteligencia de mercado](protocol/market-intelligence.md) y la política de [soberanía de motores agnósticos](policies/architecture/agnostic-engine-sovereignty.md). Cada experto debe declarar su mejor versión, resultados, invariantes, frontera de configuración, lecciones verificables de fuentes oficiales y gates reproducibles.
+
 
 transition(previous, facts) conserva v1. El tercer argumento expertContext activa
 el flujo de expertos y agrega primaryExpert y expertDecision al sobre, sin modificar el pack.
-El schema v10 exige knowledgeSources, semanticAnchors y policies para que el experto no improvise
-conceptos de dominio ni benchmarks de mercado.
+El schema v11 exige `knowledgeSources`, `semanticAnchors`, `northStar`,
+`marketIntelligence`, `enforcement` y `policies` para que el experto no improvise
+dirección de producto, conceptos de dominio, benchmarks ni evidencia.
 
-La v10 agrega la capacidad `accounting-segmentation` y la policy
+La v10 agregó la capacidad `accounting-segmentation` y la policy
 `policies/architecture/accounting-segmentation-engine.md`. Esta policy recupera y formaliza
 el motor contable segmentado de UBP: la cuenta visible es un DisplayCode derivado; la verdad
 primaria es cuenta natural mas segmentos tipados y configurables. Ledger gobierna el asiento,

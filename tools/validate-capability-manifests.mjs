@@ -62,6 +62,12 @@ export function validateManifest(value) {
     if (!value.escalationTriggers.some(t => t.risk === 'cross-domain-impact')) errors.push('missing cross-domain-impact trigger');
     if (new Set(value.escalationTriggers.map(t => t.risk)).size !== value.escalationTriggers.length) errors.push('duplicate risk trigger');
     if (!isDeepStrictEqual(value.seedNodes, value.retrieval.seedNodes)) errors.push('seedNodes must match retrieval.seedNodes');
+    const marketVendors = new Set(value.knowledgeSources.market.map(source => source.vendor));
+    for (const lesson of value.marketIntelligence.lessons) {
+      if (!marketVendors.has(lesson.vendor)) errors.push(`market lesson vendor has no declared source: ${lesson.vendor}`);
+    }
+    if (new Set(value.enforcement.gates.map(gate => gate.id)).size !== value.enforcement.gates.length) errors.push('duplicate enforcement gate');
+    if (!value.policies.some(policy => policy.id === 'agnostic-engine-sovereignty')) errors.push('missing agnostic-engine-sovereignty policy');
   }
   return errors;
 }

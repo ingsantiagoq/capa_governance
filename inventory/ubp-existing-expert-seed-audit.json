@@ -5,7 +5,7 @@
   "experts": [
     {
       "expertId": "ap-expert",
-      "manifestSha256": "5aabca5a6d2ef1c6686172bfcf98d06177325c1fdc363020764452c2e7759042",
+      "manifestSha256": "6d1bdb6e0917a498f99e1d2b7f63cae85895b3055c12deb181d7331a481f458f",
       "decision": "BLOCK",
       "counts": {
         "resolved": 9,
@@ -140,7 +140,7 @@
     },
     {
       "expertId": "ar-expert",
-      "manifestSha256": "f719ba9112d7fc153a54b23677bd020b434eabe7d4f4796c6c2839eea9294ff8",
+      "manifestSha256": "dac45f2fcd3c65a49fdd9dc053b478db063ec7f4780aa12925fa0bc210f1879b",
       "decision": "BLOCK",
       "counts": {
         "resolved": 0,
@@ -195,7 +195,7 @@
     },
     {
       "expertId": "control-plane-expert",
-      "manifestSha256": "6eb2ed268a8af806ba87ecc4e5a0eb4f5517f0c1966f792328b7d842bc2cb927",
+      "manifestSha256": "c7a1f915a7df030cbcea48f2b1e6df06f8ee9236e85c8638fc930f7a02f966d7",
       "decision": "BLOCK",
       "counts": {
         "resolved": 6,
@@ -404,7 +404,7 @@
     },
     {
       "expertId": "inventory-expert",
-      "manifestSha256": "1471108fe0f86ca0e27ac5fb129ec005b3a07b46da4aa7b439e5512fda62da44",
+      "manifestSha256": "a69234bff00720c57bfdc2bd096549ba77c64326af8f5bcce4eade0a90e8af5d",
       "decision": "BLOCK",
       "counts": {
         "resolved": 16,
@@ -623,7 +623,7 @@
     },
     {
       "expertId": "ledger-expert",
-      "manifestSha256": "8e235d33fbb92187a86dcc6018eb43ae09dc6a20f8d6167bd0725712e8162299",
+      "manifestSha256": "a070f0b8ae8938d21dc8ea1fa002e1287ac1496eccb44965c59c98bd2b350f71",
       "decision": "BLOCK",
       "counts": {
         "resolved": 9,

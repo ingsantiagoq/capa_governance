@@ -2,14 +2,14 @@
 
 Estado: borrador para deliberación  
 Fecha de corte: 2026-09-09  
-Base de gobierno: CAPA Governance V10  
+Base de gobierno: CAPA Governance V11
 Fuente de verdad funcional y técnica: código y ADR de UBP
 
 El estado operativo de este inventario se publica en [`ubp-domain-expert-registry.json`](ubp-domain-expert-registry.json). Este documento conserva el razonamiento, las fronteras y la secuencia; el Registry es la entrada ejecutable del gate.
 
 ## Propósito
 
-Este inventario identifica los Domain Experts que CAPA Governance necesita para enrutar intenciones, obtener contexto especializado, detectar impactos cruzados y escalar decisiones. No asigna personas todavía: define los puestos de autoridad que UBP debe cubrir y la evidencia mínima para convertir cada uno en un manifiesto V10 aprobado.
+Este inventario identifica los Domain Experts que CAPA Governance necesita para enrutar intenciones, obtener contexto especializado, detectar impactos cruzados y escalar decisiones. No asigna personas todavía: define los puestos de autoridad que UBP debe cubrir y la evidencia mínima para convertir cada uno en un manifiesto V11 aprobado.
 
 La unidad de inventario es una autoridad de dominio estable. Un ADR, un servicio o una tecnología por sí solos no crean un Domain Expert. El criterio es que exista un conjunto coherente de decisiones de negocio, vocabulario, invariantes y riesgos que necesite una autoridad primaria.
 
@@ -26,13 +26,13 @@ La unidad de inventario es una autoridad de dominio estable. Un ADR, un servicio
 
 | Expert ID | Dominio | Cobertura declarada | Estado real |
 |---|---|---|---|
-| `control-plane-expert` | Control Plane | `control-plane`, `cost-center`, `accounting-segmentation` | Ejemplo V10; falta dueño, suplente, aprobación y validación contra el grafo UBP actual |
-| `ledger-expert` | Ledger | `ledger`, `cost-center`, `accounting-segmentation` | Ejemplo V10; falta elevarlo a catálogo aprobado |
-| `inventory-expert` | Inventarios | `inventory`, `cost-center`, `accounting-segmentation` | Ejemplo V10; falta elevarlo a catálogo aprobado |
-| `ar-expert` | Cuentas por cobrar | `ar` | Ejemplo V10; falta elevarlo a catálogo aprobado |
-| `ap-expert` | Cuentas por pagar | `ap`, `document-reception` | Ejemplo V10; la recepción documental debe separarse cuando el documento cruza AP |
+| `control-plane-expert` | Control Plane | `control-plane`, `cost-center`, `accounting-segmentation` | Ejemplo V11; falta dueño, suplente, aprobación y validación contra el grafo UBP actual |
+| `ledger-expert` | Ledger | `ledger`, `cost-center`, `accounting-segmentation` | Ejemplo V11; falta elevarlo a catálogo aprobado |
+| `inventory-expert` | Inventarios | `inventory`, `cost-center`, `accounting-segmentation` | Ejemplo V11; falta elevarlo a catálogo aprobado |
+| `ar-expert` | Cuentas por cobrar | `ar` | Ejemplo V11; falta elevarlo a catálogo aprobado |
+| `ap-expert` | Cuentas por pagar | `ap`, `document-reception` | Ejemplo V11; la recepción documental debe separarse cuando el documento cruza AP |
 
-Los cinco manifiestos son una base útil, pero el propio repositorio los presenta como ejemplos. Además, `protocol/domain-experts.md` todavía describe publicación `version = 2`, mientras que el esquema y los ejemplos exigen V10. Esa deriva debe corregirse antes de declarar el catálogo operativo.
+Los cinco manifiestos son una base útil, pero el propio repositorio los presenta como ejemplos. En V11 protocolo, esquema y ejemplos ya comparten el mismo contrato; el catálogo sigue bloqueado porque aún faltan responsables aprobados y resolución completa de seeds contra una revisión UBP fijada.
 
 ## Inventario requerido
 
@@ -42,8 +42,8 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 
 | Prioridad | Expert ID propuesto | Autoridad primaria | Evidencia UBP | Estado |
 |---|---|---|---|---|
-| P0 | `control-plane-expert` | Catálogo de capabilities, planes, configuración soberana y plantillas organizacionales | `ubp-admin-service`; ADR-0005, ADR-0006 | Ejemplo V10 por aprobar |
-| P0 | `ledger-expert` | Plan de cuentas, libros, diarios, periodos, reglas de contabilización y saldos | `ubp-ledger-service`; ADR-0011, ADR-0016 | Ejemplo V10 por aprobar |
+| P0 | `control-plane-expert` | Catálogo de capabilities, planes, configuración soberana y plantillas organizacionales | `ubp-admin-service`; ADR-0005, ADR-0006 | Ejemplo V11 por aprobar |
+| P0 | `ledger-expert` | Plan de cuentas, libros, diarios, periodos, reglas de contabilización y saldos | `ubp-ledger-service`; ADR-0011, ADR-0016 | Ejemplo V11 por aprobar |
 | P0 | `tax-expert` | Determinación tributaria, códigos, asignaciones, nexus, redondeo y evidencia fiscal | `ubp-tax-service`; ADR-0010 | Faltante |
 | P0 | `identity-access-expert` | Identidad, membresías, roles, permisos, firmas contables, acceso de emergencia y segregación de funciones | `ubp-membership-service`, Keycloak; ADR-0003, ADR-0081 | Faltante |
 | P0 | `audit-integrity-expert` | Inmutabilidad, trazabilidad, cadena de evidencia, retención, SoD y reconstrucción de decisiones | `ubp-audit-service`, kernel de auditoría y Ledger; ADR-0009, ADR-0016 | Faltante |
@@ -61,9 +61,9 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 | Prioridad | Expert ID propuesto | Autoridad primaria | Evidencia UBP | Estado |
 |---|---|---|---|---|
 | P1 | `parties-expert` | Terceros, perfiles fiscales, identidades, roles comerciales y clasificaciones | `ubp-parties-service`; ADR-0020 | Faltante |
-| P1 | `inventory-expert` | Ítems, bodegas, lotes, reservas, movimientos, capas y métodos de costo | `ubp-inventory-service`; ADR-0021 | Ejemplo V10 por aprobar |
-| P1 | `ar-expert` | Clientes, facturas, notas, recaudos, cartera, mora y aplicación de pagos | `ubp-ar-service`; ADR-0022 | Ejemplo V10 por aprobar |
-| P1 | `ap-expert` | Proveedores, órdenes, recepciones, facturas, créditos y pagos | `ubp-ap-service`; ADR-0023 | Ejemplo V10 por aprobar; retirar autoridad documental transversal |
+| P1 | `inventory-expert` | Ítems, bodegas, lotes, reservas, movimientos, capas y métodos de costo | `ubp-inventory-service`; ADR-0021 | Ejemplo V11 por aprobar |
+| P1 | `ar-expert` | Clientes, facturas, notas, recaudos, cartera, mora y aplicación de pagos | `ubp-ar-service`; ADR-0022 | Ejemplo V11 por aprobar |
+| P1 | `ap-expert` | Proveedores, órdenes, recepciones, facturas, créditos y pagos | `ubp-ap-service`; ADR-0023 | Ejemplo V11 por aprobar; retirar autoridad documental transversal |
 | P1 | `pos-expert` | Sesiones de caja, órdenes, pagos, devoluciones, terminales y operación desconectada | `ubp-pos-service`; ADR-0025, ADR-0052, ADR-0081 | Faltante |
 | P1 | `payroll-expert` | Vinculación laboral, tiempo, liquidación, novedades, aportes, retenciones y archivos regulatorios | `ubp-payroll-service`; ADR-0028 | Faltante |
 | P1 | `fixed-assets-expert` | Alta, clasificación, depreciación, mejora, traslado, deterioro y baja de activos | `ubp-fixed-assets-service`; ADR-0029 | Faltante; el ADR debe reconciliarse con el código ya existente |
@@ -131,13 +131,13 @@ La recepción documental tiene una frontera especialmente sensible. `document-ma
 
 Una misma persona puede ocupar uno de estos roles y también ser Domain Expert, pero CAPA debe registrar qué autoridad está ejerciendo en cada decisión.
 
-## Datos de gobierno que faltan fuera del manifiesto V10
+## Datos de gobierno que faltan fuera del manifiesto V11
 
-El manifiesto V10 describe la competencia del experto, pero no permite registrar responsabilidad humana sin romper su esquema cerrado. CAPA Governance necesita un registro complementario con, como mínimo:
+El manifiesto V11 describe la competencia del experto, pero no permite registrar responsabilidad humana sin romper su esquema cerrado. CAPA Governance necesita un registro complementario con, como mínimo:
 
 | Campo | Uso |
 |---|---|
-| `expertId` | Referencia exacta al manifiesto V10 |
+| `expertId` | Referencia exacta al manifiesto V11 |
 | `accountableOwner` | Persona que responde por la autoridad de dominio |
 | `backupOwner` | Suplente para continuidad y revisión cruzada |
 | `status` | `candidate`, `active`, `suspended` o `retired` |
@@ -151,7 +151,7 @@ Este registro no debe duplicar `scope`, capabilities, fuentes ni políticas del 
 
 ## Vacíos de gobierno detectados
 
-1. **Deriva de versión:** el protocolo todavía habla de manifests V2, pero el schema y los ejemplos son V10.
+1. **Deriva de versión cerrada:** protocolo, schema y ejemplos publican V11.
 2. **Ejemplos sin promoción:** no existe evidencia en el repositorio de que los cinco expertos actuales sean un catálogo de producción aprobado.
 3. **Cobertura incompleta:** siete capability manifests existentes no representan la mayoría de los bounded contexts implementados en UBP.
 4. **Responsabilidad humana ausente:** el esquema no contiene dueño, suplente, vigencia ni firma de aprobación.
@@ -177,7 +177,7 @@ Un candidato pasa a `active` únicamente cuando cumple todo lo siguiente:
 
 ## Secuencia recomendada
 
-1. Corregir la deriva V2/V10 del protocolo y definir el registro humano complementario.
+1. Activar responsables y suplentes en el registro humano complementario.
 2. Validar y promover los cinco manifests existentes contra el commit actual de UBP.
 3. Publicar primero `tax`, `identity-access`, `audit-integrity`, `tenant-organization`, `localization-country-pack`, `legal-numbering`, `electronic-fiscal-documents`, `treasury` y `document-management`.
 4. Ajustar AP para transferir la autoridad transversal de recepción documental.

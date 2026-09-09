@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 10,
+  "version": 11,
   "id": "inventory-expert",
   "domain": "inventory",
   "scope": [
@@ -330,6 +330,65 @@
       "id": "accounting-segmentation-engine",
       "reference": "policies/architecture/accounting-segmentation-engine.md",
       "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
     }
-  ]
+  ],
+  "northStar": {
+    "bestVersion": "A cross-industry inventory authority for item master, units, locations, lots, serials, reservations, availability, replenishment, movement history, costing and accounting handoff across branches and organizations.",
+    "businessOutcomes": [
+      "Expose reliable on-hand, reserved and available-to-promise stock.",
+      "Suggest replenishment from demand and supply facts across connected organizations.",
+      "Produce traceable cost and accounting facts for retail, restaurant, beauty, hotel and manufacturing flows."
+    ],
+    "invariants": [
+      "Stock movement history is append-only and corrections use reversal.",
+      "Reservation changes availability without moving physical stock or cost.",
+      "Inventory emits semantic costing facts and never embeds concrete Ledger accounts."
+    ],
+    "configurationBoundary": "Movement policy, costing options, replenishment parameters, tracking requirements and account roles are governed configuration; inventory code owns universal stock primitives."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-09",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://learning.sap.com/courses/inventory-management-and-physical-inventory-in-sap-s-4hana/setting-up-movement-types-1",
+        "observedCapability": "Movement types govern quantity, value and account grouping consequences.",
+        "lesson": "A movement needs explicit semantics that connect operations, valuation and accounting.",
+        "ubpDecision": "Keep append-only universal movements with configured behavior and semantic account roles."
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-resource-planning-erp/epicor-kinetic/supply-chain-management/ptw-warehouse/",
+        "observedCapability": "Mobile warehouse execution across bins, lots, receiving, counts and WIP.",
+        "lesson": "Industry breadth depends on a strong common location and traceability core.",
+        "ubpDecision": "Build vertical experiences over shared warehouse, lot, serial, movement and branch primitives."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
 }

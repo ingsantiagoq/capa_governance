@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 10,
+  "version": 11,
   "id": "control-plane-expert",
   "domain": "control-plane",
   "scope": [
@@ -196,27 +196,15 @@
     ],
     "market": [
       {
-        "vendor": "sap",
-        "reference": "market-reference-required-for-control-plane-v3",
-        "purpose": "Role/catalog/customizing and configuration governance patterns to be curated before production enforcement",
-        "sourcePolicy": "comparison-only"
-      },
-      {
         "vendor": "dynamics",
-        "reference": "market-reference-required-for-control-plane-v3",
-        "purpose": "Feature management, security roles, financial dimensions and tenant configuration patterns to be curated before production enforcement",
-        "sourcePolicy": "comparison-only"
-      },
-      {
-        "vendor": "oracle",
-        "reference": "market-reference-required-for-control-plane-v3",
-        "purpose": "Enterprise configuration, roles, ledgers and flexfield governance to be curated before production enforcement",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/globalization-studio-overview",
+        "purpose": "Low-code globalization services with lifecycle-managed tax, invoicing and reporting configuration.",
         "sourcePolicy": "comparison-only"
       },
       {
         "vendor": "odoo",
-        "reference": "market-reference-required-for-control-plane-v3",
-        "purpose": "App/module activation, access groups and configuration semantics to be curated before production enforcement",
+        "reference": "https://www.odoo.com/documentation/18.0/developer/howtos/accounting_localization.html",
+        "purpose": "Country localization delivered as code modules containing charts, taxes and reports.",
         "sourcePolicy": "comparison-only"
       }
     ]
@@ -308,6 +296,65 @@
       "id": "accounting-segmentation-engine",
       "reference": "policies/architecture/accounting-segmentation-engine.md",
       "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
     }
-  ]
+  ],
+  "northStar": {
+    "bestVersion": "A sovereign policy plane that publishes immutable, typed, effective and reversible configuration for tenants, countries, industries and plans while business engines remain independently executable.",
+    "businessOutcomes": [
+      "Open an ordinary country or industry variant without recompiling core engines.",
+      "Explain exactly which policy version governed every business result.",
+      "Prevent customer forks through reusable capabilities and configuration."
+    ],
+    "invariants": [
+      "ADMIN and OWNER permission templates are immutable.",
+      "Published Country Packs have version, hash, effective dates, dependencies and executable resources.",
+      "Control Plane governs policy but does not calculate tax, payroll or accounting transactions."
+    ],
+    "configurationBoundary": "Country, tenant, plan and industry differences live in published resources; code changes only for a new universal primitive."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-09",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/globalization-studio-overview",
+        "observedCapability": "Low-code globalization services with lifecycle-managed tax, invoicing and reporting configuration.",
+        "lesson": "Country expansion needs governed configuration authoring and lifecycle, not scattered flags.",
+        "ubpDecision": "Publish executable Country Pack resources with validation, dependencies, effective dates, hash and rollback."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/18.0/developer/howtos/accounting_localization.html",
+        "observedCapability": "Country localization delivered as code modules containing charts, taxes and reports.",
+        "lesson": "Code modules package localization well but tie ordinary country change to deployment.",
+        "ubpDecision": "Use the packaging lesson while moving ordinary legal data and rules into versioned Control Plane resources."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
 }

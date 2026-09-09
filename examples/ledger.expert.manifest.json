@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 10,
+  "version": 11,
   "id": "ledger-expert",
   "domain": "ledger",
   "scope": [
@@ -191,27 +191,15 @@
     ],
     "market": [
       {
-        "vendor": "sap",
-        "reference": "market-reference-required-for-ledger-v3",
-        "purpose": "FI/CO document splitting, cost center and profit center semantics to be curated before production enforcement",
-        "sourcePolicy": "comparison-only"
-      },
-      {
         "vendor": "dynamics",
-        "reference": "market-reference-required-for-ledger-v3",
-        "purpose": "Financial dimensions and posting profile semantics to be curated before production enforcement",
-        "sourcePolicy": "comparison-only"
-      },
-      {
-        "vendor": "oracle",
-        "reference": "market-reference-required-for-ledger-v3",
-        "purpose": "Subledger accounting, chart of accounts segments and accounting rules to be curated before production enforcement",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/globalization-studio-overview",
+        "purpose": "Lifecycle-managed localization for tax, invoicing and regulatory reporting.",
         "sourcePolicy": "comparison-only"
       },
       {
         "vendor": "odoo",
-        "reference": "market-reference-required-for-ledger-v3",
-        "purpose": "Analytic accounts, plans and accounting move semantics to be curated before production enforcement",
+        "reference": "https://www.odoo.com/documentation/18.0/applications/finance/fiscal_localizations.html",
+        "purpose": "Fiscal localization installs country charts, taxes and reports and becomes constrained after posting.",
         "sourcePolicy": "comparison-only"
       }
     ]
@@ -303,6 +291,66 @@
       "id": "accounting-segmentation-engine",
       "reference": "policies/architecture/accounting-segmentation-engine.md",
       "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
     }
-  ]
+  ],
+  "northStar": {
+    "bestVersion": "A country-agnostic accounting authority that converts governed economic facts into balanced, immutable and explainable journals, dimensions, balances, periods, reversals and financial statements.",
+    "businessOutcomes": [
+      "Provide one trustworthy accounting truth across all UBP domains.",
+      "Open countries through account maps, books, calendars and policies instead of country code.",
+      "Trace every balance to source fact, policy version and correction chain."
+    ],
+    "invariants": [
+      "Every journal balances by currency and has at least two lines.",
+      "Posted history is immutable and correction uses reversal or governed adjustment.",
+      "Only postable accounts are accepted and concrete accounts come from effective Account Maps.",
+      "A confirmed economic fact is posted or has a durable idempotent retry obligation."
+    ],
+    "configurationBoundary": "Charts, account maps, books, calendars, dimensions, posting behavior and reporting layouts are versioned configuration; Ledger code enforces universal double-entry invariants."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-09",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/globalization-studio-overview",
+        "observedCapability": "Lifecycle-managed localization for tax, invoicing and regulatory reporting.",
+        "lesson": "The accounting core and localization lifecycle need explicit separation.",
+        "ubpDecision": "Keep double-entry and journal integrity universal while Control Plane publishes country accounting resources."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/18.0/applications/finance/fiscal_localizations.html",
+        "observedCapability": "Fiscal localization installs country charts, taxes and reports and becomes constrained after posting.",
+        "lesson": "Localization selection affects durable accounting history and cannot be treated as a casual runtime toggle.",
+        "ubpDecision": "Version and activate accounting country packs with effective dates, migration checks and immutable posting provenance."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
 }

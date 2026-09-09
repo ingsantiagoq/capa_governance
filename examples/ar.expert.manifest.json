@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 10,
+  "version": 11,
   "id": "ar-expert",
   "domain": "ar",
   "scope": [
@@ -108,14 +108,14 @@
     ],
     "maxExpansions": 1,
     "sourcePolicy": "only-after-manifest-and-graph",
-    "provenance": "AR domain scope supplied for CAPA Governance v2. Logical seed labels are proposed anchors, not verified UBP symbols or Graphify IDs. Resolve and approve against a pinned UBP revision before production use."
+    "provenance": "AR domain scope migrated to CAPA Governance v11. Logical seed labels remain proposed anchors until resolved and approved against a pinned UBP revision."
   },
   "knowledgeSources": {
     "ubp": [
       {
         "id": "ar-domain-scope",
         "type": "domain-scope",
-        "reference": "AR domain scope supplied for CAPA Governance v2",
+        "reference": "AR domain scope migrated to CAPA Governance v11",
         "purpose": "Initial AR expert boundary for invoices, credit notes, receipts, reversals and Ledger handoff"
       },
       {
@@ -133,27 +133,15 @@
     ],
     "market": [
       {
-        "vendor": "sap",
-        "reference": "market-reference-required-for-ar-v3",
-        "purpose": "Accounts receivable document lifecycle, clearing, credit memo and posting semantics to be curated before production enforcement",
-        "sourcePolicy": "comparison-only"
-      },
-      {
         "vendor": "dynamics",
-        "reference": "market-reference-required-for-ar-v3",
-        "purpose": "Customer invoice, payment settlement, credit management and financial integration patterns to be curated before production enforcement",
-        "sourcePolicy": "comparison-only"
-      },
-      {
-        "vendor": "oracle",
-        "reference": "market-reference-required-for-ar-v3",
-        "purpose": "Receivables transaction, receipt, adjustment and accounting patterns to be curated before production enforcement",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-receivable/accounts-receivable",
+        "purpose": "Customer invoices, payments, credit, collections and settlement in one receivables lifecycle.",
         "sourcePolicy": "comparison-only"
       },
       {
         "vendor": "odoo",
-        "reference": "market-reference-required-for-ar-v3",
-        "purpose": "Invoice, payment, reconciliation and credit note semantics to be curated before production enforcement",
+        "reference": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/customer_invoices.html",
+        "purpose": "Customer invoice, payment and reconciliation workflow.",
         "sourcePolicy": "comparison-only"
       }
     ]
@@ -240,6 +228,65 @@
       "id": "accounting-segmentation-engine",
       "reference": "policies/architecture/accounting-segmentation-engine.md",
       "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
     }
-  ]
+  ],
+  "northStar": {
+    "bestVersion": "An order-to-cash and receivables authority that governs invoices, credit, receipts, clearing, collections, corrections, fiscal consequences and accounting handoff across channels and countries.",
+    "businessOutcomes": [
+      "Provide a trustworthy customer balance and aging position.",
+      "Reconcile every collection with its commercial and accounting origin.",
+      "Support fiscal and payment variants without country branches in AR core."
+    ],
+    "invariants": [
+      "Posted receivable history is corrected by governed credit, adjustment or reversal.",
+      "Receipt capture, settlement and Ledger posting remain traceable distinct steps.",
+      "Every confirmed AR fact has a balanced Ledger result or a durable posting obligation."
+    ],
+    "configurationBoundary": "Credit policy, dunning, settlement tolerance, fiscal document bindings and account roles are governed configuration; AR code owns universal document and settlement lifecycles."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-09",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-receivable/accounts-receivable",
+        "observedCapability": "Customer invoices, payments, credit, collections and settlement in one receivables lifecycle.",
+        "lesson": "A useful AR authority must cover the complete lifecycle rather than invoice CRUD.",
+        "ubpDecision": "Govern invoice, receipt, settlement, credit and collections as one traceable capability with explicit domain handoffs."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/customer_invoices.html",
+        "observedCapability": "Customer invoice, payment and reconciliation workflow.",
+        "lesson": "Commercial state and payment reconciliation need an explicit accounting bridge.",
+        "ubpDecision": "Keep AR ownership of receivable state while Ledger owns posting and reconciliation invariants."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
 }

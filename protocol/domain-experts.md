@@ -1,4 +1,4 @@
-# Domain Experts v2
+# Domain Experts v11
 
 Regla: **one intent, one primary expert; escalate only on risk or cross-domain impact**.
 Una intencion normalizada inicia un flujo y selecciona un experto primario por
@@ -10,9 +10,7 @@ La falta o ambiguedad de experto es un riesgo de gobierno y exige escalamiento.
 ## Publicacion
 
 El Domain Expert Manifest complementa al Capability Manifest; no lo reemplaza.
-Su schema exige kind=domain-expert, version=2, id, domain, scope,
-coveredCapabilities, seedNodes, escalationTriggers, prohibitedActions,
-handoffTargets y retrieval. Los identificadores son slugs exactos en minusculas.
+Su schema exige kind=domain-expert, version=11, id, domain, scope, coveredCapabilities, seedNodes, escalationTriggers, prohibitedActions, handoffTargets, retrieval, knowledgeSources, semanticAnchors, northStar, marketIntelligence, enforcement y policies. `northStar` expresa la mejor versión y sus invariantes; `marketIntelligence` conserva lecciones de fuentes oficiales con fecha de verificación; `enforcement` declara gates reproducibles y la condición de READY. Los identificadores son slugs exactos en minusculas.
 El alcance describe responsabilidad; no autoriza operaciones de negocio.
 
 Cada trigger declara un risk y sus targets, todos presentes en handoffTargets.
@@ -34,9 +32,9 @@ El catalogo de ejemplo no incluye un Capability Manifest AR verificado.
 ## Entrada y salida deterministas
 
 La API v1 transition(previous, facts) conserva exactamente su contrato.
-Para v2 llamar transition(previous, facts, expertContext). El tercer argumento
-es obligatorio en consumidores v2; omitirlo elige explicitamente compatibilidad
-v1. No utilizar esa omision para eludir un bloqueo v2.
+Para v11 llamar transition(previous, facts, expertContext). El tercer argumento
+es obligatorio en consumidores v11; omitirlo elige explicitamente compatibilidad
+v1. No utilizar esa omision para eludir un bloqueo v11.
 
 ```js
 const expertContext = {
@@ -96,5 +94,4 @@ al handoff pertenece al flujo gobernado del consumidor.
 
 Manifest-first publica conocimiento; Graphify expande solo semillas curadas;
 fuente/codigo es ultimo recurso. El skill solo lee el protocolo e inicia este
-flujo. La integracion real con UBP, su pipeline, identidad de expertos,
-resolucion del grafo y registros de aprobacion queda para una iteracion posterior.
+flujo. El registro y el Governance Readiness Gate controlan identidad, revisión, digest y frescura. La automatización dentro del pipeline de cada consumidor se implementa en ese repositorio y debe fallar cerrado.

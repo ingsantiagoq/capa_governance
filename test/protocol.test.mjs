@@ -343,9 +343,10 @@ test('accounting segmentation capability formalizes DisplayCode as derived and r
   assert.ok(segmentation.restrictions.some(item => item.includes('DisplayCode')));
   assert.ok(segmentation.retrieval.seedNodes.includes('policies/architecture/accounting-segmentation-engine.md'));
   for (const expert of [ledgerExpert, controlPlaneExpert, inventoryExpert]) {
-    assert.equal(expert.version, 10);
+    assert.equal(expert.version, 11);
     assert.ok(expert.coveredCapabilities.includes('accounting-segmentation'), expert.id);
     assert.ok(expert.policies.some(policy => policy.id === 'accounting-segmentation-engine'), expert.id);
+    assert.ok(expert.policies.some(policy => policy.id === 'agnostic-engine-sovereignty'), expert.id);
   }
   const result = transition('ready', facts, {
     domain: 'ledger',
@@ -359,6 +360,24 @@ test('accounting segmentation capability formalizes DisplayCode as derived and r
   assert.equal(result.state, 'escalate');
   assert.equal(result.primaryExpert, 'ledger-expert');
   assert.deepEqual(result.expertDecision.targets, ['architect', 'control-plane-expert', 'po', 'reviewer']);
+});
+
+test('v11 experts publish product direction, official market lessons and executable gates', () => {
+  for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert]) {
+    assert.deepEqual(validateManifest(expert), []);
+    assert.ok(expert.northStar.bestVersion.length > 20, expert.id);
+    assert.ok(expert.northStar.businessOutcomes.length > 0, expert.id);
+    assert.ok(expert.northStar.invariants.length > 0, expert.id);
+    assert.match(expert.marketIntelligence.verifiedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(expert.marketIntelligence.lessons.every(lesson => lesson.reference.startsWith('https://')), expert.id);
+    assert.ok(expert.enforcement.gates.some(gate => gate.id === 'authority-readiness'), expert.id);
+    assert.ok(expert.enforcement.readyWhen.length > 20, expert.id);
+    for (const key of ['northStar', 'marketIntelligence', 'enforcement']) {
+      const bad = structuredClone(expert);
+      delete bad[key];
+      assert.ok(validateManifest(bad).length, `${expert.id} accepted without ${key}`);
+    }
+  }
 });
 
 const ledgerCapability = JSON.parse(await readFile(new URL('../examples/ledger.manifest.json', import.meta.url), 'utf8'));
@@ -427,6 +446,15 @@ test('governance readiness blocks inactive, stale, altered or incomplete authori
     mutate(input);
     assert.equal(evaluateGovernanceReadiness(input).decision, 'BLOCK');
   }
+});
+
+test('governance readiness blocks stale or future market intelligence', () => {
+  const stale = readinessInput({ evaluatedAt: '2027-09-09T12:00:00Z' });
+  stale.registry.entries[0].reviewDueAt = '2028-12-31T23:59:59Z';
+  assert.ok(evaluateGovernanceReadiness(stale).reasons.some(reason => reason.endsWith('market-intelligence-stale')));
+
+  const future = readinessInput({ evaluatedAt: '2026-09-08T12:00:00Z' });
+  assert.ok(evaluateGovernanceReadiness(future).reasons.some(reason => reason.endsWith('market-review-from-future')));
 });
 
 test('governance readiness blocks missing catalogs and uncovered impacted domains', () => {

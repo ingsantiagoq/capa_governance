@@ -1,6 +1,6 @@
 {
   "kind": "domain-expert",
-  "version": 10,
+  "version": 11,
   "id": "ap-expert",
   "domain": "ap",
   "scope": [
@@ -341,6 +341,65 @@
       "id": "accounting-segmentation-engine",
       "reference": "policies/architecture/accounting-segmentation-engine.md",
       "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
     }
-  ]
+  ],
+  "northStar": {
+    "bestVersion": "A procure-to-pay authority that receives supplier documents, validates suppliers, matches purchase order, receipt and invoice, governs exceptions and hands off approved liabilities, taxes, inventory facts and payments without collapsing responsibilities.",
+    "businessOutcomes": [
+      "Prevent duplicate or unsupported liabilities while reducing manual entry.",
+      "Give every payable a traceable path from source document to payment and accounting.",
+      "Support country and industry variants through governed policy."
+    ],
+    "invariants": [
+      "Document capture never creates a posted liability by itself.",
+      "Payment authorization remains separate from supplier bill validation.",
+      "Every confirmed payable has a balanced Ledger result or a durable posting obligation."
+    ],
+    "configurationBoundary": "Matching tolerances, approval routes, document requirements, tax bindings and account roles are versioned policy; AP code implements universal workflow primitives."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-09",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-payable/vendor-invoice-automation",
+        "observedCapability": "Vendor invoice automation and exception handling.",
+        "lesson": "Automation works best when humans resolve exceptions instead of re-entering every document.",
+        "ubpDecision": "Automate deterministic validation and route mismatches through governed workflow with full provenance."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/vendor_bills/invoice_digitization.html",
+        "observedCapability": "Invoice digitization and purchase order matching.",
+        "lesson": "Capture must remain distinct from accounting validation and posting.",
+        "ubpDecision": "Keep document envelopes and extraction candidates separate from approved AP liabilities."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
 }
