@@ -637,7 +637,7 @@ test('committed Tax sovereignty evidence reports the audited UBP state as BLOCK'
   const evidence = JSON.parse(await readFile(new URL('../inventory/tax-sovereignty-evidence.json', import.meta.url), 'utf8'));
   const result = evaluateEngineSovereignty(evidence);
   assert.equal(result.decision, 'BLOCK');
-  assert.ok(result.reasons.includes('engine-consumption:not-demonstrated'));
-  assert.ok(result.reasons.includes('fictitious-country:not-demonstrated'));
-  assert.ok(result.reasons.includes('accounting-handoff:not-demonstrated'));
+  assert.deepEqual(result.reasons, ['accounting-handoff:not-demonstrated']);
+  assert.equal(result.stages['engine-consumption'], 'PASS');
+  assert.equal(result.stages['fictitious-country'], 'PASS');
 });

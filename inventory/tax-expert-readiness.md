@@ -12,7 +12,7 @@ El motor existente tiene una base seria y reutilizable:
 - `TaxCode` fija versión de behavior y vigencia histórica.
 - `CountryTaxPolicyService` publica versiones inmutables de política.
 - existen contratos para behaviors, asignaciones, sustituciones, brackets, nexus, jurisdicción y resolución de tasas;
-- la suite `Ubp.Tax.Tests` compiló y ejecutó **338 pruebas: 338 aprobadas, 0 fallidas, 0 omitidas**.
+- la suite `Ubp.Tax.Tests` compiló y ejecutó **344 pruebas: 344 aprobadas, 0 fallidas, 0 omitidas**.
 
 Comando reproducible:
 
@@ -40,6 +40,6 @@ Tax podrá avanzar a `active` cuando tenga dueño, suplente y aprobación; el gr
 
 ## Gate de cadena completa
 
-El inventario ejecutable vive en `inventory/tax-sovereignty-evidence.json` y se evalúa con `tools/engine-sovereignty-gate.mjs`. Separa diez pruebas de la cadena país → Control Plane → pin de tenant → Tax → Ledger. El corte actual bloquea las diez; la suite amplia de Tax prueba estabilidad del motor, pero no sustituye la prueba de publicación y consumo de dos Country Packs ni la configuración de un país ficticio.
+El inventario ejecutable vive en `inventory/tax-sovereignty-evidence.json` y se evalúa con `tools/engine-sovereignty-gate.mjs`. Separa diez pruebas de la cadena país → Control Plane → pin de tenant → Tax → Ledger. El corte actualizado contra UBP `6dfa105c1` demuestra nueve etapas. Permanece bloqueado el handoff contable: todavía falta una prueba reproducible que siga la política publicada hasta roles contables y un asiento balanceado y durable.
 
 Governance debe mantener el veredicto `BLOCK` hasta que todas las etapas tengan evidencia ejecutada sobre el mismo commit de UBP. El cambio de código que cierre una etapa ocurre en UBP; CAPA Governance solo conserva el contrato, la evidencia y la decisión reproducible.
