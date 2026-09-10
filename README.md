@@ -60,6 +60,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
   separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
 - [Catálogo UBP aprobado](catalog/ubp/approved-catalog.json): índice consumible de autoridades, capacidades y evidencia vigentes.
 - [Experto AP](catalog/ubp/experts/ap.expert.manifest.json): compras y cuentas por pagar, recepción documental, matching, excepciones y handoff contable.
+- [Experto Tenant & Organization](catalog/ubp/experts/tenant-organization.expert.manifest.json): empresa/tenant, membresías, sucursales, bodegas y frontera intercompany.
+- [Tenant & Organization Market Lens](knowledge/tenant-organization/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [Experto Audit & Integrity](catalog/ubp/experts/audit-integrity.expert.manifest.json): audit trail funcional, periodos, reversas atribuibles y SoD.
 - [Audit & Integrity Market Lens](knowledge/audit-integrity/market-lens.md): contraste oficial con SAP y Dynamics.
 - [Experto Identity & Access](catalog/ubp/experts/identity-access.expert.manifest.json): autenticación, autorización de negocio, permisos efectivos, scope, SoD y aislamiento tenant.

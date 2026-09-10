@@ -1,0 +1,105 @@
+{
+  "capability": {
+    "id": "tenant-organization",
+    "name": "Tenant y estructura organizacional",
+    "intents": [
+      "resolver empresa activa del usuario",
+      "administrar tenant operativo",
+      "administrar sucursales y bodegas",
+      "validar pertenencia organizacional",
+      "clasificar dato compartido o empresarial",
+      "evaluar relación intercompany"
+    ]
+  },
+  "services": [
+    "membership-service",
+    "inventory-service",
+    "admin-service",
+    "ledger-service",
+    "tax-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "Tenant",
+    "TenantMembership",
+    "LegalEntity",
+    "Branch",
+    "Warehouse",
+    "TenantContext"
+  ],
+  "dependencies": [
+    "global identity",
+    "active tenant",
+    "membership authorization",
+    "control plane configuration",
+    "audit integrity"
+  ],
+  "restrictions": [
+    "Tenant is the operational company and primary isolation boundary",
+    "LegalEntity remains an internal compatibility coordinate and is not user-selectable",
+    "a user reaches multiple companies through separate tenant memberships",
+    "branch and warehouse cannot cross tenant boundaries",
+    "intercompany requires explicit cross-tenant contracts",
+    "frontend never chooses the internal default LegalEntity"
+  ],
+  "governance": {
+    "deterministic": [
+      "resolve active tenant",
+      "inspect tenant membership",
+      "validate branch and warehouse ownership",
+      "classify organization scope",
+      "explain current compatibility coordinate"
+    ],
+    "poDecision": [
+      "company boundary semantics",
+      "shared master-data policy",
+      "branch inheritance policy",
+      "intercompany product scope",
+      "retirement of LegalEntity compatibility"
+    ],
+    "architectHandoff": [
+      "cross-tenant interoperability contract",
+      "tenant-context propagation",
+      "historical LegalEntity migration",
+      "organizational inheritance engine"
+    ],
+    "reviewerGate": [
+      "tenant isolation",
+      "membership authorization",
+      "no selectable LegalEntity",
+      "branch ownership",
+      "historical trace preservation",
+      "BFF boundary"
+    ],
+    "forbiddenWithoutApproval": [
+      "create multi-legal-entity navigation",
+      "move branch with historical facts across tenants",
+      "share tenant-owned data",
+      "enable intercompany",
+      "retire LegalEntity compatibility",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0008 Estructura Organizacional Multi Entidad",
+      "ubp_membership_domain_tenant_tenant",
+      "ubp_membership_domain_tenantmembership_tenantmembership",
+      "ubp_membership_domain_legalentity_legalentity",
+      "services_membershipgrpcservice_tenant_membershipgrpcservice",
+      "ubp_membership_application_tenantservice_tenantservice",
+      "ubp_inventory_domain_branch_branch",
+      "ubp_inventory_application_branchservice_branchservice",
+      "ubp_inventory_domain_warehouse_warehouse",
+      "ubp_inventory_application_warehouseservice_warehouseservice"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Tenant and Organization capability derived from the superseding UBP ADR-0008 decision and code at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e."
+  }
+}

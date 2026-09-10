@@ -1,0 +1,326 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "tenant-organization-expert",
+  "domain": "tenant-organization",
+  "scope": [
+    "Global identity membership in multiple operational companies",
+    "Tenant as company, data, permission, configuration, billing and balance boundary",
+    "Branch and Warehouse operational hierarchy inside one tenant",
+    "Internal default LegalEntity compatibility coordinate and retirement path",
+    "Cross-tenant intercompany and consolidation boundary",
+    "Shared versus tenant-owned master-data classification"
+  ],
+  "coveredCapabilities": [
+    "tenant-organization"
+  ],
+  "seedNodes": [
+    "ADR-0008 Estructura Organizacional Multi Entidad",
+    "ubp_membership_domain_tenant_tenant",
+    "ubp_membership_domain_tenantmembership_tenantmembership",
+    "ubp_membership_domain_legalentity_legalentity",
+    "services_membershipgrpcservice_tenant_membershipgrpcservice",
+    "ubp_membership_application_tenantservice_tenantservice",
+    "ubp_inventory_domain_branch_branch",
+    "ubp_inventory_application_branchservice_branchservice",
+    "ubp_inventory_domain_warehouse_warehouse",
+    "ubp_inventory_application_warehouseservice_warehouseservice"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-isolation",
+      "targets": [
+        "identity-access-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-boundary",
+      "targets": [
+        "ledger-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "country-or-tax-boundary",
+      "targets": [
+        "tax-expert",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "branch-or-warehouse",
+      "targets": [
+        "inventory-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "intercompany",
+      "targets": [
+        "po",
+        "architect",
+        "ledger-expert",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "cross-tenant-data-leak",
+      "expose-legal-entity-selector",
+      "treat-branch-as-company",
+      "reassign-historical-branch-across-tenant"
+    ],
+    "withoutApproval": [
+      "change-tenant-company-semantics",
+      "share-tenant-owned-master-data",
+      "enable-intercompany",
+      "change-branch-inheritance",
+      "retire-legal-entity-compatibility",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "identity-access-expert",
+    "audit-integrity-expert",
+    "control-plane-expert",
+    "ledger-expert",
+    "tax-expert",
+    "inventory-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0008 Estructura Organizacional Multi Entidad",
+      "ubp_membership_domain_tenant_tenant",
+      "ubp_membership_domain_tenantmembership_tenantmembership",
+      "ubp_membership_domain_legalentity_legalentity",
+      "services_membershipgrpcservice_tenant_membershipgrpcservice",
+      "ubp_membership_application_tenantservice_tenantservice",
+      "ubp_inventory_domain_branch_branch",
+      "ubp_inventory_application_branchservice_branchservice",
+      "ubp_inventory_domain_warehouse_warehouse",
+      "ubp_inventory_application_warehouseservice_warehouseservice"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Tenant and Organization expert derived from the current superseding decision in UBP ADR-0008, Graphify evidence and official SAP, Dynamics and Odoo documentation reviewed on 2026-09-10."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0008",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0008-estructura-organizacional-multi-entidad.md",
+        "purpose": "Superseding authority for Tenant as company and LegalEntity as transitional internal coordinate"
+      },
+      {
+        "id": "tenant-organization-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/tenant-organization.manifest.json",
+        "purpose": "Published routing and governance context for tenant and organizational structure"
+      },
+      {
+        "id": "tenant-organization-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/tenant-organization/market-lens.md",
+        "purpose": "Curated comparison pressure without claiming UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/a376cd9ea00d476b96f18dea1247e6a5/b321b953495bb44ce10000000a174cb4.html",
+        "purpose": "Interrelated organizational units across Finance, Sales and Procurement",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/organization-administration/plan-organizational-hierarchy",
+        "purpose": "Legal entity versus operating unit and purpose-specific effective hierarchies",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/general/companies/multi_company.html",
+        "purpose": "Company isolation and explicit shared-versus-company-owned records",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "tenant",
+      "ubpMeaning": "One operational company and the primary boundary for data, permissions, configuration, billing and balance.",
+      "marketLens": "ERP suites distinguish legal/statutory company boundaries from operating units.",
+      "decisionRule": "Never introduce multiple navigable companies inside one tenant."
+    },
+    {
+      "term": "tenant-membership",
+      "ubpMeaning": "A global user relationship to one tenant with roles and permissions specific to that company.",
+      "marketLens": "Multi-company systems let users operate in authorized companies with scoped access.",
+      "decisionRule": "Access to another company requires a separate membership and explicit tenant switch."
+    },
+    {
+      "term": "legal-entity",
+      "ubpMeaning": "An internal default compatibility coordinate retained while historical contracts and documents still reference it.",
+      "marketLens": "SAP and Dynamics expose legal entities as first-class statutory units.",
+      "decisionRule": "In current UBP it is not selectable or a new navigation surface; changing that requires a new PO decision."
+    },
+    {
+      "term": "branch",
+      "ubpMeaning": "An operational subdivision of a tenant; it can carry configuration overrides and analytical attribution without becoming another company.",
+      "marketLens": "SAP plants, Dynamics establishments and Odoo branches represent operational locations under company context.",
+      "decisionRule": "Branch facts retain tenant ownership and cannot be reassigned across companies after use."
+    },
+    {
+      "term": "intercompany",
+      "ubpMeaning": "A governed relationship between two tenants producing mirrored, attributable business and accounting facts.",
+      "marketLens": "SAP cross-company operations create explicit intercompany documents and postings.",
+      "decisionRule": "Never simulate intercompany by sharing tenant data or creating subcompanies inside a tenant."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "document-workflow-deliberation",
+      "reference": "protocol/document-workflow-deliberation.md",
+      "scope": "mandatory governed workflow for inbound documents, approvals, payment authorization and accounting handoff"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A clear organizational fabric where one global identity can operate across independent tenant-companies while every branch, warehouse, permission, configuration and financial fact retains an unambiguous owner and cross-company activity uses explicit interoperability contracts.",
+    "businessOutcomes": [
+      "Let business owners operate several companies without mixing balances or permissions.",
+      "Support retail, restaurant, hotel and manufacturing structures through reusable branches and locations.",
+      "Enable future intercompany and consolidated views without weakening tenant isolation."
+    ],
+    "invariants": [
+      "Tenant is one operational company and primary isolation boundary.",
+      "Multiple companies are reached through multiple tenant memberships.",
+      "LegalEntity remains internal and non-selectable while compatibility references exist.",
+      "Branch and Warehouse never cross tenant ownership.",
+      "Intercompany uses explicit cross-tenant facts."
+    ],
+    "configurationBoundary": "Branch hierarchy, inherited settings, shared-master policy and tenant relationships are versioned configuration; code implements universal ownership and resolution primitives."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/organization-administration/plan-organizational-hierarchy",
+        "observedCapability": "Legal entities and operating units have different statutory, currency, calendar and process behavior.",
+        "lesson": "Organizational nodes need explicit semantics; a generic hierarchy creates accounting ambiguity.",
+        "ubpDecision": "Keep Tenant as company and Branch as operational unit, with no selectable internal LegalEntity."
+      },
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/a376cd9ea00d476b96f18dea1247e6a5/b321b953495bb44ce10000000a174cb4.html",
+        "observedCapability": "Finance, sales and procurement organizational structures are distinct but interrelated.",
+        "lesson": "Operational hierarchy must preserve ownership when facts cross domains.",
+        "ubpDecision": "Require Tenant and Branch attribution across Inventory, Tax, Ledger, POS, AR and AP."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/general/companies/multi_company.html",
+        "observedCapability": "Records may be company-owned or deliberately shared across companies.",
+        "lesson": "Implicit sharing creates leakage and inconsistent behavior.",
+        "ubpDecision": "Govern a typed shared-master policy and default tenant-owned business facts."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
+}

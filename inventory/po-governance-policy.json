@@ -7,7 +7,8 @@
     "control-plane-expert",
     "identity-access-expert",
     "ledger-expert",
-    "tax-expert"
+    "tax-expert",
+    "tenant-organization-expert"
   ],
   "sovereigntyEvidence": {
     "tax-expert": "inventory/tax-sovereignty-evidence.json"

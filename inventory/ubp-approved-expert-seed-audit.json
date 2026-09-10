@@ -872,6 +872,139 @@
           "matchCount": 1
         }
       ]
+    },
+    {
+      "expertId": "tenant-organization-expert",
+      "manifestSha256": "f2fc3cc59d1e38cd2274014a5fabc00c03f02064a2bee3f8dd9ec39555f69229",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "e92708a39902d5350a2df9acb200be1dce3ebf81c2860e3e601e66f152ecbff8",
+      "seeds": [
+        {
+          "seed": "ADR-0008 Estructura Organizacional Multi Entidad",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0008_estructura_organizacional_multi_entidad_adr_0008_estructura_organizacional_multi_entidad",
+              "sourceFile": "docs/adr/ADR-0008-estructura-organizacional-multi-entidad.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_tenant_tenant",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_tenant_tenant",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/Tenant.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_tenantmembership_tenantmembership",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_tenantmembership_tenantmembership",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/TenantMembership.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_legalentity_legalentity",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_legalentity_legalentity",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/LegalEntity.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "services_membershipgrpcservice_tenant_membershipgrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_membershipgrpcservice_tenant_membershipgrpcservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Api/Services/MembershipGrpcService.Tenant.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_application_tenantservice_tenantservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_application_tenantservice_tenantservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Application/TenantService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_branch_branch",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_branch_branch",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Branch.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_application_branchservice_branchservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_application_branchservice_branchservice",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/BranchService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_warehouse_warehouse",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_warehouse_warehouse",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Warehouse.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_application_warehouseservice_warehouseservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_application_warehouseservice_warehouseservice",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/WarehouseService.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
     }
   ]
 }

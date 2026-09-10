@@ -13,7 +13,8 @@
     "catalog/ubp/experts/control-plane.expert.manifest.json",
     "catalog/ubp/experts/identity-access.expert.manifest.json",
     "catalog/ubp/experts/ledger.expert.manifest.json",
-    "catalog/ubp/experts/tax.expert.manifest.json"
+    "catalog/ubp/experts/tax.expert.manifest.json",
+    "catalog/ubp/experts/tenant-organization.expert.manifest.json"
   ],
   "capabilityManifests": [
     "catalog/ubp/capabilities/accounting-segmentation.manifest.json",
@@ -24,7 +25,8 @@
     "catalog/ubp/capabilities/document-reception.manifest.json",
     "catalog/ubp/capabilities/identity-access.manifest.json",
     "catalog/ubp/capabilities/ledger.manifest.json",
-    "catalog/ubp/capabilities/tax.manifest.json"
+    "catalog/ubp/capabilities/tax.manifest.json",
+    "catalog/ubp/capabilities/tenant-organization.manifest.json"
   ],
   "sovereigntyEvidence": {
     "tax-expert": "inventory/tax-sovereignty-evidence.json"
