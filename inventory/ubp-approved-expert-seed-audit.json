@@ -1972,6 +1972,247 @@
           "matchCount": 1
         }
       ]
+    },
+    {
+      "expertId": "fixed-assets-expert",
+      "manifestSha256": "b0cd7e01fe73d64af9144e635192180699d99712b8f2a87d68410ade882c0fff",
+      "decision": "READY",
+      "counts": {
+        "resolved": 19,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "184455fb22a1952bcceb68dccee654edeb6f2598308c8738dfa511a38b6a9146",
+      "seeds": [
+        {
+          "seed": "ADR-0029 Activos Fijos",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0029_activos_fijos",
+              "sourceFile": "docs/adr/ADR-0029-activos-fijos.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 fixed-assets-service-scaffold",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "fixed_assets_service_scaffold_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/fixed-assets-service-scaffold/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 asset-master-register",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "asset_master_register_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/asset-master-register/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 depreciation-engine",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "depreciation_engine_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/depreciation-engine/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 fixed-assets-gl-posting",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "fixed_assets_gl_posting_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/fixed-assets-gl-posting/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 asset-disposal-gain-loss",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "asset_disposal_gain_loss_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/asset-disposal-gain-loss/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 period-close-depreciation-gate",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "period_close_depreciation_gate_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/period-close-depreciation-gate/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 assets-reports-rollforward",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "assets_reports_rollforward_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/assets-reports-rollforward/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0029 run-depreciation-modes",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "run_depreciation_modes_manifest",
+              "sourceFile": "capa/ADR-0029-activos-fijos/run-depreciation-modes/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_domain_asset_asset",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_domain_asset_asset",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Domain/Asset.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_domain_assetcategory_assetcategory",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_domain_assetcategory_assetcategory",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Domain/AssetCategory.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_domain_depreciationstrategies_straightlinedepreciationstrategy",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_domain_depreciationstrategies_straightlinedepreciationstrategy",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Domain/DepreciationStrategies.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_domain_depreciationstrategies_decliningbalancedepreciationstrategy",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_domain_depreciationstrategies_decliningbalancedepreciationstrategy",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Domain/DepreciationStrategies.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_application_depreciationplanner_depreciationplanner",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_application_depreciationplanner_depreciationplanner",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Application/DepreciationPlanner.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_application_depreciationpostingservice_depreciationpostingservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_application_depreciationpostingservice_depreciationpostingservice",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Application/DepreciationPostingService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_application_rundepreciationbatchservice_rundepreciationbatchservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_application_rundepreciationbatchservice_rundepreciationbatchservice",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Application/RunDepreciationBatchService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_application_assetdisposalservice_assetdisposalservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_application_assetdisposalservice_assetdisposalservice",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Application/AssetDisposalService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_application_assetreconciliationmodels_assetreconciliationservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_application_assetreconciliationmodels_assetreconciliationservice",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Application/AssetReconciliationModels.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_fixedassets_application_assetrollforwardmodels_assetrollforwardcalculator",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_fixedassets_application_assetrollforwardmodels_assetrollforwardcalculator",
+              "sourceFile": "ubp-fixed-assets-service/src/Ubp.FixedAssets.Application/AssetRollforwardModels.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
     }
   ]
 }

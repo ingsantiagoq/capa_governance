@@ -283,7 +283,25 @@
     },
     {
       "expertId": "fixed-assets-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:fixed-assets-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "61d6ba734b2623e85546ff7202bb51ac2e31412f",
+      "manifestSha256": "b0cd7e01fe73d64af9144e635192180699d99712b8f2a87d68410ade882c0fff",
+      "reviewDueAt": "2027-03-10T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "184455fb22a1952bcceb68dccee654edeb6f2598308c8738dfa511a38b6a9146",
+      "blockedActions": [
+        "declare-multi-book-ready",
+        "declare-country-tax-depreciation-ready",
+        "declare-impairment-revaluation-ready",
+        "declare-cip-ready",
+        "declare-ap-acquisition-ready",
+        "declare-asset-transfer-ready",
+        "declare-opening-balances-ready",
+        "declare-fixed-assets-sovereignty-complete"
+      ]
     },
     {
       "expertId": "production-expert",

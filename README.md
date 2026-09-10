@@ -65,6 +65,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Treasury](catalog/ubp/experts/treasury.expert.manifest.json): caja, pagos, recaudos, depósitos, settlements, bancos y conciliación.
 - [Experto Document Management](catalog/ubp/experts/document-management.expert.manifest.json): identidad documental, versiones, object links, grants, retención, integridad y evidencia compartida.
 - [Experto Inventory](catalog/ubp/experts/inventory.expert.manifest.json): stock, reservas, trazabilidad, AVG/FIFO, valuación, deterioro y frontera con Ledger/Fixed Assets.
+- [Experto Fixed Assets](catalog/ubp/experts/fixed-assets.expert.manifest.json): capitalización, libros, depreciación, reversa, baja, rollforward y conciliación con Ledger.
+- [Fixed Assets Market Lens](knowledge/fixed-assets/market-lens.md): contraste oficial con SAP, Dynamics, Epicor, Oracle y Odoo.
 - [Inventory Market Lens](knowledge/inventory/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
 - [Document Management Market Lens](knowledge/document-management/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
 - [Treasury Market Lens](knowledge/treasury/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.

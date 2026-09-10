@@ -1,0 +1,124 @@
+{
+  "services": [
+    "fixed-assets-service",
+    "ubp-bff",
+    "admin-service",
+    "ledger-service",
+    "ap-service",
+    "ar-service",
+    "inventory-service",
+    "tax-service"
+  ],
+  "contracts": [
+    "Asset",
+    "AssetCategory",
+    "AssetBook",
+    "DepreciationEntry",
+    "DepreciationBatchRun",
+    "AssetDisposal",
+    "AssetMovement",
+    "AssetRollforward",
+    "AssetReconciliation"
+  ],
+  "dependencies": [
+    "tenant legal entity branch and custody context",
+    "effective asset-category and book policy",
+    "source acquisition or capitalization event",
+    "semantic posting roles and accounting period",
+    "currency precision and idempotency",
+    "Ledger journal and reconciliation",
+    "audit and approval evidence"
+  ],
+  "restrictions": [
+    "only capitalized assets are depreciated",
+    "posted history is immutable and corrected by reversal",
+    "depreciation respects residual value and open periods",
+    "country and accounting-basis differences are configuration",
+    "Fixed Assets owns subledger facts while Ledger owns journals",
+    "inventory is not depreciated",
+    "BFF and tenant boundaries are mandatory"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect master schedule batch posting disposal rollforward and reconciliation",
+      "trace source to capitalized asset to book fact to Ledger journal",
+      "calculate evidenced straight-line or declining-balance outcomes",
+      "identify advanced-book and lifecycle gaps without claiming readiness"
+    ],
+    "poDecision": [
+      "approve capitalization and disposal policy",
+      "approve method book useful-life residual and convention policy",
+      "approve fiscal-book and impairment scope",
+      "approve migration and rollout scope"
+    ],
+    "architectHandoff": [
+      "multi-book valuation and effective dating",
+      "country-pack tax depreciation",
+      "AP/Inventory acquisition and AR disposal integration",
+      "CIP transfers impairment revaluation and intercompany lifecycle",
+      "durable posting reversal and reconciliation"
+    ],
+    "reviewerGate": [
+      "tenant legal-entity branch and currency isolation",
+      "method and policy snapshot",
+      "residual floor and period-close behavior",
+      "batch idempotency and partial-failure recovery",
+      "semantic account roles without embedded accounts",
+      "disposal gain/loss and reversal",
+      "rollforward-to-Ledger reconciliation"
+    ],
+    "forbiddenWithoutApproval": [
+      "asset capitalization",
+      "category or book policy change",
+      "depreciation run or reversal",
+      "asset disposal",
+      "impairment or revaluation",
+      "opening-balance migration",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0029 Activos Fijos",
+      "CAPA ADR-0029 fixed-assets-service-scaffold",
+      "CAPA ADR-0029 asset-master-register",
+      "CAPA ADR-0029 depreciation-engine",
+      "CAPA ADR-0029 fixed-assets-gl-posting",
+      "CAPA ADR-0029 asset-disposal-gain-loss",
+      "CAPA ADR-0029 period-close-depreciation-gate",
+      "CAPA ADR-0029 assets-reports-rollforward",
+      "CAPA ADR-0029 run-depreciation-modes",
+      "ubp_fixedassets_domain_asset_asset",
+      "ubp_fixedassets_domain_assetcategory_assetcategory",
+      "ubp_fixedassets_domain_depreciationstrategies_straightlinedepreciationstrategy",
+      "ubp_fixedassets_domain_depreciationstrategies_decliningbalancedepreciationstrategy",
+      "ubp_fixedassets_application_depreciationplanner_depreciationplanner",
+      "ubp_fixedassets_application_depreciationpostingservice_depreciationpostingservice",
+      "ubp_fixedassets_application_rundepreciationbatchservice_rundepreciationbatchservice",
+      "ubp_fixedassets_application_assetdisposalservice_assetdisposalservice",
+      "ubp_fixedassets_application_assetreconciliationmodels_assetreconciliationservice",
+      "ubp_fixedassets_application_assetrollforwardmodels_assetrollforwardcalculator"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Fixed Assets expert derived from UBP ADR-0029, accepted/verified CAPAs and pinned Graphify evidence at revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. Core master, straight-line/declining-balance planning, batches, Ledger posting/reversal, disposal, rollforward and reconciliation are evidenced; multi-book, country tax depreciation, impairment/revaluation, CIP, AP acquisition and transfers remain unproven."
+  },
+  "capability": {
+    "id": "fixed-assets",
+    "name": "Activos Fijos",
+    "intents": [
+      "registrar y consultar activos capitalizados",
+      "configurar categorías libros métodos vidas útiles y residuales",
+      "proyectar ejecutar y reversar depreciación",
+      "dar de baja o vender un activo y calcular resultado",
+      "consultar rollforward y conciliar con Ledger",
+      "analizar multi-book depreciación fiscal deterioro revaluación o CIP",
+      "transferir custodia ubicación centro de costo o propiedad"
+    ]
+  }
+}
