@@ -27,4 +27,4 @@ Uso reproducible:
 npm run decide:po -- examples/tax.po-request.json
 ```
 
-Tax es el primer dominio habilitado. Los dominios candidatos devuelven `BLOCK` con razones concretas hasta publicar manifiesto, resolver semillas, activar autoridad y satisfacer sus gates técnicos.
+Control Plane, Ledger y Tax son las primeras autoridades habilitadas. Los dominios candidatos devuelven `BLOCK` con razones concretas hasta publicar manifiesto, resolver semillas, activar autoridad y satisfacer sus gates técnicos. La autoridad activa permite gobernar cambios del dominio; no declara soberanía técnica de un motor cuando su evidencia ejecutable específica sigue bloqueada.

@@ -508,15 +508,15 @@ test('governance readiness rejects invalid registry state and ambiguous authorit
   assert.deepEqual(evaluateGovernanceReadiness(ambiguous).reasons, ['ambiguous-primary-expert']);
 });
 
-test('UBP registry promotes only Tax after complete evidence', async () => {
+test('UBP registry promotes Control Plane, Ledger and Tax after complete evidence', async () => {
   const registryPath = fileURLToPath(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url));
   const registry = JSON.parse(await readFile(registryPath, 'utf8'));
   assert.deepEqual(validateRegistry(registry), []);
   assert.equal(registry.entries.length, 30);
   assert.equal(new Set(registry.entries.map(entry => entry.expertId)).size, 30);
-  assert.equal(registry.entries.filter(entry => entry.status === 'active').length, 1);
-  assert.equal(registry.entries.find(entry => entry.expertId === 'tax-expert').status, 'active');
-  assert.ok(registry.entries.filter(entry => entry.expertId !== 'tax-expert').every(entry => entry.status === 'candidate'));
+  const active = registry.entries.filter(entry => entry.status === 'active').map(entry => entry.expertId).sort();
+  assert.deepEqual(active, ['control-plane-expert', 'ledger-expert', 'tax-expert']);
+  assert.ok(registry.entries.filter(entry => !active.includes(entry.expertId)).every(entry => entry.status === 'candidate'));
   const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
 });
@@ -595,11 +595,13 @@ test('committed UBP seed audit remains tied to current manifests and registry re
   }
 });
 
-test('PO governance publishes one coherent Tax authority and keeps incomplete domains blocked', async () => {
+test('PO governance publishes coherent Control Plane, Ledger and Tax authorities', async () => {
   const input = await loadPoCatalog('2026-09-10T12:00:00Z');
   const result = evaluatePoGovernance(input);
   assert.equal(result.decision, 'CONTROLLED');
-  assert.deepEqual(result.summary, { ready: 1, blocked: 29, total: 30 });
+  assert.deepEqual(result.summary, { ready: 3, blocked: 27, total: 30 });
+  assert.equal(result.experts.find(item => item.expertId === 'control-plane-expert').decision, 'READY');
+  assert.equal(result.experts.find(item => item.expertId === 'ledger-expert').decision, 'READY');
   const tax = result.experts.find(item => item.expertId === 'tax-expert');
   assert.equal(tax.decision, 'READY');
   assert.equal(tax.sovereignty, 'READY');
@@ -634,7 +636,23 @@ test('PO decision returns product foundations with GO for a governed Tax action'
   assert.ok(result.productBasis.requiredGates.includes('engine-sovereignty-e2e'));
 });
 
-test('PO decision blocks prohibited actions and cross-domain work without active authorities', async () => {
+test('PO decision governs Control Plane and Ledger while sovereignty claims remain blocked', async () => {
+  const base = JSON.parse(await readFile(new URL('../examples/tax.po-request.json', import.meta.url), 'utf8'));
+  const catalog = await loadPoCatalog(base.evaluatedAt);
+  for (const domain of ['control-plane', 'ledger']) {
+    const governed = structuredClone(base);
+    governed.request = { ...governed.request, domain, capability: domain, action: 'govern-product-change', impactedDomains: [domain] };
+    assert.equal(evaluateProductDecision(governed, catalog).decision, 'GO');
+
+    const sovereignty = structuredClone(governed);
+    sovereignty.request.action = domain === 'control-plane' ? 'declare-control-plane-sovereign' : 'declare-ledger-country-sovereign';
+    const blocked = evaluateProductDecision(sovereignty, catalog);
+    assert.equal(blocked.decision, 'BLOCK');
+    assert.equal(blocked.stage, 'authority-readiness');
+  }
+});
+
+test('PO decision blocks prohibited actions, escalates governed crossings and blocks missing authorities', async () => {
   const base = JSON.parse(await readFile(new URL('../examples/tax.po-request.json', import.meta.url), 'utf8'));
   const catalog = await loadPoCatalog(base.evaluatedAt);
 
@@ -646,10 +664,16 @@ test('PO decision blocks prohibited actions and cross-domain work without active
 
   const crossDomain = structuredClone(base);
   crossDomain.request.impactedDomains = ['tax', 'ledger'];
-  const authorityBlock = evaluateProductDecision(crossDomain, catalog);
+  const governedHandoff = evaluateProductDecision(crossDomain, catalog);
+  assert.equal(governedHandoff.decision, 'ESCALATE');
+  assert.equal(governedHandoff.stage, 'product-deliberation');
+
+  const missingDomain = structuredClone(base);
+  missingDomain.request.impactedDomains = ['tax', 'inventory'];
+  const authorityBlock = evaluateProductDecision(missingDomain, catalog);
   assert.equal(authorityBlock.decision, 'BLOCK');
   assert.equal(authorityBlock.stage, 'authority-readiness');
-  assert.ok(authorityBlock.reasons.includes('impacted:ledger-expert:expert-not-active'));
+  assert.ok(authorityBlock.reasons.includes('impacted:inventory-expert:expert-not-active'));
 });
 
 test('Claude execution requires the full governed sequence before completion', async () => {

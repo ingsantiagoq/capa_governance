@@ -26,13 +26,13 @@ La unidad de inventario es una autoridad de dominio estable. Un ADR, un servicio
 
 | Expert ID | Dominio | Cobertura declarada | Estado real |
 |---|---|---|---|
-| `control-plane-expert` | Control Plane | `control-plane`, `cost-center`, `accounting-segmentation` | Ejemplo V11; falta dueño, suplente, aprobación y validación contra el grafo UBP actual |
-| `ledger-expert` | Ledger | `ledger`, `cost-center`, `accounting-segmentation` | Ejemplo V11; falta elevarlo a catálogo aprobado |
+| `control-plane-expert` | Control Plane | `control-plane`, `cost-center`, `accounting-segmentation` | Activo; 15 semillas determinísticas contra la revisión UBP fijada; la declaración de soberanía propia sigue bloqueada |
+| `ledger-expert` | Ledger | `ledger`, `cost-center`, `accounting-segmentation` | Activo; 11 semillas determinísticas contra la revisión UBP fijada; la soberanía contable por país exige evidencia adicional |
 | `inventory-expert` | Inventarios | `inventory`, `cost-center`, `accounting-segmentation` | Ejemplo V11; falta elevarlo a catálogo aprobado |
 | `ar-expert` | Cuentas por cobrar | `ar` | Ejemplo V11; falta elevarlo a catálogo aprobado |
 | `ap-expert` | Cuentas por pagar | `ap`, `document-reception` | Ejemplo V11; la recepción documental debe separarse cuando el documento cruza AP |
 
-Los seis manifiestos son una base útil, pero el propio repositorio los presenta como ejemplos. En V11 protocolo, esquema y ejemplos ya comparten el mismo contrato; el catálogo sigue bloqueado porque aún faltan responsables aprobados y resolución completa de seeds contra una revisión UBP fijada.
+Los seis manifiestos son la base publicada. Control Plane, Ledger y Tax ya tienen autoridad activa; AP tiene semillas verificadas pero continúa candidato, e Inventory y AR conservan brechas explícitas. En V11 protocolo, esquema, Registry y evidencia comparten el mismo contrato.
 
 ## Inventario requerido
 
@@ -42,9 +42,9 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 
 | Prioridad | Expert ID propuesto | Autoridad primaria | Evidencia UBP | Estado |
 |---|---|---|---|---|
-| P0 | `control-plane-expert` | Catálogo de capabilities, planes, configuración soberana y plantillas organizacionales | `ubp-admin-service`; ADR-0005, ADR-0006 | Ejemplo V11 por aprobar |
-| P0 | `ledger-expert` | Plan de cuentas, libros, diarios, periodos, reglas de contabilización y saldos | `ubp-ledger-service`; ADR-0011, ADR-0016 | Ejemplo V11 por aprobar |
-| P0 | `tax-expert` | Determinación tributaria, códigos, asignaciones, nexus, redondeo y evidencia fiscal | `ubp-tax-service`; ADR-0010, ADR-0014 | Ejemplo V11; 7 seeds resueltas y 2 faltantes; pendiente dueño, suplente, aprobación y grafo UBP verificado |
+| P0 | `control-plane-expert` | Catálogo de capabilities, planes, configuración soberana y plantillas organizacionales | `ubp-admin-service`; ADR-0005, ADR-0006 | Activo para gobierno de producto; soberanía técnica específica bloqueada |
+| P0 | `ledger-expert` | Plan de cuentas, libros, diarios, periodos, reglas de contabilización y saldos | `ubp-ledger-service`; ADR-0011, ADR-0016 | Activo para gobierno de producto; soberanía contable por país bloqueada hasta evidencia ejecutable |
+| P0 | `tax-expert` | Determinación tributaria, códigos, asignaciones, nexus, redondeo y evidencia fiscal | `ubp-tax-service`; ADR-0010, ADR-0014 | Activo y soberanía Tax demostrada de punta a punta |
 | P0 | `identity-access-expert` | Identidad, membresías, roles, permisos, firmas contables, acceso de emergencia y segregación de funciones | `ubp-membership-service`, Keycloak; ADR-0003, ADR-0081 | Faltante |
 | P0 | `audit-integrity-expert` | Inmutabilidad, trazabilidad, cadena de evidencia, retención, SoD y reconstrucción de decisiones | `ubp-audit-service`, kernel de auditoría y Ledger; ADR-0009, ADR-0016 | Faltante |
 | P0 | `tenant-organization-expert` | Tenant, entidad legal, firma contable, sucursal, centro de costo y límites organizacionales | Membership, Admin, Inventory; ADR-0007, ADR-0008 | Faltante; hoy la autoridad está fragmentada |
@@ -83,25 +83,25 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 | P2 | `integration-events-expert` | Contratos, outbox/inbox, idempotencia, orden, replay, compatibilidad y APIs de plataforma | Protos, building blocks y servicios; ADR-0001, ADR-0016, ADR-0045, ADR-0050 | Faltante; autoridad técnica transversal |
 | P2 | `experience-delivery-expert` | BFF, navegación, diseño de interacción, formatos impresos y coherencia de experiencia | BFF y `ubp-app`; ADR-0002, ADR-0030, ADR-0034, ADR-0035, ADR-0055 | Faltante; autoridad de producto transversal |
 
-Resultado actual: **30 autoridades de dominio**: 6 con manifiesto de ejemplo y 24 sin manifiesto. Este número es una hipótesis de catálogo, no una decisión cerrada. La deliberación puede fusionar expertos si conservan vocabulario e invariantes coherentes, o dividirlos si el enrutamiento produce autoridad ambigua.
+Resultado actual: **30 autoridades de dominio**: 6 con manifiesto publicado y 24 sin manifiesto. Tres autoridades están activas. Este número es una hipótesis de catálogo, no una decisión cerrada. La deliberación puede fusionar expertos si conservan vocabulario e invariantes coherentes, o dividirlos si el enrutamiento produce autoridad ambigua.
 
-Todos comienzan como `candidate`. Los seis manifests existentes tampoco pasan a `active` por existir: necesitan dueño, suplente, aprobación, digest, revisión vigente y semillas verificadas contra el commit UBP declarado.
+Un manifiesto no pasa a `active` por existir: necesita dueño, suplente, aprobación, digest, revisión vigente y semillas verificadas contra el commit UBP declarado. Control Plane, Ledger y Tax ya satisfacen ese contrato; los demás permanecen bloqueados hasta demostrarlo.
 
 ## Auditoría inicial de semillas
 
-La auditoría reproducible en [`ubp-existing-expert-seed-audit.json`](ubp-existing-expert-seed-audit.json) evaluó los seis manifests existentes contra el índice Graphify generado desde UBP `8a90e057c5e65d536163bba01ed30adc9c209b13`.
+La auditoría reproducible en [`ubp-existing-expert-seed-audit.json`](ubp-existing-expert-seed-audit.json) evaluó los seis manifests existentes contra el índice Graphify generado desde UBP `ebf1c845bdf917d821f3182bff0cbe04c21d2c8e`.
 
 | Expert ID | Resueltas | Ambiguas | Ausentes | Decisión |
 |---|---:|---:|---:|---|
-| `ap-expert` | 9 | 0 | 2 | `BLOCK` |
+| `ap-expert` | 11 | 0 | 0 | `READY` |
 | `ar-expert` | 0 | 0 | 6 | `BLOCK` |
-| `control-plane-expert` | 6 | 5 | 4 | `BLOCK` |
-| `inventory-expert` | 16 | 0 | 2 | `BLOCK` |
-| `ledger-expert` | 9 | 0 | 2 | `BLOCK` |
-| `tax-expert` | 7 | 0 | 2 | `BLOCK` |
-| **Total** | **47** | **5** | **18** | **BLOCK** |
+| `control-plane-expert` | 15 | 0 | 0 | `READY` |
+| `inventory-expert` | 17 | 0 | 1 | `BLOCK` |
+| `ledger-expert` | 11 | 0 | 0 | `READY` |
+| `tax-expert` | 9 | 0 | 0 | `READY` |
+| **Total** | **63** | **0** | **7** | **4 READY / 2 BLOCK** |
 
-Los faltantes de AP, Inventory, Ledger y Tax son principalmente knowledge lenses y policies alojadas en Governance, fuera del índice UBP auditado. AR usa seis descripciones conceptuales que no resuelven como nodos. Control Plane combina fuentes externas al índice, como protos, con nombres de servicios que producen varios nodos. Ningún experto obtiene `seedVerificationSha256` mientras conserve una semilla ausente o ambigua.
+AR conserva seis descripciones conceptuales que no resuelven como nodos e Inventory conserva una lente ausente. AP ya tiene semillas determinísticas, pero sigue candidato por su frontera documental pendiente. Ningún experto obtiene `seedVerificationSha256` mientras conserve una semilla ausente o ambigua.
 
 ## Fronteras y handoffs obligatorios
 

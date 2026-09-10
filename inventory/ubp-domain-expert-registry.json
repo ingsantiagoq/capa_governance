@@ -6,11 +6,33 @@
   "entries": [
     {
       "expertId": "control-plane-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:control-plane-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "4e188dcbebbdbcd009c3beac64355d7ae3fe1d10",
+      "manifestSha256": "eea4329118b067c6f2ce65fa184a7c93369cc7f9d8f29e661387e4a48b5dc311",
+      "reviewDueAt": "2027-03-08T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "ac113ee044d152396cfb659cf3c51f97a876b83c2eb266939a2c5cb0ea377ef4",
+      "blockedActions": [
+        "declare-control-plane-sovereign"
+      ]
     },
     {
       "expertId": "ledger-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:ledger-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "4e188dcbebbdbcd009c3beac64355d7ae3fe1d10",
+      "manifestSha256": "a070f0b8ae8938d21dc8ea1fa002e1287ac1496eccb44965c59c98bd2b350f71",
+      "reviewDueAt": "2027-03-08T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "6bfc17c30cd6317137c92749a1014ca86eac778114a8dc9145548f7eadde7d40",
+      "blockedActions": [
+        "declare-ledger-country-sovereign"
+      ]
     },
     {
       "expertId": "tax-expert",

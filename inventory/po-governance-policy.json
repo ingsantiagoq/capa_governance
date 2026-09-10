@@ -2,6 +2,8 @@
   "kind": "po-governance-policy",
   "version": 1,
   "requiredReadyExperts": [
+    "control-plane-expert",
+    "ledger-expert",
     "tax-expert"
   ],
   "sovereigntyEvidence": {
