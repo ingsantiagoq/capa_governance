@@ -1,0 +1,365 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "electronic-fiscal-documents-expert",
+  "domain": "electronic-fiscal-documents",
+  "scope": [
+    "Fiscal applicability, document-type transmission authorization and provider readiness",
+    "Immutable handoff from issued AR document with legal numbering and frozen tax facts",
+    "Provider-owned clearance through BTW under the current binding PO decision",
+    "Payload mapping, authentication, emission, reconciliation, rejection and artifact retrieval",
+    "Tenant and environment credential isolation, production fail-closed behavior and audit trail",
+    "Country Pack clearance model, provider adapters, document coverage and real E2E evidence"
+  ],
+  "coveredCapabilities": [
+    "electronic-fiscal-documents"
+  ],
+  "seedNodes": [
+    "ADR-0013 Facturacion electronica",
+    "CAPA ADR-0013 construir-servicio-fe-core",
+    "ubp_ar_application_arinvoiceservice_iarinvoiceservice_emitasync",
+    "ubp_ar_application_electronicinvoicepayloadbuilder_electronicinvoicepayloadbuilder",
+    "ubp_ar_infrastructure_adminelectronicinvoicedispatcher_adminelectronicinvoicedispatcher",
+    "ubp_admin_application_einvoicingproviderservice_einvoicingproviderservice",
+    "ubp_admin_infrastructure_einvoicingtokenbroker_einvoicingtokenbroker",
+    "ubp_admin_infrastructure_btweinvoicingemitter_btweinvoicingemitter",
+    "ubp_admin_application_einvoicingdocumenttypepolicy_ieinvoicingdocumenttypepolicy",
+    "ubp_admin_infrastructure_btweinvoicingartifactreader_btweinvoicingartifactreader"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "country-policy",
+      "targets": [
+        "localization-country-pack-expert",
+        "control-plane-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "legal-numbering",
+      "targets": [
+        "legal-numbering-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tax-payload",
+      "targets": [
+        "tax-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "provider-contract",
+      "targets": [
+        "architect",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "historical-fiscal-result",
+      "targets": [
+        "po",
+        "compliance",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "generate-local-cufe-under-btw-boundary",
+      "call-dian-directly-under-btw-boundary",
+      "mark-accepted-without-fiscal-identifier",
+      "blind-resend-ambiguous-result",
+      "expose-provider-credential",
+      "erase-internal-sale-on-provider-failure"
+    ],
+    "withoutApproval": [
+      "enable-production-transmission",
+      "activate-fiscal-document-type",
+      "change-provider-contract",
+      "change-provider-endpoint",
+      "change-clearance-model",
+      "change-contingency-policy",
+      "change-artifact-retention",
+      "declare-country-supported",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "localization-country-pack-expert",
+    "legal-numbering-expert",
+    "tax-expert",
+    "ledger-expert",
+    "audit-integrity-expert",
+    "tenant-organization-expert",
+    "ar-expert",
+    "pos-expert",
+    "document-management-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0013 Facturacion electronica",
+      "CAPA ADR-0013 construir-servicio-fe-core",
+      "ubp_ar_application_arinvoiceservice_iarinvoiceservice_emitasync",
+      "ubp_ar_application_electronicinvoicepayloadbuilder_electronicinvoicepayloadbuilder",
+      "ubp_ar_infrastructure_adminelectronicinvoicedispatcher_adminelectronicinvoicedispatcher",
+      "ubp_admin_application_einvoicingproviderservice_einvoicingproviderservice",
+      "ubp_admin_infrastructure_einvoicingtokenbroker_einvoicingtokenbroker",
+      "ubp_admin_infrastructure_btweinvoicingemitter_btweinvoicingemitter",
+      "ubp_admin_application_einvoicingdocumenttypepolicy_ieinvoicingdocumenttypepolicy",
+      "ubp_admin_infrastructure_btweinvoicingartifactreader_btweinvoicingartifactreader"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Electronic Fiscal Documents expert derived from UBP ADR-0013, pinned Graphify implementation evidence and official Dynamics, OpenPeppol and Odoo documentation reviewed on 2026-09-10."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0013",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0013-facturacion-electronica.md",
+        "purpose": "Accepted provider-owned clearance boundary, invariants, current implementation and real E2E close gate"
+      },
+      {
+        "id": "electronic-fiscal-documents-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/electronic-fiscal-documents.manifest.json",
+        "purpose": "Published routing and governance context for fiscal electronic documents"
+      },
+      {
+        "id": "electronic-fiscal-documents-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/electronic-fiscal-documents/market-lens.md",
+        "purpose": "Curated market comparison with explicit UBP decisions"
+      },
+      {
+        "id": "btw-emitter",
+        "type": "graph-node",
+        "reference": "ubp_admin_infrastructure_btweinvoicingemitter_btweinvoicingemitter",
+        "purpose": "Current provider boundary for emission and reconciliation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/gs-e-invoicing-service-overview",
+        "purpose": "Configurable multitenant electronic invoicing processing, transformation, transmission, responses, signatures and traceability",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "openpeppol",
+        "reference": "https://docs.peppol.eu/poac/policies/OpenPeppol%20Policy%20on%20BIS%20Billing%20Country%20specific%20validation%20rules%20v1.1.0.pdf",
+        "purpose": "Common billing specification with supplier-country-specific validation layers",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/customer_invoices/electronic_invoicing.html",
+        "purpose": "EDI generation from confirmed documents and exchange through Peppol access-point infrastructure",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "source-document",
+      "ubpMeaning": "Immutable issued UBP business document carrying stable identity, legal number, party snapshot, lines, totals and frozen tax facts.",
+      "marketLens": "Electronic document generation starts from a confirmed business document.",
+      "decisionRule": "Fiscal processing cannot invent or silently alter the commercial source."
+    },
+    {
+      "term": "provider-owned-clearance",
+      "ubpMeaning": "Current binding boundary where BTW transforms, validates, signs, calculates CUFE, submits and returns authority results and artifacts.",
+      "marketLens": "Managed invoicing services externalize configurable processing and external submission.",
+      "decisionRule": "Do not duplicate BTW legal processing inside UBP; another provider or direct authority path requires PO decision and a separate adapter."
+    },
+    {
+      "term": "fiscal-state",
+      "ubpMeaning": "Durable correlated state Pending, Acknowledged, Accepted, Rejected or Failed with attempts, diagnostics, tracking and provider identity.",
+      "marketLens": "Enterprise services monitor document history and process external responses.",
+      "decisionRule": "Transport success is not fiscal acceptance; Accepted requires the authoritative fiscal identifier."
+    },
+    {
+      "term": "ambiguous-result",
+      "ubpMeaning": "A timeout or uncertain response where the provider may have received the document.",
+      "marketLens": "External exchange requires response and exception processing rather than assuming request outcome.",
+      "decisionRule": "Reconcile by stable source identity before any resend; disable automatic retry without idempotency or conclusive lookup."
+    },
+    {
+      "term": "clearance-model",
+      "ubpMeaning": "Country Pack policy declaring real-time clearance, near-real-time or post-audit processing and its permitted lifecycle.",
+      "marketLens": "Country requirements layer specialized validation and exchange behavior over reusable semantic documents.",
+      "decisionRule": "Country variation is typed policy; provider-specific transport belongs in adapters."
+    },
+    {
+      "term": "fiscal-artifact",
+      "ubpMeaning": "Provider-returned XML, PDF, acknowledgment or evidence linked immutably to source, attempt and fiscal result.",
+      "marketLens": "Electronic invoicing systems generate and exchange standardized files and preserve process history.",
+      "decisionRule": "Artifacts require integrity, access control, retention and retrievable provenance before E2E completion."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engine, Country Pack and accounting handoff policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant legal entity and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain tax impact"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory semantic account roles and typed posting dimensions"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A provider-agnostic fiscal-document orchestration layer where every issued UBP fact is evaluated by versioned country policy, transmitted once through an approved adapter, reconciled safely and linked to authoritative status and artifacts without duplicating provider or tax-authority logic.",
+    "businessOutcomes": [
+      "Introduce a country, provider or document type through governed policy and an isolated contract-tested adapter.",
+      "Give operations a truthful remediable fiscal state for every commercial document.",
+      "Prevent duplicate submissions, leaked credentials, invented acceptance and untraceable legal artifacts."
+    ],
+    "invariants": [
+      "The issued internal document remains the immutable source.",
+      "The current BTW boundary owns legal transformation, signature, CUFE and DIAN transmission.",
+      "Accepted requires a provider fiscal identifier.",
+      "Ambiguous outcomes reconcile before resend.",
+      "Credentials are isolated by tenant and environment.",
+      "Production fails closed without complete readiness.",
+      "Country and document support require real external E2E evidence."
+    ],
+    "configurationBoundary": "Endpoints, environments, credentials, issuer mapping, enabled document types, clearance model, formats and retention are governed data; code changes only for a universal orchestration primitive or isolated provider adapter."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/gs-e-invoicing-service-overview",
+        "observedCapability": "A configurable multitenant service transforms documents, submits externally, handles responses and packages reusable configurations.",
+        "lesson": "Electronic invoicing needs an explicit process engine and configuration lifecycle.",
+        "ubpDecision": "Keep orchestration universal, publish country policy through Control Plane and isolate transport behind provider adapters."
+      },
+      {
+        "vendor": "openpeppol",
+        "reference": "https://docs.peppol.eu/poac/policies/OpenPeppol%20Policy%20on%20BIS%20Billing%20Country%20specific%20validation%20rules%20v1.1.0.pdf",
+        "observedCapability": "A common invoice specification permits country-specific validation selected by supplier country.",
+        "lesson": "Semantic commonality and national validation can coexist without forking the whole engine.",
+        "ubpDecision": "Represent country validation and clearance as versioned Country Pack policy over one canonical source model."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/customer_invoices/electronic_invoicing.html",
+        "observedCapability": "EDI output is generated from confirmed invoices and exchanged through configured formats and Peppol access points.",
+        "lesson": "Fiscal emission follows business confirmation and uses channel-specific infrastructure.",
+        "ubpDecision": "Trigger from the immutable issued document and preserve provider exchange as a correlated projection."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "electronic-fiscal-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve ADR-0013 and provider-orchestration code anchors against the pinned UBP graph."
+      },
+      {
+        "id": "provider-contract-real",
+        "reference": "ADR-0013: gate de cierre",
+        "purpose": "Require authentication, emission, acceptance, reconciliation and artifacts against a real BTW test account."
+      },
+      {
+        "id": "idempotent-reconciliation",
+        "reference": "ADR-0013: async-ack-reconciliation-idempotent",
+        "purpose": "Prove ambiguous outcomes never cause an unauthorized duplicate submission."
+      },
+      {
+        "id": "country-document-coverage",
+        "reference": "ADR-0013: document-type-catalog-per-country",
+        "purpose": "Require explicit Country Pack policy and E2E evidence for every offered country and document type."
+      },
+      {
+        "id": "fiscal-artifact-integrity",
+        "reference": "ADR-0013: compliance-worm-legal-evidence",
+        "purpose": "Require attributable, access-controlled and retained fiscal evidence."
+      }
+    ],
+    "readyWhen": "The manifest and capability validate, authority is active and every seed resolves against the pinned UBP revision. Inspection and bounded orchestration decisions are governed; country, document-type and E2E completeness claims remain blocked until a real provider run proves accepted CUFE, persistence, artifacts, visible rejection and safe ambiguity reconciliation."
+  }
+}

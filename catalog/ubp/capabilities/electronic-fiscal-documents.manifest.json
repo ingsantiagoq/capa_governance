@@ -1,0 +1,110 @@
+{
+  "capability": {
+    "id": "electronic-fiscal-documents",
+    "name": "Documentos fiscales electrónicos",
+    "intents": [
+      "determinar si un documento debe transmitirse electrónicamente",
+      "emitir una factura o nota al proveedor fiscal",
+      "consultar y reconciliar un resultado ambiguo",
+      "diagnosticar rechazo o fallo de transporte",
+      "recuperar artefactos fiscales",
+      "habilitar ambiente emisor proveedor o tipo documental",
+      "evaluar cobertura fiscal de un país"
+    ]
+  },
+  "services": [
+    "admin-service",
+    "ar-service",
+    "numbering-service",
+    "tax-service",
+    "document-management-service",
+    "audit-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "admin-catalog.proto: EInvoicing",
+    "ArInvoiceService",
+    "ElectronicInvoicePayloadBuilder",
+    "AdminElectronicInvoiceDispatcher",
+    "EInvoicingProviderService",
+    "IEInvoicingTokenBroker",
+    "IEInvoicingEmitter",
+    "EInvoicingDocumentTypePolicy"
+  ],
+  "dependencies": [
+    "issued immutable source document",
+    "legal number and authorization",
+    "frozen tax result",
+    "tenant issuer and fiscal profile",
+    "published country pack and clearance model",
+    "provider account credentials and endpoint",
+    "document type transmission authorization",
+    "audit and artifact retention"
+  ],
+  "restrictions": [
+    "BTW owns legal transformation signature CUFE and authority transmission under the current PO decision",
+    "UBP never invents a fiscal identifier or marks acceptance from transport success alone",
+    "ambiguous outcomes reconcile before any resend",
+    "credentials remain tenant and environment isolated and never appear in read APIs or logs",
+    "production emission fails closed without every authoritative prerequisite",
+    "provider failure does not erase or silently reverse the internal sale",
+    "each country and document type requires executable external evidence"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect fiscal applicability and transmission authorization",
+      "trace source document payload attempt response state and artifacts",
+      "classify rejection transport failure ambiguity and acceptance",
+      "verify provider environment issuer credentials and endpoint readiness"
+    ],
+    "poDecision": [
+      "approve a provider or direct authority connection",
+      "approve countries and document types offered commercially",
+      "change the UBP versus provider responsibility boundary",
+      "approve contingency and retention policy"
+    ],
+    "architectHandoff": [
+      "new provider adapter or protocol version",
+      "asynchronous acknowledgment callback or polling",
+      "contingency and delayed regularization",
+      "inbound fiscal document processing",
+      "cross-service lifecycle or artifact custody"
+    ],
+    "reviewerGate": [
+      "real provider test account contract evidence",
+      "source identity and legal number correlation",
+      "accepted result includes nonempty provider fiscal identifier",
+      "ambiguous outcome reconciles without blind duplicate POST",
+      "rejection is visible and remediable",
+      "artifacts are linked and access controlled",
+      "no direct DIAN call or local CUFE generation under the current decision"
+    ],
+    "forbiddenWithoutApproval": [
+      "enable production transmission",
+      "activate a document type",
+      "change provider endpoint or credentials",
+      "change clearance or contingency model",
+      "change artifact retention",
+      "declare country or document type supported",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": ["manifest", "graphify", "source"],
+    "seedNodes": [
+      "ADR-0013 Facturacion electronica",
+      "CAPA ADR-0013 construir-servicio-fe-core",
+      "ubp_ar_application_arinvoiceservice_iarinvoiceservice_emitasync",
+      "ubp_ar_application_electronicinvoicepayloadbuilder_electronicinvoicepayloadbuilder",
+      "ubp_ar_infrastructure_adminelectronicinvoicedispatcher_adminelectronicinvoicedispatcher",
+      "ubp_admin_application_einvoicingproviderservice_einvoicingproviderservice",
+      "ubp_admin_infrastructure_einvoicingtokenbroker_einvoicingtokenbroker",
+      "ubp_admin_infrastructure_btweinvoicingemitter_btweinvoicingemitter",
+      "ubp_admin_application_einvoicingdocumenttypepolicy_ieinvoicingdocumenttypepolicy",
+      "ubp_admin_infrastructure_btweinvoicingartifactreader_btweinvoicingartifactreader"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Electronic Fiscal Documents capability derived from UBP ADR-0013 and implementation at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. Country and document-type completeness remain blocked without real provider E2E evidence."
+  }
+}

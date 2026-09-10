@@ -140,7 +140,23 @@
     },
     {
       "expertId": "electronic-fiscal-documents-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:electronic-fiscal-documents-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "a15564145e634522cdad3f74cc6a125518c9c077",
+      "manifestSha256": "d22d9e39c13ca9f382a15a0dd6219a21b82a84823aa7e485f7df14928d7e1201",
+      "reviewDueAt": "2027-03-10T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "e1c834374a7abddcd5dafbfee059ce9fb4b144c6036aa6078f88d4a0c67397ea",
+      "blockedActions": [
+        "declare-provider-contract-real",
+        "declare-idempotent-reconciliation-complete",
+        "declare-country-document-coverage-complete",
+        "declare-fiscal-artifact-integrity-complete",
+        "declare-electronic-fiscal-documents-e2e",
+        "declare-country-supported"
+      ]
     },
     {
       "expertId": "fx-expert",

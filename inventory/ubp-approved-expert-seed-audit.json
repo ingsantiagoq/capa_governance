@@ -475,6 +475,139 @@
       ]
     },
     {
+      "expertId": "electronic-fiscal-documents-expert",
+      "manifestSha256": "d22d9e39c13ca9f382a15a0dd6219a21b82a84823aa7e485f7df14928d7e1201",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "e1c834374a7abddcd5dafbfee059ce9fb4b144c6036aa6078f88d4a0c67397ea",
+      "seeds": [
+        {
+          "seed": "ADR-0013 Facturacion electronica",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0013_facturacion_electronica",
+              "sourceFile": "docs/adr/ADR-0013-facturacion-electronica.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0013 construir-servicio-fe-core",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "construir_servicio_fe_core_manifest",
+              "sourceFile": "capa/ADR-0013-facturacion-electronica/construir-servicio-fe-core/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ar_application_arinvoiceservice_iarinvoiceservice_emitasync",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ar_application_arinvoiceservice_iarinvoiceservice_emitasync",
+              "sourceFile": "ubp-ar-service/src/Ubp.Ar.Application/ArInvoiceService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ar_application_electronicinvoicepayloadbuilder_electronicinvoicepayloadbuilder",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ar_application_electronicinvoicepayloadbuilder_electronicinvoicepayloadbuilder",
+              "sourceFile": "ubp-ar-service/src/Ubp.Ar.Application/ElectronicInvoicePayloadBuilder.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ar_infrastructure_adminelectronicinvoicedispatcher_adminelectronicinvoicedispatcher",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ar_infrastructure_adminelectronicinvoicedispatcher_adminelectronicinvoicedispatcher",
+              "sourceFile": "ubp-ar-service/src/Ubp.Ar.Infrastructure/AdminElectronicInvoiceDispatcher.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_application_einvoicingproviderservice_einvoicingproviderservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_application_einvoicingproviderservice_einvoicingproviderservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/EInvoicingProviderService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_infrastructure_einvoicingtokenbroker_einvoicingtokenbroker",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_infrastructure_einvoicingtokenbroker_einvoicingtokenbroker",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Infrastructure/EInvoicingTokenBroker.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_infrastructure_btweinvoicingemitter_btweinvoicingemitter",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_infrastructure_btweinvoicingemitter_btweinvoicingemitter",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Infrastructure/BtwEInvoicingEmitter.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_application_einvoicingdocumenttypepolicy_ieinvoicingdocumenttypepolicy",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_application_einvoicingdocumenttypepolicy_ieinvoicingdocumenttypepolicy",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/EInvoicingDocumentTypePolicy.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_infrastructure_btweinvoicingartifactreader_btweinvoicingartifactreader",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_infrastructure_btweinvoicingartifactreader_btweinvoicingartifactreader",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Infrastructure/BtwEInvoicingArtifactReader.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "identity-access-expert",
       "manifestSha256": "53e3d001903ae244f9f7a40a24c035a748d272a088f3608775155e415beb2e4c",
       "decision": "READY",

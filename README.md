@@ -62,6 +62,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto AP](catalog/ubp/experts/ap.expert.manifest.json): compras y cuentas por pagar, recepción documental, matching, excepciones y handoff contable.
 - [Experto Localization & Country Pack](catalog/ubp/experts/localization-country-pack.expert.manifest.json): packs versionados, instalación, procedencia y gate de apertura de país.
 - [Experto Legal Numbering](catalog/ubp/experts/legal-numbering.expert.manifest.json): consecutivos internos y legales, autorizaciones, alcance, concurrencia, anulación y procedencia.
+- [Experto Electronic Fiscal Documents](catalog/ubp/experts/electronic-fiscal-documents.expert.manifest.json): aplicabilidad, emisión por proveedor, reconciliación, estados, artefactos y evidencia fiscal E2E.
+- [Electronic Fiscal Documents Market Lens](knowledge/electronic-fiscal-documents/market-lens.md): contraste oficial con Dynamics, OpenPeppol y Odoo.
 - [Legal Numbering Market Lens](knowledge/legal-numbering/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [Localization & Country Pack Market Lens](knowledge/localization-country-pack/market-lens.md): contraste oficial con Dynamics, SAP y Odoo.
 - [Experto Tenant & Organization](catalog/ubp/experts/tenant-organization.expert.manifest.json): empresa/tenant, membresías, sucursales, bodegas y frontera intercompany.
