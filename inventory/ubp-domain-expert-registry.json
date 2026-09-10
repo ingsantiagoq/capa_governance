@@ -67,7 +67,21 @@
     },
     {
       "expertId": "audit-integrity-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:audit-integrity-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "e1157607d6d667b4f705d0ab6a6e52a95521364a",
+      "manifestSha256": "a2f693e755112b86ce5aaa9177295766bb2d2a0f0be527930e0ba25c27320f0e",
+      "reviewDueAt": "2027-03-09T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "3f39e1dad5c2db77a40e0236fb12274c9c5bb739ea6721b227cc9448dd95f79f",
+      "blockedActions": [
+        "declare-audit-read-model-complete",
+        "declare-cross-service-audit-coverage-complete",
+        "declare-sod-complete",
+        "declare-worm-retention-complete"
+      ]
     },
     {
       "expertId": "tenant-organization-expert",

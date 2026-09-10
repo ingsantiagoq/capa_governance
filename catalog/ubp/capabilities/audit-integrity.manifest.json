@@ -1,0 +1,107 @@
+{
+  "capability": {
+    "id": "audit-integrity",
+    "name": "Auditoría funcional e integridad",
+    "intents": [
+      "inspeccionar trazabilidad funcional",
+      "validar audit trail append-only",
+      "verificar posteo con auditoría atómica",
+      "gobernar cierre y reapertura de periodos",
+      "evaluar segregación de funciones",
+      "consultar hechos auditables"
+    ]
+  },
+  "services": [
+    "building-blocks",
+    "ledger-service",
+    "admin-service",
+    "membership-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "AuditChange",
+    "AuditChangeRecorded",
+    "ControlPlaneAuditEntry",
+    "AccountingPeriod",
+    "PostingPermit",
+    "OutboxMessage"
+  ],
+  "dependencies": [
+    "actor identity",
+    "tenant context",
+    "legal entity",
+    "correlation id",
+    "outbox",
+    "ledger posting",
+    "retention policy"
+  ],
+  "restrictions": [
+    "audit facts are append-only through application flows",
+    "technical logs do not replace functional audit",
+    "journal corrections use attributed reversal",
+    "period enforcement lives in the posting domain",
+    "SoD requires distinct real actors",
+    "physical WORM and legal retention require separate platform evidence"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect audit facts",
+      "verify actor tenant scope and correlation",
+      "classify functional audit versus telemetry",
+      "check period status and posting permit",
+      "identify missing domain adoption"
+    ],
+    "poDecision": [
+      "auditable-event policy",
+      "SoD conflict policy",
+      "period reopen authority",
+      "retention and export policy",
+      "compliance rollout scope"
+    ],
+    "architectHandoff": [
+      "common audit read model",
+      "transactional audit and outbox adoption",
+      "cross-service correlation contract",
+      "WORM and retention architecture"
+    ],
+    "reviewerGate": [
+      "append-only behavior",
+      "tenant isolation",
+      "actor attribution",
+      "atomic persistence",
+      "period enforcement",
+      "SoD conformance",
+      "no destructive audit endpoint"
+    ],
+    "forbiddenWithoutApproval": [
+      "reopen accounting period",
+      "change audit retention",
+      "change SoD policy",
+      "purge audit data",
+      "enable compliance export",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0009 Auditoria e Integridad Contable",
+      "ubp_buildingblocks_auditchange_auditchange",
+      "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+      "ubp_ledger_application_journalpostingservice_journalpostingservice",
+      "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
+      "ubp_ledger_domain_accountingperiod_accountingperiod",
+      "ubp_admin_domain_controlplaneauditentry_controlplaneauditentry",
+      "ubp_admin_application_auditservice_auditservice",
+      "CAPA ADR-0009 captura-audit-change-ledger-pilot",
+      "CAPA ADR-0009 consulta-auditoria-read-only"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Audit and Integrity capability derived from accepted UBP ADR-0009 and implementation evidence at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e."
+  }
+}

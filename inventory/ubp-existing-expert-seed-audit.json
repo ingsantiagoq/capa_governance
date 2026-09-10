@@ -204,6 +204,139 @@
       ]
     },
     {
+      "expertId": "audit-integrity-expert",
+      "manifestSha256": "a2f693e755112b86ce5aaa9177295766bb2d2a0f0be527930e0ba25c27320f0e",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "3f39e1dad5c2db77a40e0236fb12274c9c5bb739ea6721b227cc9448dd95f79f",
+      "seeds": [
+        {
+          "seed": "ADR-0009 Auditoria e Integridad Contable",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0009_auditoria_integridad_contable",
+              "sourceFile": "docs/adr/ADR-0009-auditoria-integridad-contable.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_buildingblocks_auditchange_auditchange",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_buildingblocks_auditchange_auditchange",
+              "sourceFile": "building-blocks/Ubp.BuildingBlocks/AuditChange.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+              "sourceFile": "building-blocks/Ubp.BuildingBlocks/AuditChangeRecorded.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_application_journalpostingservice_journalpostingservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_application_journalpostingservice_journalpostingservice",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Application/JournalPostingService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Infrastructure/PostingPersistenceTransaction.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_accountingperiod_accountingperiod",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_accountingperiod_accountingperiod",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/AccountingPeriod.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_domain_controlplaneauditentry_controlplaneauditentry",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_domain_controlplaneauditentry_controlplaneauditentry",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Domain/ControlPlaneAuditEntry.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_application_auditservice_auditservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_application_auditservice_auditservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/AuditService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0009 captura-audit-change-ledger-pilot",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "captura_audit_change_ledger_pilot_manifest",
+              "sourceFile": "capa/ADR-0009-auditoria-integridad-contable/captura-audit-change-ledger-pilot/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0009 consulta-auditoria-read-only",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "consulta_auditoria_read_only_manifest",
+              "sourceFile": "capa/ADR-0009-auditoria-integridad-contable/consulta-auditoria-read-only/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "control-plane-expert",
       "manifestSha256": "697de1a6f85af23195a896a600da5e19cc4fc528e7852eed5f53ec71af81f9ae",
       "decision": "READY",

@@ -3,6 +3,7 @@
   "version": 1,
   "requiredReadyExperts": [
     "ap-expert",
+    "audit-integrity-expert",
     "control-plane-expert",
     "identity-access-expert",
     "ledger-expert",

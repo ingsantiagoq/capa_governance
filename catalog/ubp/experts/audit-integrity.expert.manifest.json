@@ -1,0 +1,321 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "audit-integrity-expert",
+  "domain": "audit-integrity",
+  "scope": [
+    "Functional append-only audit contract and attributed business changes",
+    "Atomic persistence of domain result, AuditChange and Outbox evidence",
+    "Accounting period admission, closing, blocking and governed reopening",
+    "Segregation of duties and dual-control evidence anchored to real actors",
+    "Read-only audit query, retention handoff and adoption across bounded contexts"
+  ],
+  "coveredCapabilities": [
+    "audit-integrity"
+  ],
+  "seedNodes": [
+    "ADR-0009 Auditoria e Integridad Contable",
+    "ubp_buildingblocks_auditchange_auditchange",
+    "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+    "ubp_ledger_application_journalpostingservice_journalpostingservice",
+    "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
+    "ubp_ledger_domain_accountingperiod_accountingperiod",
+    "ubp_admin_domain_controlplaneauditentry_controlplaneauditentry",
+    "ubp_admin_application_auditservice_auditservice",
+    "CAPA ADR-0009 captura-audit-change-ledger-pilot",
+    "CAPA ADR-0009 consulta-auditoria-read-only"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-integrity",
+      "targets": [
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "identity-attribution",
+      "targets": [
+        "identity-access-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "segregation-of-duties",
+      "targets": [
+        "po",
+        "identity-access-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "retention-or-worm",
+      "targets": [
+        "compliance",
+        "platform-reliability-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "period-reopen",
+      "targets": [
+        "po",
+        "ledger-expert",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "delete-audit-history",
+      "rewrite-posted-journal",
+      "bypass-period-lock",
+      "treat-technical-log-as-functional-audit"
+    ],
+    "withoutApproval": [
+      "reopen-accounting-period",
+      "change-audit-retention",
+      "change-sod-policy",
+      "export-sensitive-audit-data",
+      "enable-break-glass",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "ledger-expert",
+    "identity-access-expert",
+    "platform-reliability-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0009 Auditoria e Integridad Contable",
+      "ubp_buildingblocks_auditchange_auditchange",
+      "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+      "ubp_ledger_application_journalpostingservice_journalpostingservice",
+      "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
+      "ubp_ledger_domain_accountingperiod_accountingperiod",
+      "ubp_admin_domain_controlplaneauditentry_controlplaneauditentry",
+      "ubp_admin_application_auditservice_auditservice",
+      "CAPA ADR-0009 captura-audit-change-ledger-pilot",
+      "CAPA ADR-0009 consulta-auditoria-read-only"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Audit and Integrity expert derived from accepted UBP ADR-0009, Graphify evidence and official SAP and Dynamics documentation reviewed on 2026-09-10."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0009",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0009-auditoria-integridad-contable.md",
+        "purpose": "Accepted audit trail, period control and SoD authority with explicit partial implementation status"
+      },
+      {
+        "id": "audit-integrity-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/audit-integrity.manifest.json",
+        "purpose": "Published routing and governance context for audit and integrity"
+      },
+      {
+        "id": "audit-integrity-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/audit-integrity/market-lens.md",
+        "purpose": "Curated comparison pressure without claiming UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/HANA_CLOUD_DATABASE/c82f8d6a84c147f8b78bf6416dae7290/db560e7bbb57101490d4a1364440077f.html",
+        "purpose": "Queryable protected audit trail and retention boundary",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/sysadmin/configure-manage-database-log",
+        "purpose": "Auditable records for configured sensitive table and field changes",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/sysadmin/set-up-segregation-duties",
+        "purpose": "SoD rules, risks, severity, mitigation and conformance validation",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "functional-audit",
+      "ubpMeaning": "An immutable business fact naming actor, tenant, scope, operation, result, reason, before and after state, correlation and time.",
+      "marketLens": "Enterprise suites retain auditable change records for sensitive operations.",
+      "decisionRule": "Telemetry or database logs alone never satisfy a functional audit requirement."
+    },
+    {
+      "term": "atomic-audit",
+      "ubpMeaning": "The domain result, AuditChange and Outbox evidence succeed or fail in one transaction.",
+      "marketLens": "Audit evidence must not lag behind the business fact it is expected to prove.",
+      "decisionRule": "A confirmed financial mutation without durable audit evidence is blocked."
+    },
+    {
+      "term": "period-lock",
+      "ubpMeaning": "Posting admission enforced by legal entity, period state and posting permit inside the Ledger transaction.",
+      "marketLens": "ERP financial controls prevent posting into closed periods through accounting-domain configuration.",
+      "decisionRule": "UI or BFF checks are insufficient; every posting path must consume domain enforcement."
+    },
+    {
+      "term": "attributed-reversal",
+      "ubpMeaning": "A posted journal is corrected by a balanced reversal whose requesting actor and reason are audited.",
+      "marketLens": "Audit trails must explain corrections to posted financial records.",
+      "decisionRule": "Updating or deleting a posted journal is absolutely prohibited."
+    },
+    {
+      "term": "segregation-of-duties",
+      "ubpMeaning": "Conflicting actions are prevented or mitigated based on distinct real actors and auditable policy.",
+      "marketLens": "Dynamics models conflicts between duties and requires validation of role assignments.",
+      "decisionRule": "Creating a SoD rule is incomplete until existing and future assignments pass conformance."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "document-workflow-deliberation",
+      "reference": "protocol/document-workflow-deliberation.md",
+      "scope": "mandatory governed workflow for inbound documents, approvals, payment authorization and accounting handoff"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A cross-domain integrity spine where every sensitive business mutation is attributable, append-only, tenant-scoped and transactionally consistent, while period controls and SoD prevent unauthorized financial outcomes.",
+    "businessOutcomes": [
+      "Explain who caused every sensitive financial change and why.",
+      "Prevent posting through closed periods from UI, API, event or job paths.",
+      "Detect and block conflicting duties before they produce fraud or error."
+    ],
+    "invariants": [
+      "Posted journals are corrected only by attributed balanced reversal.",
+      "Audit history has no destructive application operation.",
+      "Period admission is enforced inside the posting transaction.",
+      "SoD evidence refers to distinct real actors, not merely different roles.",
+      "Append-only application behavior does not claim physical WORM without platform evidence."
+    ],
+    "configurationBoundary": "Auditable event policy, period authority, SoD conflicts, retention and export are versioned policy; bounded contexts implement universal capture and enforcement primitives."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/HANA_CLOUD_DATABASE/c82f8d6a84c147f8b78bf6416dae7290/db560e7bbb57101490d4a1364440077f.html",
+        "observedCapability": "Protected, queryable audit trail with explicit retention management.",
+        "lesson": "Capture, query authorization and retention are separate responsibilities.",
+        "ubpDecision": "Keep domain capture local and atomic, expose read-only query, and require platform evidence for retention or WORM claims."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/sysadmin/configure-manage-database-log",
+        "observedCapability": "Configured logging of sensitive insert, update, delete and key rename operations.",
+        "lesson": "Audit coverage must be explicit and performance-aware.",
+        "ubpDecision": "Govern an auditable-event catalog and never claim universal coverage from a single Ledger pilot."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/sysadmin/set-up-segregation-duties",
+        "observedCapability": "Conflict rules include duties, severity, risk and mitigation, followed by compliance validation.",
+        "lesson": "Declaring a conflict rule does not clean existing role assignments.",
+        "ubpDecision": "Run SoD conformance on policy and role changes and anchor conflicts to real actors."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
+}
