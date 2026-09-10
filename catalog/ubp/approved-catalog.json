@@ -10,6 +10,7 @@
   "expertManifests": [
     "catalog/ubp/experts/ap.expert.manifest.json",
     "catalog/ubp/experts/control-plane.expert.manifest.json",
+    "catalog/ubp/experts/identity-access.expert.manifest.json",
     "catalog/ubp/experts/ledger.expert.manifest.json",
     "catalog/ubp/experts/tax.expert.manifest.json"
   ],
@@ -19,6 +20,7 @@
     "catalog/ubp/capabilities/control-plane.manifest.json",
     "catalog/ubp/capabilities/cost-center.manifest.json",
     "catalog/ubp/capabilities/document-reception.manifest.json",
+    "catalog/ubp/capabilities/identity-access.manifest.json",
     "catalog/ubp/capabilities/ledger.manifest.json",
     "catalog/ubp/capabilities/tax.manifest.json"
   ],

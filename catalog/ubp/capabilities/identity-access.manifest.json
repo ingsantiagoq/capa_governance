@@ -1,0 +1,103 @@
+{
+  "capability": {
+    "id": "identity-access",
+    "name": "Identidad y acceso de negocio",
+    "intents": [
+      "resolver acceso efectivo de un actor",
+      "administrar membresía de tenant",
+      "gobernar roles y permisos",
+      "validar scope de entidad o sucursal",
+      "auditar una decisión de acceso",
+      "evaluar segregación de funciones"
+    ]
+  },
+  "services": [
+    "membership-service",
+    "admin-service",
+    "ubp-bff",
+    "keycloak"
+  ],
+  "contracts": [
+    "User",
+    "SecurityRole",
+    "UserRole",
+    "TenantMembership",
+    "RolePermission",
+    "RoleMenuItem",
+    "AuditEntry",
+    "MembershipService"
+  ],
+  "dependencies": [
+    "authenticated subject",
+    "tenant context",
+    "capability catalog",
+    "role templates",
+    "legal entity scope",
+    "audit integrity"
+  ],
+  "restrictions": [
+    "Keycloak authenticates but never decides business authorization",
+    "menu visibility is not execution authority",
+    "ADMIN and OWNER role templates are immutable",
+    "tenant and scope isolation must be enforced server-side",
+    "BFF is not the sole security boundary"
+  ],
+  "governance": {
+    "deterministic": [
+      "resolve effective permissions",
+      "inspect memberships",
+      "explain role and capability intersection",
+      "identify missing scope or denial evidence"
+    ],
+    "poDecision": [
+      "permission catalog semantics",
+      "privileged role policy",
+      "segregation-of-duties policy",
+      "cross-tenant delegation policy",
+      "break-glass policy"
+    ],
+    "architectHandoff": [
+      "row and field authorization design",
+      "tenant isolation in data access",
+      "identity provisioning saga",
+      "cross-service authorization contract"
+    ],
+    "reviewerGate": [
+      "deny by default",
+      "tenant isolation",
+      "privilege escalation",
+      "immutable privileged roles",
+      "auditable access decision",
+      "BFF boundary"
+    ],
+    "forbiddenWithoutApproval": [
+      "expand production permission catalog",
+      "change privileged role template",
+      "enable cross-tenant access",
+      "enable break-glass access",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0003 Identidad y Acceso",
+      "ubp_membership_domain_user_user",
+      "ubp_membership_domain_securityrole_securityrole",
+      "ubp_membership_domain_userrole_userrole",
+      "ubp_membership_domain_tenantmembership_tenantmembership",
+      "ubp_membership_application_menuaccessservice_menuaccessservice",
+      "ubp_membership_application_permissionaccessservice_permissionaccessservice",
+      "ubp_membership_application_roletemplateservice_roletemplateservice",
+      "services_membershipgrpcservice_access_membershipgrpcservice",
+      "ubp_membership_domain_auditentry_auditentry"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Identity and Access capability derived from accepted UBP ADR-0003 and Membership implementation at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e."
+  }
+}

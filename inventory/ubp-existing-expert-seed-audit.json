@@ -397,6 +397,139 @@
       ]
     },
     {
+      "expertId": "identity-access-expert",
+      "manifestSha256": "53e3d001903ae244f9f7a40a24c035a748d272a088f3608775155e415beb2e4c",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "77316ffeee801bec7a2eb6ba9422bfef2d61146d61c9415a50e57b88ba379f09",
+      "seeds": [
+        {
+          "seed": "ADR-0003 Identidad y Acceso",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0003_identidad_y_acceso",
+              "sourceFile": "docs/adr/ADR-0003-identidad-y-acceso.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_user_user",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_user_user",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/User.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_securityrole_securityrole",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_securityrole_securityrole",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/SecurityRole.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_userrole_userrole",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_userrole_userrole",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/UserRole.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_tenantmembership_tenantmembership",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_tenantmembership_tenantmembership",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/TenantMembership.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_application_menuaccessservice_menuaccessservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_application_menuaccessservice_menuaccessservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Application/MenuAccessService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_application_permissionaccessservice_permissionaccessservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_application_permissionaccessservice_permissionaccessservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Application/PermissionAccessService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_application_roletemplateservice_roletemplateservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_application_roletemplateservice_roletemplateservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Application/RoleTemplateService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "services_membershipgrpcservice_access_membershipgrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_membershipgrpcservice_access_membershipgrpcservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Api/Services/MembershipGrpcService.Access.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_auditentry_auditentry",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_auditentry_auditentry",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/AuditEntry.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "inventory-expert",
       "manifestSha256": "a69234bff00720c57bfdc2bd096549ba77c64326af8f5bcce4eade0a90e8af5d",
       "decision": "BLOCK",

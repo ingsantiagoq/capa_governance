@@ -49,7 +49,21 @@
     },
     {
       "expertId": "identity-access-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:identity-access-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "f6f67c8a8fe62ca35714666c395f982f7a47afab",
+      "manifestSha256": "53e3d001903ae244f9f7a40a24c035a748d272a088f3608775155e415beb2e4c",
+      "reviewDueAt": "2027-03-09T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "77316ffeee801bec7a2eb6ba9422bfef2d61146d61c9415a50e57b88ba379f09",
+      "blockedActions": [
+        "declare-data-layer-tenant-isolation-complete",
+        "declare-fine-grained-authorization-complete",
+        "enable-cross-tenant-access",
+        "enable-break-glass"
+      ]
     },
     {
       "expertId": "audit-integrity-expert",

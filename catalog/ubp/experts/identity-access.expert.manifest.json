@@ -1,0 +1,319 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "identity-access-expert",
+  "domain": "identity-access",
+  "scope": [
+    "Authentication boundary between Keycloak and UBP business authorization",
+    "Users, roles, permissions, tenant memberships, effective access and governed role templates",
+    "Typed organizational scope and server-side tenant isolation requirements",
+    "Accounting-signature identity boundary, delegation, emergency access and segregation of duties",
+    "Identity access audit facts and handoff to Audit Integrity"
+  ],
+  "coveredCapabilities": [
+    "identity-access"
+  ],
+  "seedNodes": [
+    "ADR-0003 Identidad y Acceso",
+    "ubp_membership_domain_user_user",
+    "ubp_membership_domain_securityrole_securityrole",
+    "ubp_membership_domain_userrole_userrole",
+    "ubp_membership_domain_tenantmembership_tenantmembership",
+    "ubp_membership_application_menuaccessservice_menuaccessservice",
+    "ubp_membership_application_permissionaccessservice_permissionaccessservice",
+    "ubp_membership_application_roletemplateservice_roletemplateservice",
+    "services_membershipgrpcservice_access_membershipgrpcservice",
+    "ubp_membership_domain_auditentry_auditentry"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "permission-expansion",
+      "targets": [
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-isolation",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "segregation-of-duties",
+      "targets": [
+        "po",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "cross-tenant-access",
+      "targets": [
+        "po",
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-signature",
+      "targets": [
+        "ledger-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "modify-admin-role-directly",
+      "modify-owner-role-directly",
+      "bypass-tenant-isolation",
+      "treat-menu-as-authorization"
+    ],
+    "withoutApproval": [
+      "expand-permission-catalog",
+      "change-role-template",
+      "enable-cross-tenant-access",
+      "enable-break-glass",
+      "change-segregation-of-duties-policy",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "control-plane-expert",
+    "ledger-expert",
+    "audit-integrity-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0003 Identidad y Acceso",
+      "ubp_membership_domain_user_user",
+      "ubp_membership_domain_securityrole_securityrole",
+      "ubp_membership_domain_userrole_userrole",
+      "ubp_membership_domain_tenantmembership_tenantmembership",
+      "ubp_membership_application_menuaccessservice_menuaccessservice",
+      "ubp_membership_application_permissionaccessservice_permissionaccessservice",
+      "ubp_membership_application_roletemplateservice_roletemplateservice",
+      "services_membershipgrpcservice_access_membershipgrpcservice",
+      "ubp_membership_domain_auditentry_auditentry"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Identity and Access expert derived from accepted UBP ADR-0003, the Membership domain and a market comparison verified against official SAP, Dynamics and Odoo documentation on 2026-09-10."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0003",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0003-identidad-y-acceso.md",
+        "purpose": "Accepted identity, authentication boundary, membership, role and signing authority vision"
+      },
+      {
+        "id": "identity-access-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/identity-access.manifest.json",
+        "purpose": "Published routing and governance context for Identity and Access"
+      },
+      {
+        "id": "identity-access-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/identity-access/market-lens.md",
+        "purpose": "Curated comparison pressure without claiming UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/53e36b5493804bcdb3f6f14de8b487dd/e818f86038a145a181b9e0e3c3b3f2f0.html",
+        "purpose": "Business roles, organizational scoping and segregation of duties",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/security-strategy-product-oa",
+        "purpose": "Roles composed from duties and privileges, legal-entity assignment and segregation of duties",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/17.0/developer/tutorials/restrict_data_access.html",
+        "purpose": "Model access, record rules and multi-company data isolation",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "authentication",
+      "ubpMeaning": "Keycloak proves the external subject and issues tokens.",
+      "marketLens": "Enterprise ERPs rely on an identity provider while retaining application authorization.",
+      "decisionRule": "No business permission, plan or capability decision may live in Keycloak."
+    },
+    {
+      "term": "effective-access",
+      "ubpMeaning": "The governed intersection of active capability, role permission and applicable organizational scope.",
+      "marketLens": "SAP and Dynamics combine business role with organization scope; Odoo refines model rights with record rules.",
+      "decisionRule": "Menu visibility alone never authorizes execution."
+    },
+    {
+      "term": "privileged-role",
+      "ubpMeaning": "ADMIN and OWNER are canonical immutable templates reconciled from the governed catalog.",
+      "marketLens": "Privileged access changes are high-impact lifecycle operations.",
+      "decisionRule": "Direct mutation is blocked; catalog changes require PO approval and review."
+    },
+    {
+      "term": "tenant-isolation",
+      "ubpMeaning": "Every business access is constrained to the authenticated tenant and applicable legal or operational scope.",
+      "marketLens": "Multi-company systems enforce organization boundaries at data access.",
+      "decisionRule": "Authorization must be checked server-side and at data access; BFF context alone is insufficient."
+    },
+    {
+      "term": "segregation-of-duties",
+      "ubpMeaning": "Conflicting business actions must resolve to distinct real actors when policy requires dual control.",
+      "marketLens": "SAP and Dynamics include SoD in enterprise role governance.",
+      "decisionRule": "Role combinations or delegations that defeat SoD are blocked and handed to PO, Audit and reviewer."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "document-workflow-deliberation",
+      "reference": "protocol/document-workflow-deliberation.md",
+      "scope": "mandatory governed workflow for inbound documents, approvals, payment authorization and accounting handoff"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A tenant-safe authorization authority where every actor receives only the capabilities, permissions and organizational scope needed, and every sensitive elevation or denial is explainable and auditable.",
+    "businessOutcomes": [
+      "Support employees, accountants, devices and partners without customer-specific forks.",
+      "Prevent cross-tenant exposure and privilege escalation as UBP grows.",
+      "Make access decisions reusable across every UBP service and channel."
+    ],
+    "invariants": [
+      "Keycloak authenticates; Membership owns business authorization.",
+      "ADMIN and OWNER templates are immutable.",
+      "Menu visibility never proves permission to execute.",
+      "Sensitive access decisions carry actor, tenant, scope, policy version and audit evidence."
+    ],
+    "configurationBoundary": "Roles, permission bundles, scope assignments, delegation and SoD policy are versioned governance data; code implements universal authorization primitives."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/53e36b5493804bcdb3f6f14de8b487dd/e818f86038a145a181b9e0e3c3b3f2f0.html",
+        "observedCapability": "Authorization aligned to business roles, organizational scope and segregation of duties.",
+        "lesson": "A role without organizational scope is too coarse for multi-entity operations.",
+        "ubpDecision": "Evolve effective access toward capability, role and typed scope while preserving immutable privileged templates."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/guidance/implementation-guide/security-strategy-product-oa",
+        "observedCapability": "Roles compose duties and privileges and can be assigned for specific legal entities.",
+        "lesson": "Permission catalogs need stable business semantics and explicit entity scope.",
+        "ubpDecision": "Govern permission codes and scope through Control Plane and resolve them centrally in Membership."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/17.0/developer/tutorials/restrict_data_access.html",
+        "observedCapability": "Record rules constrain data operations and multi-company access inside the ORM.",
+        "lesson": "Gateway-only tenant checks leave direct service paths exposed.",
+        "ubpDecision": "Require tenant and scope enforcement in each service data boundary."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract and deterministic broker behavior."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approvals, pinned revision, manifest digest and verified seeds."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block country leakage, hardcoded accounting decisions and non-durable posting failures."
+      }
+    ],
+    "readyWhen": "The manifest is valid, its registry authority is active, seeds resolve against the pinned UBP revision, applicable policies pass and implementation claims include reproducible code evidence."
+  }
+}

@@ -109,6 +109,7 @@ test('missing and inconsistent facts fail closed; no implicit approval', () => {
 });
 
 const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.json', import.meta.url), 'utf8'));
+const identityAccessExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/identity-access.expert.manifest.json', import.meta.url), 'utf8'));
 const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory.expert.manifest.json', import.meta.url), 'utf8'));
 const ledgerExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/ledger.expert.manifest.json', import.meta.url), 'utf8'));
 const controlPlaneExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
@@ -518,7 +519,7 @@ test('UBP registry promotes AP, Control Plane, Ledger and Tax after complete evi
   assert.equal(registry.entries.length, 30);
   assert.equal(new Set(registry.entries.map(entry => entry.expertId)).size, 30);
   const active = registry.entries.filter(entry => entry.status === 'active').map(entry => entry.expertId).sort();
-  assert.deepEqual(active, ['ap-expert', 'control-plane-expert', 'ledger-expert', 'tax-expert']);
+  assert.deepEqual(active, ['ap-expert', 'control-plane-expert', 'identity-access-expert', 'ledger-expert', 'tax-expert']);
   assert.ok(registry.entries.filter(entry => !active.includes(entry.expertId)).every(entry => entry.status === 'candidate'));
   const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
@@ -581,8 +582,8 @@ test('seed audit CLI accepts documented stdout mode without an output option', a
 test('committed UBP seed audit remains tied to current manifests and registry revision', async () => {
   const report = JSON.parse(await readFile(new URL('../inventory/ubp-existing-expert-seed-audit.json', import.meta.url), 'utf8'));
   const registry = JSON.parse(await readFile(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url), 'utf8'));
-  const manifests = [apExpert, ar, controlPlaneExpert, inventoryExpert, ledgerExpert, taxExpert];
-  const verifiedSeeds = new Set(['ap-expert', 'control-plane-expert', 'ledger-expert', 'tax-expert']);
+  const manifests = [apExpert, ar, controlPlaneExpert, identityAccessExpert, inventoryExpert, ledgerExpert, taxExpert];
+  const verifiedSeeds = new Set(['ap-expert', 'control-plane-expert', 'identity-access-expert', 'ledger-expert', 'tax-expert']);
   assert.equal(report.graphRevision, registry.ubpRevision);
   assert.equal(report.experts.length, manifests.length);
   for (const manifest of manifests) {
@@ -598,18 +599,19 @@ test('committed UBP seed audit remains tied to current manifests and registry re
   }
 });
 
-test('PO governance publishes coherent AP, Control Plane, Ledger and Tax authorities', async () => {
+test('PO governance publishes coherent AP, Control Plane, Identity, Ledger and Tax authorities', async () => {
   const input = await loadPoCatalog('2026-09-10T12:00:00Z');
   assert.equal(input.approvedCatalog.kind, 'approved-domain-catalog');
   assert.ok(input.approvedCatalog.expertManifests.every(path => path.startsWith('catalog/ubp/experts/')));
   assert.ok(input.approvedCatalog.capabilityManifests.every(path => path.startsWith('catalog/ubp/capabilities/')));
-  assert.equal(input.expertManifests.length, 4);
-  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['ap-expert', 'control-plane-expert', 'ledger-expert', 'tax-expert']);
+  assert.equal(input.expertManifests.length, 5);
+  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['ap-expert', 'control-plane-expert', 'identity-access-expert', 'ledger-expert', 'tax-expert']);
   const result = evaluatePoGovernance(input);
   assert.equal(result.decision, 'CONTROLLED');
-  assert.deepEqual(result.summary, { ready: 4, blocked: 26, total: 30 });
+  assert.deepEqual(result.summary, { ready: 5, blocked: 25, total: 30 });
   assert.equal(result.experts.find(item => item.expertId === 'ap-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'control-plane-expert').decision, 'READY');
+  assert.equal(result.experts.find(item => item.expertId === 'identity-access-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'ledger-expert').decision, 'READY');
   const tax = result.experts.find(item => item.expertId === 'tax-expert');
   assert.equal(tax.decision, 'READY');
@@ -673,6 +675,22 @@ test('PO decision governs Control Plane and Ledger while sovereignty claims rema
     assert.equal(blocked.decision, 'BLOCK');
     assert.equal(blocked.stage, 'authority-readiness');
   }
+});
+
+
+test('Identity & Access governs inspection and blocks unproven isolation claims', async () => {
+  const base = JSON.parse(await readFile(new URL('../examples/tax.po-request.json', import.meta.url), 'utf8'));
+  const catalog = await loadPoCatalog(base.evaluatedAt);
+  const governed = structuredClone(base);
+  governed.request = { ...governed.request, domain: 'identity-access', capability: 'identity-access', action: 'inspect-effective-access', impactedDomains: ['identity-access'] };
+  const ready = evaluateProductDecision(governed, catalog);
+  assert.equal(ready.decision, 'GO');
+  assert.equal(ready.primaryExpert, 'identity-access-expert');
+
+  governed.request.action = 'declare-data-layer-tenant-isolation-complete';
+  const blocked = evaluateProductDecision(governed, catalog);
+  assert.equal(blocked.decision, 'BLOCK');
+  assert.equal(blocked.stage, 'authority-readiness');
 });
 
 test('PO decision blocks prohibited actions, escalates governed crossings and blocks missing authorities', async () => {

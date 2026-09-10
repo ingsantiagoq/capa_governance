@@ -4,6 +4,7 @@
   "requiredReadyExperts": [
     "ap-expert",
     "control-plane-expert",
+    "identity-access-expert",
     "ledger-expert",
     "tax-expert"
   ],
