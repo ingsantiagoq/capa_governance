@@ -1,0 +1,111 @@
+{
+  "capability": {
+    "id": "fx",
+    "name": "Multi-moneda y FX",
+    "intents": [
+      "publicar o resolver una tasa de cambio",
+      "convertir una transacción a moneda funcional",
+      "calcular diferencia cambiaria realizada",
+      "revaluar partidas abiertas o saldos",
+      "traducir estados a moneda de grupo",
+      "explicar tasa fecha fuente y política aplicada",
+      "evaluar una operación cross-border o intercompany"
+    ]
+  },
+  "services": [
+    "admin-service",
+    "ledger-service",
+    "ar-service",
+    "ap-service",
+    "treasury-service",
+    "inventory-service",
+    "tax-service",
+    "pos-service",
+    "membership-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "EffectivePeriod",
+    "EffectiveDated.ResolveActive",
+    "JournalEntry",
+    "JournalLine",
+    "AccountPeriodBalance",
+    "AccountMap",
+    "LegalEntity"
+  ],
+  "dependencies": [
+    "currency catalog and precision",
+    "functional currency per ledger",
+    "transaction currency and business date",
+    "effective exchange-rate master",
+    "operation to rate-type and date policy",
+    "semantic gain loss adjustment and rounding account roles",
+    "open-item reconciliation and period close",
+    "audit provenance and approval"
+  ],
+  "restrictions": [
+    "the browser and consuming domains never calculate or source authoritative rates",
+    "rates are append-only effective-dated and attributable",
+    "historical documents and postings retain their resolved rate snapshot",
+    "realized unrealized payment and rounding differences remain distinct",
+    "functional-currency balance is mandatory before Ledger posting",
+    "missing ambiguous stale or unauthorized rate fails closed",
+    "country and accounting-standard differences are governed policy rather than core branches"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect currency pair rate type validity source and snapshot",
+      "explain conversion and rounding result",
+      "classify realized unrealized translation payment and rounding differences",
+      "identify the responsible ledger and semantic account roles"
+    ],
+    "poDecision": [
+      "accept FX ADR and commercial multicurrency scope",
+      "approve rate source fallback or override policy",
+      "approve functional currency activation or migration",
+      "prioritize cross-border intercompany or group translation coverage"
+    ],
+    "architectHandoff": [
+      "rate resolver inversion or triangulation semantics",
+      "posting and reconciliation contract changes",
+      "revaluation and reversal job design",
+      "multi-ledger translation and CTA",
+      "external rate feed integration"
+    ],
+    "reviewerGate": [
+      "effective-dated append-only rates",
+      "deterministic rate resolution and snapshot",
+      "balanced transaction and functional amounts",
+      "realized and unrealized accounting separation",
+      "idempotent revaluation and reversal",
+      "semantic AccountMap roles without country accounts in code",
+      "cross-domain E2E evidence"
+    ],
+    "forbiddenWithoutApproval": [
+      "publish or override an exchange rate",
+      "change rate resolution fallback",
+      "change functional currency",
+      "run revaluation or reversal",
+      "change FX account roles",
+      "enable multicurrency commercially",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": ["manifest", "graphify", "source"],
+    "seedNodes": [
+      "ADR-0015 Multi-moneda FX",
+      "CAPA ADR-0015 master-tipo-de-cambio",
+      "ubp_buildingblocks_effectiveperiod",
+      "ubp_buildingblocks_effectiveperiod_effectivedated_resolveactive",
+      "ubp_ledger_domain_journalentry_journalentry",
+      "ubp_ledger_domain_journalline_journalline",
+      "ubp_ledger_domain_accountperiodbalance_accountperiodbalance",
+      "ubp_ledger_domain_accountmap_accountmap",
+      "ubp_membership_domain_legalentity_legalentity"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "FX capability derived from UBP ADR-0015 and extension anchors at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. The ADR is proposed and runtime completeness remains blocked."
+  }
+}

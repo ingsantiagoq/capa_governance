@@ -1,0 +1,377 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "fx-expert",
+  "domain": "fx",
+  "scope": [
+    "Currency catalog, precision, activation and immutable functional-currency boundary",
+    "Append-only effective-dated exchange-rate master, rate types, sources, inversion and triangulation",
+    "Transaction, functional, group and hard currency semantics and rate snapshots",
+    "Realized differences at settlement and unrealized revaluation and reversal at close",
+    "Ledger balancing, rounding residuals and semantic account-map roles",
+    "Cross-border AR AP Treasury Inventory Tax POS and intercompany consumption"
+  ],
+  "coveredCapabilities": [
+    "fx"
+  ],
+  "seedNodes": [
+    "ADR-0015 Multi-moneda FX",
+    "CAPA ADR-0015 master-tipo-de-cambio",
+    "ubp_buildingblocks_effectiveperiod",
+    "ubp_buildingblocks_effectiveperiod_effectivedated_resolveactive",
+    "ubp_ledger_domain_journalentry_journalentry",
+    "ubp_ledger_domain_journalline_journalline",
+    "ubp_ledger_domain_accountperiodbalance_accountperiodbalance",
+    "ubp_ledger_domain_accountmap_accountmap",
+    "ubp_membership_domain_legalentity_legalentity"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-impact",
+      "targets": [
+        "ledger-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "rate-policy",
+      "targets": [
+        "control-plane-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "organizational-currency",
+      "targets": [
+        "tenant-organization-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "settlement",
+      "targets": [
+        "treasury-expert",
+        "ap-expert",
+        "ar-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "intercompany",
+      "targets": [
+        "b2b-intercompany-expert",
+        "po",
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "calculate-authoritative-fx-in-browser",
+      "hardcode-country-fx-rule",
+      "mutate-historical-rate-snapshot",
+      "reuse-current-rate-for-historical-fact",
+      "post-unbalanced-functional-currency",
+      "mix-realized-and-unrealized-difference"
+    ],
+    "withoutApproval": [
+      "publish-exchange-rate",
+      "override-document-rate",
+      "change-rate-resolution-fallback",
+      "change-functional-currency",
+      "run-revaluation",
+      "run-revaluation-reversal",
+      "change-fx-account-role",
+      "enable-commercial-multicurrency",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "ledger-expert",
+    "audit-integrity-expert",
+    "tenant-organization-expert",
+    "tax-expert",
+    "ap-expert",
+    "ar-expert",
+    "treasury-expert",
+    "inventory-expert",
+    "pos-expert",
+    "b2b-intercompany-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0015 Multi-moneda FX",
+      "CAPA ADR-0015 master-tipo-de-cambio",
+      "ubp_buildingblocks_effectiveperiod",
+      "ubp_buildingblocks_effectiveperiod_effectivedated_resolveactive",
+      "ubp_ledger_domain_journalentry_journalentry",
+      "ubp_ledger_domain_journalline_journalline",
+      "ubp_ledger_domain_accountperiodbalance_accountperiodbalance",
+      "ubp_ledger_domain_accountmap_accountmap",
+      "ubp_membership_domain_legalentity_legalentity"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "FX expert derived from proposed UBP ADR-0015, pinned Graphify extension anchors and official SAP, Dynamics and Odoo documentation reviewed on 2026-09-10. Authority activation does not assert runtime implementation."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0015",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0015-multi-moneda-fx.md",
+        "purpose": "Proposed multi-currency vision, boundaries, market gaps and implementation backlog"
+      },
+      {
+        "id": "fx-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/fx.manifest.json",
+        "purpose": "Published routing and governance context for FX"
+      },
+      {
+        "id": "fx-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/fx/market-lens.md",
+        "purpose": "Curated market comparison with explicit UBP decisions"
+      },
+      {
+        "id": "effective-dating-kernel",
+        "type": "graph-node",
+        "reference": "ubp_buildingblocks_effectiveperiod_effectivedated_resolveactive",
+        "purpose": "Existing reusable effective-date resolution primitive"
+      },
+      {
+        "id": "ledger-multicurrency-shape",
+        "type": "graph-node",
+        "reference": "ubp_ledger_domain_journalline_journalline",
+        "purpose": "Existing currency-bearing journal-line extension surface"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8fbeed5f2046489696a50ac7fd76f9c6/ee9cd1538cdf4608e10000000a174cb4.html",
+        "purpose": "Exchange-rate types for valuation conversion translation and planning",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/0fa84c9d9c634132b7c4abb9ffdd8f06/8450d7531a4d424de10000000a174cb4.html",
+        "purpose": "Open-item and balance revaluation, valuation methods, parallel currencies and adjustment posting",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/cash-bank-management/bank-revaluation",
+        "purpose": "Rate-date and revaluation-date separation, realized and unrealized accounts, dimensions and reversal history",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/get_started/multi_currency.html",
+        "purpose": "Transaction and company currency, rate feeds, reconciliation differences and dedicated accounts",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "exchange-rate",
+      "ubpMeaning": "Append-only value for a source-target pair, rate type, effective period and attributable source.",
+      "marketLens": "SAP stores multiple effective rate types per currency pair; Odoo supports manual and provider updates.",
+      "decisionRule": "Never overwrite history; resolve by business date and persist the selected snapshot."
+    },
+    {
+      "term": "functional-currency",
+      "ubpMeaning": "Ledger currency in which an entity keeps statutory books and must balance every posting.",
+      "marketLens": "SAP manages company-code and parallel currencies by ledger; Odoo records company-currency equivalents.",
+      "decisionRule": "Functional currency is fixed through governed onboarding and cannot be changed after activity without approved migration."
+    },
+    {
+      "term": "rate-policy",
+      "ubpMeaning": "Versioned mapping from operation to rate type, date source, fallback, inversion, triangulation and override rules.",
+      "marketLens": "SAP translation types combine rate type, time reference and inverse behavior.",
+      "decisionRule": "Consumers request a policy outcome; they do not choose arbitrary rates or embed fallbacks."
+    },
+    {
+      "term": "realized-difference",
+      "ubpMeaning": "P&L difference recognized when a foreign-currency open item is settled using a rate different from its document snapshot.",
+      "marketLens": "Odoo generates exchange differences on reconciliation; Dynamics uses realized gain and loss accounts for settlement.",
+      "decisionRule": "Calculate proportionally for partial settlement and post through semantic realized gain or loss roles."
+    },
+    {
+      "term": "unrealized-revaluation",
+      "ubpMeaning": "Period-end valuation of still-open items or foreign-currency balances, with attributable run and governed reversal or delta policy.",
+      "marketLens": "SAP and Dynamics run revaluation by key date and post unrealized adjustment entries.",
+      "decisionRule": "A revaluation is idempotent per scope and date and remains separate from settlement and group translation."
+    },
+    {
+      "term": "group-translation",
+      "ubpMeaning": "Conversion of financial statements to group currency using account-class policies and CTA, distinct from revaluing open items.",
+      "marketLens": "SAP supports parallel/group currencies and accounting-principle valuation methods.",
+      "decisionRule": "Do not reuse revaluation semantics for consolidation translation."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engine, Country Pack and accounting handoff policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant legal entity and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain tax impact"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory semantic account roles and typed posting dimensions"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A universal FX service where every monetary fact carries transaction and functional values, every conversion is reproducible from versioned policy and an immutable rate snapshot, and settlement, close and group reporting produce distinct balanced accounting outcomes across independent organizations.",
+    "businessOutcomes": [
+      "Sell, buy, settle and report across currencies without country-specific code.",
+      "Reproduce historical values and explain every gain, loss, residual and revaluation.",
+      "Allow each interoperating organization to retain its own functional currency, rate policy and books."
+    ],
+    "invariants": [
+      "Rates are append-only, effective-dated and attributable.",
+      "Every conversion preserves pair, value, type, date, source and policy.",
+      "Postings balance in functional currency.",
+      "Realized, unrealized, payment and rounding differences are distinct.",
+      "FX accounts resolve through semantic roles.",
+      "Missing or ambiguous rates fail closed.",
+      "Revaluation and translation are separate processes."
+    ],
+    "configurationBoundary": "Currencies, precision, rate types, sources, effective rates, operation policies, fallbacks, tolerances, account roles and valuation methods are governed configuration; code changes only for a universal FX primitive."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8fbeed5f2046489696a50ac7fd76f9c6/ee9cd1538cdf4608e10000000a174cb4.html",
+        "observedCapability": "Different rate types serve valuation, conversion, translation and planning.",
+        "lesson": "A bare currency pair and numeric rate cannot govern enterprise conversion.",
+        "ubpDecision": "Publish rate types and operation-to-rate policy as versioned Control Plane data."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/cash-bank-management/bank-revaluation",
+        "observedCapability": "Revaluation uses explicit rate date, accounting and reporting currencies, dedicated unrealized accounts, dimensions and reversal history.",
+        "lesson": "Closing valuation is a governed accounting process, not a display conversion.",
+        "ubpDecision": "Model idempotent ledger-aware revaluation runs with semantic accounts, dimensions and attributable reversal."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/get_started/multi_currency.html",
+        "observedCapability": "Transactions retain foreign and company currency values and exchange differences arise at reconciliation.",
+        "lesson": "The settlement boundary must compare the document and payment snapshots.",
+        "ubpDecision": "Recognize realized FX at reconciliation, including partial settlement, and retain dual amounts."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "fx-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve ADR-0015, its partial CAPA and real extension anchors against the pinned UBP graph."
+      },
+      {
+        "id": "fx-adr-acceptance",
+        "reference": "ADR-0015 decision axis",
+        "purpose": "Require PO acceptance before treating the proposed design as binding implementation scope."
+      },
+      {
+        "id": "fx-master-e2e",
+        "reference": "ADR-0015: master-tipo-de-cambio",
+        "purpose": "Require a real append-only master and deterministic as-of resolver with snapshots."
+      },
+      {
+        "id": "multicurrency-posting-e2e",
+        "reference": "ADR-0015: posteo-multimoneda-ledger",
+        "purpose": "Require transaction-to-functional conversion, precision and balanced Ledger posting."
+      },
+      {
+        "id": "fx-settlement-close-e2e",
+        "reference": "ADR-0015: fx-realized-en-conciliacion + fx-revaluacion-cierre",
+        "purpose": "Require distinct realized settlement and idempotent unrealized close evidence."
+      }
+    ],
+    "readyWhen": "The expert contract, market lens and Graphify anchors validate, making FX an active product authority. Runtime readiness remains BLOCK while ADR-0015 is proposed and the FX master, posting, settlement and close paths lack executable E2E evidence."
+  }
+}

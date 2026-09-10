@@ -608,6 +608,127 @@
       ]
     },
     {
+      "expertId": "fx-expert",
+      "manifestSha256": "99869b7b4dc6f6300f2f8f30c5db3b6e1d5280113fff4586714d089086f71500",
+      "decision": "READY",
+      "counts": {
+        "resolved": 9,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "5e152a5b9cd22a92808f2d2d68939eec64c7f99b32909b921f218a4a7edd0068",
+      "seeds": [
+        {
+          "seed": "ADR-0015 Multi-moneda FX",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0015_multi_moneda_fx",
+              "sourceFile": "docs/adr/ADR-0015-multi-moneda-fx.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0015 master-tipo-de-cambio",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "master_tipo_de_cambio_manifest",
+              "sourceFile": "capa/ADR-0015-multi-moneda-fx/master-tipo-de-cambio/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_buildingblocks_effectiveperiod",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_buildingblocks_effectiveperiod",
+              "sourceFile": "building-blocks/Ubp.BuildingBlocks/EffectivePeriod.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_buildingblocks_effectiveperiod_effectivedated_resolveactive",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_buildingblocks_effectiveperiod_effectivedated_resolveactive",
+              "sourceFile": "building-blocks/Ubp.BuildingBlocks/EffectivePeriod.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_journalentry_journalentry",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_journalentry_journalentry",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/JournalEntry.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_journalline_journalline",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_journalline_journalline",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/JournalLine.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_accountperiodbalance_accountperiodbalance",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_accountperiodbalance_accountperiodbalance",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/AccountPeriodBalance.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_accountmap_accountmap",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_accountmap_accountmap",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/AccountMap.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_membership_domain_legalentity_legalentity",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_membership_domain_legalentity_legalentity",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Domain/LegalEntity.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "identity-access-expert",
       "manifestSha256": "53e3d001903ae244f9f7a40a24c035a748d272a088f3608775155e415beb2e4c",
       "decision": "READY",

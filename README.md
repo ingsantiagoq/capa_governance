@@ -63,6 +63,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Localization & Country Pack](catalog/ubp/experts/localization-country-pack.expert.manifest.json): packs versionados, instalación, procedencia y gate de apertura de país.
 - [Experto Legal Numbering](catalog/ubp/experts/legal-numbering.expert.manifest.json): consecutivos internos y legales, autorizaciones, alcance, concurrencia, anulación y procedencia.
 - [Experto Electronic Fiscal Documents](catalog/ubp/experts/electronic-fiscal-documents.expert.manifest.json): aplicabilidad, emisión por proveedor, reconciliación, estados, artefactos y evidencia fiscal E2E.
+- [Experto FX](catalog/ubp/experts/fx.expert.manifest.json): monedas, tasas vigentes, conversión, diferencias realizadas/no realizadas y posteo multimoneda.
+- [FX Market Lens](knowledge/fx/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [Electronic Fiscal Documents Market Lens](knowledge/electronic-fiscal-documents/market-lens.md): contraste oficial con Dynamics, OpenPeppol y Odoo.
 - [Legal Numbering Market Lens](knowledge/legal-numbering/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [Localization & Country Pack Market Lens](knowledge/localization-country-pack/market-lens.md): contraste oficial con Dynamics, SAP y Odoo.
