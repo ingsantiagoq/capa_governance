@@ -1,0 +1,337 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "localization-country-pack-expert",
+  "domain": "localization-country-pack",
+  "scope": [
+    "Country Pack manifest, semantic version, canonical resource snapshots, hashes and effective dates",
+    "Control Plane publication and tenant installation provenance",
+    "Country resources for accounting, tax, numbering, fiscal documents, reports, currencies and rounding",
+    "Idempotent migration, conflict policy, rollback and partial-install recovery",
+    "Country-agnostic engine boundary and detection of national code leakage",
+    "Executable evidence required to declare a country supported"
+  ],
+  "coveredCapabilities": [
+    "localization-country-pack"
+  ],
+  "seedNodes": [
+    "ADR-0014 Localizacion Country Packs",
+    "ubp_admin_domain_countrypack_countrypack",
+    "ubp_admin_domain_countrypack_countrypackmanifest",
+    "ubp_admin_domain_countrypack_countrypackversion",
+    "ubp_admin_domain_countrypackresourcesnapshot_countrypackresourcesnapshot",
+    "ubp_admin_application_countrypackservice_countrypackservice",
+    "services_admincataloggrpcservice_countrypacks_admincataloggrpcservice",
+    "ubp_tax_application_taxcountrypackpayload_taxcountrypackparser",
+    "ubp_tax_domain_tenanttaxcountrypack_tenanttaxcountrypack",
+    "ubp_tax_application_tenantprovisioningservice_tenantprovisioningservice_provisionfromcountrypackasync"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tax-policy",
+      "targets": [
+        "tax-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-policy",
+      "targets": [
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "control-plane-publication",
+      "targets": [
+        "control-plane-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-country-boundary",
+      "targets": [
+        "tenant-organization-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "country-launch",
+      "targets": [
+        "po",
+        "compliance",
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "hardcode-country-in-core-engine",
+      "declare-country-from-documentation",
+      "declare-country-from-seeds",
+      "silently-reseed-issued-documents"
+    ],
+    "withoutApproval": [
+      "publish-country-pack",
+      "activate-country-pack",
+      "migrate-country-pack",
+      "change-legal-content",
+      "declare-country-supported",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "tax-expert",
+    "ledger-expert",
+    "audit-integrity-expert",
+    "tenant-organization-expert",
+    "legal-numbering-expert",
+    "electronic-fiscal-documents-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0014 Localizacion Country Packs",
+      "ubp_admin_domain_countrypack_countrypack",
+      "ubp_admin_domain_countrypack_countrypackmanifest",
+      "ubp_admin_domain_countrypack_countrypackversion",
+      "ubp_admin_domain_countrypackresourcesnapshot_countrypackresourcesnapshot",
+      "ubp_admin_application_countrypackservice_countrypackservice",
+      "services_admincataloggrpcservice_countrypacks_admincataloggrpcservice",
+      "ubp_tax_application_taxcountrypackpayload_taxcountrypackparser",
+      "ubp_tax_domain_tenanttaxcountrypack_tenanttaxcountrypack",
+      "ubp_tax_application_tenantprovisioningservice_tenantprovisioningservice_provisionfromcountrypackasync"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Localization and Country Pack expert derived from UBP ADR-0014, Graphify implementation evidence and official Dynamics, SAP and Odoo documentation reviewed on 2026-09-10."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0014",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0014-localizacion-country-packs.md",
+        "purpose": "Proposed localization authority, current pieces, target manifest and cross-service installation model"
+      },
+      {
+        "id": "country-pack-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/localization-country-pack.manifest.json",
+        "purpose": "Published routing and governance context for localization packs"
+      },
+      {
+        "id": "country-pack-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/localization-country-pack/market-lens.md",
+        "purpose": "Curated comparison pressure without claiming UBP implementation or compliance"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/globalization-studio-overview",
+        "purpose": "Lifecycle-managed regulatory configuration, tax calculation and electronic invoicing services",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/60a09f68f2444ceca31dcac2e7017945/350350dc15f04bcdaccff1ddf4aef611.html",
+        "purpose": "Country-specific functions and localization extensibility capabilities",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/fiscal_localizations.html",
+        "purpose": "Installable fiscal localization packages across accounting, tax, reports and related applications",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "country-pack",
+      "ubpMeaning": "A versioned Control Plane artifact containing typed national resources, dependencies, effective dates and canonical hashes.",
+      "marketLens": "ERP vendors package localized accounting, tax, reporting and document behavior by country.",
+      "decisionRule": "A country variation belongs in a pack unless it requires a genuinely new universal engine primitive."
+    },
+    {
+      "term": "pack-version",
+      "ubpMeaning": "An immutable published revision whose applied resources and hashes remain attributable to tenant results.",
+      "marketLens": "Regulatory configurations and localization modules evolve through managed releases.",
+      "decisionRule": "Never rewrite the version used by an issued document; publish a new effective version."
+    },
+    {
+      "term": "installation",
+      "ubpMeaning": "An idempotent, auditable and recoverable application of one pack version across required consumers.",
+      "marketLens": "Localization packages install coordinated content rather than unrelated manual seeds.",
+      "decisionRule": "A partially applied pack is BLOCK and cannot make a tenant vendible."
+    },
+    {
+      "term": "country-readiness",
+      "ubpMeaning": "Executable evidence that accounting, tax, numbering, fiscal documents, reporting and operational paths work coherently for a jurisdiction.",
+      "marketLens": "Market localization packages span multiple ERP applications and legal outputs.",
+      "decisionRule": "Documents, schemas, seeds or one engine alone never prove country support."
+    },
+    {
+      "term": "country-agnostic-engine",
+      "ubpMeaning": "A specialized engine that consumes typed policy without national branches in its universal core.",
+      "marketLens": "Vendor suites mix configuration and extensions; UBP aims to move ordinary legal variation into governed data.",
+      "decisionRule": "Any new country conditional in core is blocked unless review proves a universal primitive is missing."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engine, Country Pack and accounting handoff policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant legal entity and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain tax impact"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory semantic account roles and typed posting dimensions"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A localization supply chain where a country is introduced or changed by publishing one governed, effective and reversible Country Pack whose typed resources are consumed coherently by universal engines and whose results retain complete provenance.",
+    "businessOutcomes": [
+      "Open ordinary country variants without recompiling accounting, tax, payroll or POS cores.",
+      "Upgrade legal content without changing previously issued documents.",
+      "Know which tenants use which pack version and recover safely from partial installation."
+    ],
+    "invariants": [
+      "Control Plane publishes policy; domain engines execute it.",
+      "Every published resource is typed, versioned, hashed and effective-dated.",
+      "Installation is idempotent, auditable and recoverable.",
+      "Issued facts preserve pack version and resource provenance.",
+      "Country support requires end-to-end executable evidence."
+    ],
+    "configurationBoundary": "Rates, accounts, tax positions, numbering rules, legal fields, reports, calendars, currencies, rounding and document policies are pack data; code changes only for new universal primitives."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/globalization-studio-overview",
+        "observedCapability": "Regulatory configuration, electronic invoicing and tax calculation are managed as globalization services.",
+        "lesson": "Localization needs authored artifacts and lifecycle, not scattered runtime flags.",
+        "ubpDecision": "Publish typed Country Pack resources through Control Plane with version, hash, effective dates and consumer provenance."
+      },
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/60a09f68f2444ceca31dcac2e7017945/350350dc15f04bcdaccff1ddf4aef611.html",
+        "observedCapability": "Localized functions expose controlled extension points for country requirements such as official numbering.",
+        "lesson": "A country pack must include more than tax rates and accounts.",
+        "ubpDecision": "Treat numbering, fiscal documents, reporting and legal metadata as first-class resources with specialized owners."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/fiscal_localizations.html",
+        "observedCapability": "Fiscal localization packages install country content across accounting and related applications.",
+        "lesson": "Packaging gives cohesion, but module presence alone does not prove a complete executable country flow.",
+        "ubpDecision": "Use one catalog and provenance model, then require end-to-end tests before declaring support."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, Tax capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "tax-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve Tax ADR, CAPA and code anchors against the pinned UBP graph."
+      },
+      {
+        "id": "tax-domain-tests",
+        "reference": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore --nologo --verbosity minimal",
+        "purpose": "Execute the Tax domain suite; the 2026-09-09 baseline passed 338 of 338 tests."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block national logic in the Tax core and require executable versioned Country Pack resources."
+      },
+      {
+        "id": "engine-sovereignty-e2e",
+        "reference": "node tools/engine-sovereignty-gate.mjs inventory/tax-sovereignty-evidence.json",
+        "purpose": "Require executable evidence from Control Plane publication through version pin, Tax consumption, multi-country proof and accounting handoff."
+      }
+    ],
+    "readyWhen": "The Tax manifest and capability validate, authority is active, all seeds resolve against the pinned UBP revision, and engine-sovereignty-e2e returns READY for the same revision. This requires published executable policy, unique resolution, integrity verification, immutable tenant pinning, explicit upgrade, no runtime country fallback, two real country configurations, a fictitious country and a balanced accounting handoff."
+  }
+}

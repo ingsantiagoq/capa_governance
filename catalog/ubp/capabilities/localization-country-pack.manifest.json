@@ -1,0 +1,110 @@
+{
+  "capability": {
+    "id": "localization-country-pack",
+    "name": "Localización y Country Packs",
+    "intents": [
+      "definir un country pack",
+      "publicar versión de localización",
+      "instalar o actualizar localización",
+      "validar procedencia de política nacional",
+      "evaluar apertura de país",
+      "detectar lógica nacional en código"
+    ]
+  },
+  "services": [
+    "admin-service",
+    "tax-service",
+    "ledger-service",
+    "numbering-service",
+    "e-invoicing-service",
+    "membership-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "CountryPack",
+    "CountryPackManifest",
+    "CountryPackVersion",
+    "CountryPackResourceSnapshot",
+    "TenantTaxCountryPack",
+    "CountryTaxPolicyVersion"
+  ],
+  "dependencies": [
+    "control plane publication",
+    "tenant company country",
+    "tax engine",
+    "ledger account maps",
+    "legal numbering",
+    "electronic fiscal documents",
+    "audit integrity",
+    "outbox and saga"
+  ],
+  "restrictions": [
+    "Control Plane governs packs but specialized engines execute them",
+    "country differences are versioned resources rather than core conditionals",
+    "pack publication does not prove cross-service installation",
+    "documents preserve the effective pack version and resource hashes",
+    "country readiness requires executable end-to-end evidence",
+    "compliance approval remains a PO and legal boundary"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect pack manifest and resources",
+      "verify version hash and effective dates",
+      "trace tenant pack provenance",
+      "identify missing components or consumers",
+      "classify configuration versus universal capability"
+    ],
+    "poDecision": [
+      "accept country scope",
+      "approve legal content",
+      "approve pack publication",
+      "approve migration policy",
+      "declare country commercially supported"
+    ],
+    "architectHandoff": [
+      "cross-service install saga",
+      "resource contract evolution",
+      "rollback and conflict policy",
+      "dual-pack intercompany resolution"
+    ],
+    "reviewerGate": [
+      "schema validation",
+      "canonical hash",
+      "effective dating",
+      "idempotency",
+      "partial-install recovery",
+      "consumer provenance",
+      "no country branch in core"
+    ],
+    "forbiddenWithoutApproval": [
+      "publish country pack",
+      "activate country pack for tenant",
+      "migrate installed pack",
+      "declare country supported",
+      "change legal content",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0014 Localizacion Country Packs",
+      "ubp_admin_domain_countrypack_countrypack",
+      "ubp_admin_domain_countrypack_countrypackmanifest",
+      "ubp_admin_domain_countrypack_countrypackversion",
+      "ubp_admin_domain_countrypackresourcesnapshot_countrypackresourcesnapshot",
+      "ubp_admin_application_countrypackservice_countrypackservice",
+      "services_admincataloggrpcservice_countrypacks_admincataloggrpcservice",
+      "ubp_tax_application_taxcountrypackpayload_taxcountrypackparser",
+      "ubp_tax_domain_tenanttaxcountrypack_tenanttaxcountrypack",
+      "ubp_tax_application_tenantprovisioningservice_tenantprovisioningservice_provisionfromcountrypackasync"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Localization and Country Pack capability derived from UBP ADR-0014 and implementation at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e."
+  }
+}

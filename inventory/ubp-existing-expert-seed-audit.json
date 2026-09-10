@@ -1032,6 +1032,139 @@
       ]
     },
     {
+      "expertId": "localization-country-pack-expert",
+      "manifestSha256": "564344b332b3b0af2458befd2d9e2216c5af727310d512e323885b173252282b",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "6181f6a9b34c00609be2db7c0294c7485f3438f813235dd7da304a9d1ee5f008",
+      "seeds": [
+        {
+          "seed": "ADR-0014 Localizacion Country Packs",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0014_localizacion_country_packs_adr_0014_localización_country_packs",
+              "sourceFile": "docs/adr/ADR-0014-localizacion-country-packs.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_domain_countrypack_countrypack",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_domain_countrypack_countrypack",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Domain/CountryPack.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_domain_countrypack_countrypackmanifest",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_domain_countrypack_countrypackmanifest",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Domain/CountryPack.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_domain_countrypack_countrypackversion",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_domain_countrypack_countrypackversion",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Domain/CountryPack.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_domain_countrypackresourcesnapshot_countrypackresourcesnapshot",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_domain_countrypackresourcesnapshot_countrypackresourcesnapshot",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Domain/CountryPackResourceSnapshot.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_application_countrypackservice_countrypackservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_application_countrypackservice_countrypackservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/CountryPackService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "services_admincataloggrpcservice_countrypacks_admincataloggrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_admincataloggrpcservice_countrypacks_admincataloggrpcservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Api/Services/AdminCatalogGrpcService.CountryPacks.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_application_taxcountrypackpayload_taxcountrypackparser",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_application_taxcountrypackpayload_taxcountrypackparser",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Application/TaxCountryPackPayload.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_domain_tenanttaxcountrypack_tenanttaxcountrypack",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_domain_tenanttaxcountrypack_tenanttaxcountrypack",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Domain/TenantTaxCountryPack.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_application_tenantprovisioningservice_tenantprovisioningservice_provisionfromcountrypackasync",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_application_tenantprovisioningservice_tenantprovisioningservice_provisionfromcountrypackasync",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Application/TenantProvisioningService.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "tax-expert",
       "manifestSha256": "ad1fb00d963a6d27dfdefc64e38183aa899688661a37ce876a0c07a5c66e5cf6",
       "decision": "READY",
