@@ -633,11 +633,12 @@ test('every country artifact must have a governed architectural classification',
   }
 });
 
-test('committed Tax sovereignty evidence reports the audited UBP state as BLOCK', async () => {
+test('committed Tax sovereignty evidence reports the audited UBP state as READY', async () => {
   const evidence = JSON.parse(await readFile(new URL('../inventory/tax-sovereignty-evidence.json', import.meta.url), 'utf8'));
   const result = evaluateEngineSovereignty(evidence);
-  assert.equal(result.decision, 'BLOCK');
-  assert.deepEqual(result.reasons, ['accounting-handoff:not-demonstrated']);
+  assert.equal(result.decision, 'READY');
+  assert.deepEqual(result.reasons, ['engine-sovereignty-demonstrated']);
   assert.equal(result.stages['engine-consumption'], 'PASS');
   assert.equal(result.stages['fictitious-country'], 'PASS');
+  assert.equal(result.stages['accounting-handoff'], 'PASS');
 });

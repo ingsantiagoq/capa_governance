@@ -2,8 +2,8 @@
   "kind": "engine-sovereignty-evidence",
   "version": 1,
   "engine": "tax",
-  "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25",
-  "evaluatedAt": "2026-09-10T04:40:00Z",
+  "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+  "evaluatedAt": "2026-09-10T06:02:01Z",
   "stages": [
     {
       "id": "control-plane-publication",
@@ -15,8 +15,8 @@
           "result": "3 passed, 0 failed, 0 skipped",
           "exitCode": 0,
           "resultSha256": "0b233256fa178915b60b647a5835caba55344b81ffa5154d536ac9ef9610f096",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -30,8 +30,8 @@
           "result": "3 passed, 0 failed, 0 skipped",
           "exitCode": 0,
           "resultSha256": "0b233256fa178915b60b647a5835caba55344b81ffa5154d536ac9ef9610f096",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -45,8 +45,8 @@
           "result": "3 passed, 0 failed, 0 skipped",
           "exitCode": 0,
           "resultSha256": "0b233256fa178915b60b647a5835caba55344b81ffa5154d536ac9ef9610f096",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -57,11 +57,11 @@
         {
           "reference": "TenantTaxCountryPack + AddTenantTaxCountryPack migration + TaxCountryPackTests",
           "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore",
-          "result": "344 passed, 0 failed, 0 skipped",
+          "result": "345 passed, 0 failed, 0 skipped",
           "exitCode": 0,
-          "resultSha256": "be0f95423ef0f44fd6e1d34e2b3477605d985abf90106dbe6967072bea50a1d5",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "resultSha256": "ba0d5862bf9238db906dddeae19a5d7b2099737cc383a3a3b363bbf2d23c65d2",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -72,11 +72,11 @@
         {
           "reference": "TaxCalculationService consumes ITenantTaxCountryPackReader",
           "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore",
-          "result": "344 passed, 0 failed, 0 skipped",
+          "result": "345 passed, 0 failed, 0 skipped",
           "exitCode": 0,
-          "resultSha256": "be0f95423ef0f44fd6e1d34e2b3477605d985abf90106dbe6967072bea50a1d5",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "resultSha256": "ba0d5862bf9238db906dddeae19a5d7b2099737cc383a3a3b363bbf2d23c65d2",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -87,11 +87,11 @@
         {
           "reference": "Replay_con_misma_version_es_idempotente_y_upgrade_es_explicito",
           "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore",
-          "result": "344 passed, 0 failed, 0 skipped",
+          "result": "345 passed, 0 failed, 0 skipped",
           "exitCode": 0,
-          "resultSha256": "be0f95423ef0f44fd6e1d34e2b3477605d985abf90106dbe6967072bea50a1d5",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "resultSha256": "ba0d5862bf9238db906dddeae19a5d7b2099737cc383a3a3b363bbf2d23c65d2",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -102,11 +102,11 @@
         {
           "reference": "TaxGrpcServiceTests provisions CO and US through ProvisionFromCountryPackAsync",
           "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore",
-          "result": "344 passed, 0 failed, 0 skipped",
+          "result": "345 passed, 0 failed, 0 skipped",
           "exitCode": 0,
-          "resultSha256": "be0f95423ef0f44fd6e1d34e2b3477605d985abf90106dbe6967072bea50a1d5",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "resultSha256": "ba0d5862bf9238db906dddeae19a5d7b2099737cc383a3a3b363bbf2d23c65d2",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -117,11 +117,11 @@
         {
           "reference": "Pais_ficticio_se_provisiona_y_calcula_con_el_mismo_motor",
           "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore",
-          "result": "344 passed, 0 failed, 0 skipped",
+          "result": "345 passed, 0 failed, 0 skipped",
           "exitCode": 0,
-          "resultSha256": "be0f95423ef0f44fd6e1d34e2b3477605d985abf90106dbe6967072bea50a1d5",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "resultSha256": "ba0d5862bf9238db906dddeae19a5d7b2099737cc383a3a3b363bbf2d23c65d2",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
@@ -132,23 +132,26 @@
         {
           "reference": "Production DI uses TenantTaxCountryPackReader; missing pack test fails closed",
           "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore",
-          "result": "344 passed, 0 failed, 0 skipped",
+          "result": "345 passed, 0 failed, 0 skipped",
           "exitCode": 0,
-          "resultSha256": "be0f95423ef0f44fd6e1d34e2b3477605d985abf90106dbe6967072bea50a1d5",
-          "executedAt": "2026-09-10T04:40:00Z",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "resultSha256": "ba0d5862bf9238db906dddeae19a5d7b2099737cc383a3a3b363bbf2d23c65d2",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     },
     {
       "id": "accounting-handoff",
-      "status": "BLOCK",
+      "status": "PASS",
       "evidence": [
         {
-          "reference": "TaxLeg semantic output and Ledger ownership",
-          "command": "graphify path TaxLeg JournalEntry",
-          "result": "No published-policy-to-balanced-journal executable trace is present in UBP develop",
-          "ubpRevision": "6dfa105c12f8cc2b10721bb86c671632b932db25"
+          "reference": "ADR-0010/tax-accounting-handoff + ArEmitIntegrationTests + JournalPostingService sovereignty guards",
+          "command": "dotnet build ubp-ar-service/tests/Ubp.Ar.IntegrationTests/Ubp.Ar.IntegrationTests.csproj -tl:off -m:1 && dotnet vstest ubp-ar-service/tests/Ubp.Ar.IntegrationTests/bin/Debug/net10.0/Ubp.Ar.IntegrationTests.dll --TestCaseFilter:'FullyQualifiedName~ArEmitIntegrationTests'",
+          "result": "2 passed, 0 failed, 0 skipped; PostgreSQL persisted IVA_19, IvaPayable, tax-co@1.0.0, SHA-256 provenance and one balanced journal after ambiguous retry",
+          "exitCode": 0,
+          "resultSha256": "eec7f378f6c06bcb94f5b691e8d5ac547cb6400b28eabb9ca716257a07ad138c",
+          "executedAt": "2026-09-10T06:02:01Z",
+          "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e"
         }
       ]
     }
