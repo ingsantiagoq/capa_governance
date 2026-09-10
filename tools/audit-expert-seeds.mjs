@@ -17,11 +17,17 @@ function uniqueRoot(nodes, predicate) {
   return roots.length ? roots : matches;
 }
 
+function exactSource(nodes, seed) {
+  const exact = uniqueRoot(nodes, node => node.source_file === seed);
+  if (exact.length) return exact;
+  return uniqueRoot(nodes, node => node.source_file?.endsWith(`/${seed}`));
+}
+
 export function resolveSeed(seed, nodes) {
   const stages = [
     ['exact-id', nodes.filter(node => node.id === seed)],
     ['exact-label', nodes.filter(node => node.label === seed)],
-    ['exact-source', uniqueRoot(nodes, node => node.source_file === seed || node.source_file?.endsWith(`/${seed}`))],
+    ['exact-source', exactSource(nodes, seed)],
     ['normalized-id', nodes.filter(node => normalize(node.id ?? '') === normalize(seed))],
     ['normalized-label', nodes.filter(node => normalize(node.label ?? '') === normalize(seed))]
   ];
@@ -78,7 +84,16 @@ async function main() {
   const revisionIndex = args.indexOf('--graph-revision');
   const outputPath = outputIndex >= 0 ? args[outputIndex + 1] : null;
   const graphRevision = revisionIndex >= 0 ? args[revisionIndex + 1] : null;
-  const positional = args.filter((_, index) => ![outputIndex, outputIndex + 1, revisionIndex, revisionIndex + 1].includes(index));
+  const optionIndexes = new Set();
+  if (outputIndex >= 0) {
+    optionIndexes.add(outputIndex);
+    optionIndexes.add(outputIndex + 1);
+  }
+  if (revisionIndex >= 0) {
+    optionIndexes.add(revisionIndex);
+    optionIndexes.add(revisionIndex + 1);
+  }
+  const positional = args.filter((_, index) => !optionIndexes.has(index));
   const [graphPath, ...manifestPaths] = positional;
   if (!graphPath || !manifestPaths.length || !graphRevision) {
     throw new Error('Usage: node tools/audit-expert-seeds.mjs <graph.json> <expert...json> --graph-revision <revision> [--output <report.json>]');

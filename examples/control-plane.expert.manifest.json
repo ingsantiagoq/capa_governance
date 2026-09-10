@@ -24,14 +24,14 @@
     "ADR-0005 Config no Codigo Pais Agnostico",
     "ADR-0082 Navegacion Capability Derivada del Catalogo",
     "CapabilityConfiguration",
-    "RoleTemplateService",
-    "TenantAddOnGovernanceService",
+    "ubp_membership_application_roletemplateservice_roletemplateservice",
+    "commercialexperience_tenantaddongovernanceservice_tenantaddongovernanceservice",
     "CapabilityGraphRepository",
-    "CapabilityDependencyService",
-    "TenantCapabilityInstallService",
-    "FeatureFlagService",
-    "admin-catalog.proto",
-    "membership.proto"
+    "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+    "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+    "ubp_admin_application_featureflagservice_featureflagservice",
+    "services_admincataloggrpcservice_admincataloggrpcservice",
+    "services_membershipgrpcservice_membershipgrpcservice"
   ],
   "escalationTriggers": [
     {
@@ -148,14 +148,14 @@
       "ADR-0005 Config no Codigo Pais Agnostico",
       "ADR-0082 Navegacion Capability Derivada del Catalogo",
       "CapabilityConfiguration",
-      "RoleTemplateService",
-      "TenantAddOnGovernanceService",
+      "ubp_membership_application_roletemplateservice_roletemplateservice",
+      "commercialexperience_tenantaddongovernanceservice_tenantaddongovernanceservice",
       "CapabilityGraphRepository",
-      "CapabilityDependencyService",
-      "TenantCapabilityInstallService",
-      "FeatureFlagService",
-      "admin-catalog.proto",
-      "membership.proto"
+      "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+      "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+      "ubp_admin_application_featureflagservice_featureflagservice",
+      "services_admincataloggrpcservice_admincataloggrpcservice",
+      "services_membershipgrpcservice_membershipgrpcservice"
     ],
     "maxExpansions": 1,
     "sourcePolicy": "only-after-manifest-and-graph",

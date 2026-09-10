@@ -6,13 +6,13 @@
     {
       "expertId": "ap-expert",
       "manifestSha256": "6d1bdb6e0917a498f99e1d2b7f63cae85895b3055c12deb181d7331a481f458f",
-      "decision": "BLOCK",
+      "decision": "READY",
       "counts": {
-        "resolved": 9,
-        "ambiguous": 2,
+        "resolved": 11,
+        "ambiguous": 0,
         "missing": 0
       },
-      "seedVerificationSha256": null,
+      "seedVerificationSha256": "2667f0ce1e99662bf1222c8907f934ac82b377dc1ef195363ce156d10b1f0510",
       "seeds": [
         {
           "seed": "ADR-0023 Compras y Cuentas por Pagar",
@@ -20,7 +20,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0023_compras_cxp",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0023_compras_cxp_md",
               "sourceFile": "docs/adr/ADR-0023-compras-cxp.md"
             }
           ],
@@ -40,35 +40,27 @@
         },
         {
           "seed": "knowledge/ap/market-lens.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "ap_market_lens",
-              "sourceFile": "capa-governance/protocol/knowledge/ap/market-lens.md"
-            },
             {
               "id": "ap_market_lens",
               "sourceFile": "knowledge/ap/market-lens.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "knowledge/document-reception/market-lens.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "document_reception_market_lens",
-              "sourceFile": "capa-governance/protocol/knowledge/document-reception/market-lens.md"
-            },
             {
               "id": "document_reception_market_lens",
               "sourceFile": "knowledge/document-reception/market-lens.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "CAPA ADR-0023 captura-factura-ocr",
@@ -76,7 +68,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "captura_factura_ocr_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0023_compras_cxp_captura_factura_ocr_manifest_json",
               "sourceFile": "capa/ADR-0023-compras-cxp/captura-factura-ocr/manifest.json"
             }
           ],
@@ -88,7 +80,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "grir_clearing_account_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0023_compras_cxp_grir_clearing_account_manifest_json",
               "sourceFile": "capa/ADR-0023-compras-cxp/grir-clearing-account/manifest.json"
             }
           ],
@@ -100,7 +92,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "conversion_oc_a_factura_muestra_sus_lineas_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0023_compras_cxp_conversion_oc_a_factura_muestra_sus_lineas_manifest_json",
               "sourceFile": "capa/ADR-0023-compras-cxp/conversion-oc-a-factura-muestra-sus-lineas/manifest.json"
             }
           ],
@@ -112,7 +104,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "compra_del_dia_entra_despues_de_las_ventas_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0023_compras_cxp_compra_del_dia_entra_despues_de_las_ventas_manifest_json",
               "sourceFile": "capa/ADR-0023-compras-cxp/compra-del-dia-entra-despues-de-las-ventas/manifest.json"
             }
           ],
@@ -213,30 +205,26 @@
     },
     {
       "expertId": "control-plane-expert",
-      "manifestSha256": "c7a1f915a7df030cbcea48f2b1e6df06f8ee9236e85c8638fc930f7a02f966d7",
-      "decision": "BLOCK",
+      "manifestSha256": "eea4329118b067c6f2ce65fa184a7c93369cc7f9d8f29e661387e4a48b5dc311",
+      "decision": "READY",
       "counts": {
-        "resolved": 6,
-        "ambiguous": 7,
-        "missing": 2
+        "resolved": 15,
+        "ambiguous": 0,
+        "missing": 0
       },
-      "seedVerificationSha256": null,
+      "seedVerificationSha256": "ac113ee044d152396cfb659cf3c51f97a876b83c2eb266939a2c5cb0ea377ef4",
       "seeds": [
         {
           "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "architecture_accounting_segmentation_engine",
-              "sourceFile": "capa-governance/protocol/policies/architecture/accounting-segmentation-engine.md"
-            },
             {
               "id": "architecture_accounting_segmentation_engine",
               "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "ADR-0006 Control Plane",
@@ -252,19 +240,15 @@
         },
         {
           "seed": "knowledge/control-plane/market-lens.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "control_plane_market_lens",
-              "sourceFile": "capa-governance/protocol/knowledge/control-plane/market-lens.md"
-            },
             {
               "id": "control_plane_market_lens",
               "sourceFile": "knowledge/control-plane/market-lens.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "ADR-0003 Identidad y Acceso",
@@ -272,7 +256,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0003_identidad_y_acceso",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0003_identidad_y_acceso_md",
               "sourceFile": "docs/adr/ADR-0003-identidad-y-acceso.md"
             }
           ],
@@ -284,7 +268,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0005_config_no_codigo_pais_agnostico",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0005_config_no_codigo_pais_agnostico_md",
               "sourceFile": "docs/adr/ADR-0005-config-no-codigo-pais-agnostico.md"
             }
           ],
@@ -296,7 +280,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0082_navegacion_capability_derivada_del_catalogo",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0082_navegacion_capability_derivada_del_catalogo_md",
               "sourceFile": "docs/adr/ADR-0082-navegacion-capability-derivada-del-catalogo.md"
             }
           ],
@@ -315,36 +299,28 @@
           "matchCount": 1
         },
         {
-          "seed": "RoleTemplateService",
-          "status": "ambiguous",
-          "method": "exact-label",
+          "seed": "ubp_membership_application_roletemplateservice_roletemplateservice",
+          "status": "resolved",
+          "method": "exact-id",
           "matches": [
             {
               "id": "ubp_membership_application_roletemplateservice_roletemplateservice",
               "sourceFile": "ubp-membership-service/src/Ubp.Membership.Application/RoleTemplateService.cs"
-            },
-            {
-              "id": "roletemplateservice",
-              "sourceFile": "ubp-membership-service/tests/Ubp.Membership.Tests/RoleTemplateServiceTests.cs"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
-          "seed": "TenantAddOnGovernanceService",
-          "status": "ambiguous",
-          "method": "exact-label",
+          "seed": "commercialexperience_tenantaddongovernanceservice_tenantaddongovernanceservice",
+          "status": "resolved",
+          "method": "exact-id",
           "matches": [
             {
               "id": "commercialexperience_tenantaddongovernanceservice_tenantaddongovernanceservice",
               "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/CommercialExperience/TenantAddOnGovernanceService.cs"
-            },
-            {
-              "id": "tenantaddongovernanceservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CommercialExperiencePostgresTests.cs"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "CapabilityGraphRepository",
@@ -359,82 +335,64 @@
           "matchCount": 1
         },
         {
-          "seed": "CapabilityDependencyService",
-          "status": "ambiguous",
-          "method": "exact-label",
+          "seed": "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+          "status": "resolved",
+          "method": "exact-id",
           "matches": [
             {
               "id": "capabilities_capabilitydependencyservice_capabilitydependencyservice",
               "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/Capabilities/CapabilityDependencyService.cs"
-            },
-            {
-              "id": "capabilitydependencyservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CapabilityDependencyServiceTests.cs"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
-          "seed": "TenantCapabilityInstallService",
-          "status": "ambiguous",
-          "method": "exact-label",
+          "seed": "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+          "status": "resolved",
+          "method": "exact-id",
           "matches": [
             {
               "id": "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
               "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/Capabilities/TenantCapabilityInstallService.cs"
-            },
-            {
-              "id": "ubp_admin_service_tests_ubp_admin_tests_capabilityconflictpostgrestests_cs_tenantcapabilityinstallservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CapabilityConflictPostgresTests.cs"
-            },
-            {
-              "id": "ubp_admin_service_tests_ubp_admin_tests_capabilityscopereapplytests_cs_tenantcapabilityinstallservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/CapabilityScopeReapplyTests.cs"
-            },
-            {
-              "id": "ubp_admin_service_tests_ubp_admin_tests_tenantcapabilityinstallpostgrestests_cs_tenantcapabilityinstallservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/TenantCapabilityInstallPostgresTests.cs"
-            },
-            {
-              "id": "ubp_admin_service_tests_ubp_admin_tests_tenantcapabilityinstallservicetests_cs_tenantcapabilityinstallservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/TenantCapabilityInstallServiceTests.cs"
-            },
-            {
-              "id": "ubp_admin_service_tests_ubp_admin_tests_tenantcapabilityuninstallservicetests_cs_tenantcapabilityinstallservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/TenantCapabilityUninstallServiceTests.cs"
             }
           ],
-          "matchCount": 6
+          "matchCount": 1
         },
         {
-          "seed": "FeatureFlagService",
-          "status": "ambiguous",
-          "method": "exact-label",
+          "seed": "ubp_admin_application_featureflagservice_featureflagservice",
+          "status": "resolved",
+          "method": "exact-id",
           "matches": [
             {
               "id": "ubp_admin_application_featureflagservice_featureflagservice",
               "sourceFile": "ubp-admin-service/src/Ubp.Admin.Application/FeatureFlagService.cs"
-            },
-            {
-              "id": "featureflagservice",
-              "sourceFile": "ubp-admin-service/tests/Ubp.Admin.Tests/FeatureFlagTests.cs"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
-          "seed": "admin-catalog.proto",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "seed": "services_admincataloggrpcservice_admincataloggrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_admincataloggrpcservice_admincataloggrpcservice",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Api/Services/AdminCatalogGrpcService.cs"
+            }
+          ],
+          "matchCount": 1
         },
         {
-          "seed": "membership.proto",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "seed": "services_membershipgrpcservice_membershipgrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_membershipgrpcservice_membershipgrpcservice",
+              "sourceFile": "ubp-membership-service/src/Ubp.Membership.Api/Services/MembershipGrpcService.cs"
+            }
+          ],
+          "matchCount": 1
         }
       ]
     },
@@ -443,27 +401,23 @@
       "manifestSha256": "a69234bff00720c57bfdc2bd096549ba77c64326af8f5bcce4eade0a90e8af5d",
       "decision": "BLOCK",
       "counts": {
-        "resolved": 16,
-        "ambiguous": 1,
+        "resolved": 17,
+        "ambiguous": 0,
         "missing": 1
       },
       "seedVerificationSha256": null,
       "seeds": [
         {
           "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "architecture_accounting_segmentation_engine",
-              "sourceFile": "capa-governance/protocol/policies/architecture/accounting-segmentation-engine.md"
-            },
             {
               "id": "architecture_accounting_segmentation_engine",
               "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "ADR-0021 Inventario y Sucursales",
@@ -471,7 +425,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0021_inventario_y_sucursales",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0021_inventario_y_sucursales_md",
               "sourceFile": "docs/adr/ADR-0021-inventario-y-sucursales.md"
             }
           ],
@@ -550,7 +504,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "lote_loop_s2a_recepcion_lote_inventory_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0021_inventario_y_sucursales_lote_loop_s2a_recepcion_lote_inventory_manifest_json",
               "sourceFile": "capa/ADR-0021-inventario-y-sucursales/lote-loop-s2a-recepcion-lote-inventory/manifest.json"
             }
           ],
@@ -562,7 +516,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "kardex_saldo_por_bodega_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0021_inventario_y_sucursales_kardex_saldo_por_bodega_manifest_json",
               "sourceFile": "capa/ADR-0021-inventario-y-sucursales/kardex-saldo-por-bodega/manifest.json"
             }
           ],
@@ -669,29 +623,25 @@
     {
       "expertId": "ledger-expert",
       "manifestSha256": "a070f0b8ae8938d21dc8ea1fa002e1287ac1496eccb44965c59c98bd2b350f71",
-      "decision": "BLOCK",
+      "decision": "READY",
       "counts": {
-        "resolved": 9,
-        "ambiguous": 2,
+        "resolved": 11,
+        "ambiguous": 0,
         "missing": 0
       },
-      "seedVerificationSha256": null,
+      "seedVerificationSha256": "6bfc17c30cd6317137c92749a1014ca86eac778114a8dc9145548f7eadde7d40",
       "seeds": [
         {
           "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "architecture_accounting_segmentation_engine",
-              "sourceFile": "capa-governance/protocol/policies/architecture/accounting-segmentation-engine.md"
-            },
             {
               "id": "architecture_accounting_segmentation_engine",
               "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "ADR-0011 Contabilidad GL",
@@ -707,19 +657,15 @@
         },
         {
           "seed": "knowledge/ledger/market-lens.md",
-          "status": "ambiguous",
+          "status": "resolved",
           "method": "exact-source",
           "matches": [
-            {
-              "id": "ledger_market_lens",
-              "sourceFile": "capa-governance/protocol/knowledge/ledger/market-lens.md"
-            },
             {
               "id": "ledger_market_lens",
               "sourceFile": "knowledge/ledger/market-lens.md"
             }
           ],
-          "matchCount": 2
+          "matchCount": 1
         },
         {
           "seed": "ADR-0009 Auditoria e Integridad Contable",
@@ -727,7 +673,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0009_auditoria_integridad_contable",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0009_auditoria_integridad_contable_md",
               "sourceFile": "docs/adr/ADR-0009-auditoria-integridad-contable.md"
             }
           ],
@@ -751,7 +697,7 @@
           "method": "adr-document",
           "matches": [
             {
-              "id": "adr_adr_0043_analytics_e_ia",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_docs_adr_adr_0043_analytics_e_ia_md",
               "sourceFile": "docs/adr/ADR-0043-analytics-e-ia.md"
             }
           ],
@@ -884,7 +830,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "gobierno_fiscal_control_plane_manifest",
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0010_impuestos_por_comportamiento_gobierno_fiscal_control_plane_manifest_json",
               "sourceFile": "capa/ADR-0010-impuestos-por-comportamiento/gobierno-fiscal-control-plane/manifest.json"
             }
           ],

@@ -527,12 +527,21 @@ test('seed audit resolves only deterministic graph anchors', () => {
     { id: 'adr_adr_0011_contabilidad_gl', label: 'ADR-0011-contabilidad-gl.md', source_file: 'docs/adr/ADR-0011-contabilidad-gl.md' },
     { id: 'captura_factura_ocr_manifest', label: 'manifest.json', source_file: 'capa/ADR-0023-compras-cxp/captura-factura-ocr/manifest.json' },
     { id: 'one', label: 'Repeated', source_file: 'one.cs' },
-    { id: 'two', label: 'Repeated', source_file: 'two.cs' }
+    { id: 'two', label: 'Repeated', source_file: 'two.cs' },
+    { id: 'policy-current', label: 'policy', source_file: 'policies/example.md' },
+    { id: 'policy-mirror', label: 'policy', source_file: 'snapshot/policies/example.md' }
   ];
   assert.equal(resolveSeed('ubp_ledger_domain_journalentry_journalentry', nodes).status, 'resolved');
   assert.equal(resolveSeed('ADR-0011 Contabilidad GL', nodes).status, 'resolved');
   assert.equal(resolveSeed('CAPA ADR-0023 captura-factura-ocr', nodes).status, 'resolved');
   assert.equal(resolveSeed('Repeated', nodes).status, 'ambiguous');
+  assert.deepEqual(resolveSeed('policies/example.md', nodes), {
+    seed: 'policies/example.md',
+    status: 'resolved',
+    method: 'exact-source',
+    matches: [{ id: 'policy-current', sourceFile: 'policies/example.md' }],
+    matchCount: 1
+  });
   assert.equal(resolveSeed('Absent', nodes).status, 'missing');
 });
 
@@ -547,16 +556,36 @@ test('seed audit emits an attestation only when every seed resolves', () => {
   assert.equal(blocked.experts[0].seedVerificationSha256, null);
 });
 
+test('seed audit CLI accepts documented stdout mode without an output option', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'capa-seed-audit-'));
+  try {
+    const graphPath = join(dir, 'graph.json');
+    const manifestPath = join(dir, 'expert.json');
+    const graph = { nodes: ar.seedNodes.map(seed => ({ id: seed, label: seed, source_file: `${seed}.txt` })) };
+    await Promise.all([
+      writeFile(graphPath, JSON.stringify(graph)),
+      writeFile(manifestPath, JSON.stringify(ar))
+    ]);
+    const cli = fileURLToPath(new URL('../tools/audit-expert-seeds.mjs', import.meta.url));
+    const result = spawnSync(process.execPath, [cli, graphPath, manifestPath, '--graph-revision', 'ubp-test-revision'], { encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(JSON.parse(result.stdout).experts[0].decision, 'READY');
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('committed UBP seed audit remains tied to current manifests and registry revision', async () => {
   const report = JSON.parse(await readFile(new URL('../inventory/ubp-existing-expert-seed-audit.json', import.meta.url), 'utf8'));
   const registry = JSON.parse(await readFile(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url), 'utf8'));
   const manifests = [apExpert, ar, controlPlaneExpert, inventoryExpert, ledgerExpert, taxExpert];
+  const verifiedSeeds = new Set(['ap-expert', 'control-plane-expert', 'ledger-expert', 'tax-expert']);
   assert.equal(report.graphRevision, registry.ubpRevision);
   assert.equal(report.experts.length, manifests.length);
   for (const manifest of manifests) {
     const audited = report.experts.find(expert => expert.expertId === manifest.id);
     assert.equal(audited.manifestSha256, sha256(manifest), manifest.id);
-    if (manifest.id === 'tax-expert') {
+    if (verifiedSeeds.has(manifest.id)) {
       assert.equal(audited.decision, 'READY');
       assert.match(audited.seedVerificationSha256, /^[a-f0-9]{64}$/);
     } else {
