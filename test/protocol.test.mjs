@@ -110,6 +110,7 @@ test('missing and inconsistent facts fail closed; no implicit approval', () => {
 
 const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.json', import.meta.url), 'utf8'));
 const auditIntegrityExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/audit-integrity.expert.manifest.json', import.meta.url), 'utf8'));
+const documentManagementExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/document-management.expert.manifest.json', import.meta.url), 'utf8'));
 const electronicFiscalDocumentsExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/electronic-fiscal-documents.expert.manifest.json', import.meta.url), 'utf8'));
 const fxExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/fx.expert.manifest.json', import.meta.url), 'utf8'));
 const identityAccessExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/identity-access.expert.manifest.json', import.meta.url), 'utf8'));
@@ -519,14 +520,14 @@ test('governance readiness rejects invalid registry state and ambiguous authorit
   assert.deepEqual(evaluateGovernanceReadiness(ambiguous).reasons, ['ambiguous-primary-expert']);
 });
 
-test('UBP registry promotes AP, Control Plane, Ledger and Tax after complete evidence', async () => {
+test('UBP registry publishes thirteen authorities only with complete evidence', async () => {
   const registryPath = fileURLToPath(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url));
   const registry = JSON.parse(await readFile(registryPath, 'utf8'));
   assert.deepEqual(validateRegistry(registry), []);
   assert.equal(registry.entries.length, 30);
   assert.equal(new Set(registry.entries.map(entry => entry.expertId)).size, 30);
   const active = registry.entries.filter(entry => entry.status === 'active').map(entry => entry.expertId).sort();
-  assert.deepEqual(active, ['ap-expert', 'audit-integrity-expert', 'control-plane-expert', 'electronic-fiscal-documents-expert', 'fx-expert', 'identity-access-expert', 'ledger-expert', 'legal-numbering-expert', 'localization-country-pack-expert', 'tax-expert', 'tenant-organization-expert', 'treasury-expert']);
+  assert.deepEqual(active, ['ap-expert', 'audit-integrity-expert', 'control-plane-expert', 'document-management-expert', 'electronic-fiscal-documents-expert', 'fx-expert', 'identity-access-expert', 'ledger-expert', 'legal-numbering-expert', 'localization-country-pack-expert', 'tax-expert', 'tenant-organization-expert', 'treasury-expert']);
   assert.ok(registry.entries.filter(entry => !active.includes(entry.expertId)).every(entry => entry.status === 'candidate'));
   const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
@@ -589,8 +590,8 @@ test('seed audit CLI accepts documented stdout mode without an output option', a
 test('committed UBP seed audit remains tied to current manifests and registry revision', async () => {
   const report = JSON.parse(await readFile(new URL('../inventory/ubp-existing-expert-seed-audit.json', import.meta.url), 'utf8'));
   const registry = JSON.parse(await readFile(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url), 'utf8'));
-  const manifests = [apExpert, ar, auditIntegrityExpert, controlPlaneExpert, electronicFiscalDocumentsExpert, fxExpert, identityAccessExpert, inventoryExpert, ledgerExpert, legalNumberingExpert, localizationCountryPackExpert, taxExpert, tenantOrganizationExpert, treasuryExpert];
-  const verifiedSeeds = new Set(['ap-expert', 'audit-integrity-expert', 'control-plane-expert', 'electronic-fiscal-documents-expert', 'fx-expert', 'identity-access-expert', 'ledger-expert', 'legal-numbering-expert', 'localization-country-pack-expert', 'tax-expert', 'tenant-organization-expert', 'treasury-expert']);
+  const manifests = [apExpert, ar, auditIntegrityExpert, controlPlaneExpert, documentManagementExpert, electronicFiscalDocumentsExpert, fxExpert, identityAccessExpert, inventoryExpert, ledgerExpert, legalNumberingExpert, localizationCountryPackExpert, taxExpert, tenantOrganizationExpert, treasuryExpert];
+  const verifiedSeeds = new Set(['ap-expert', 'audit-integrity-expert', 'control-plane-expert', 'document-management-expert', 'electronic-fiscal-documents-expert', 'fx-expert', 'identity-access-expert', 'ledger-expert', 'legal-numbering-expert', 'localization-country-pack-expert', 'tax-expert', 'tenant-organization-expert', 'treasury-expert']);
   assert.equal(report.graphRevision, registry.ubpRevision);
   assert.equal(report.experts.length, manifests.length);
   for (const manifest of manifests) {
@@ -606,19 +607,20 @@ test('committed UBP seed audit remains tied to current manifests and registry re
   }
 });
 
-test('PO governance publishes twelve coherent authorities', async () => {
+test('PO governance publishes thirteen coherent authorities', async () => {
   const input = await loadPoCatalog('2026-09-10T12:00:00Z');
   assert.equal(input.approvedCatalog.kind, 'approved-domain-catalog');
   assert.ok(input.approvedCatalog.expertManifests.every(path => path.startsWith('catalog/ubp/experts/')));
   assert.ok(input.approvedCatalog.capabilityManifests.every(path => path.startsWith('catalog/ubp/capabilities/')));
-  assert.equal(input.expertManifests.length, 12);
-  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['ap-expert', 'audit-integrity-expert', 'control-plane-expert', 'electronic-fiscal-documents-expert', 'fx-expert', 'identity-access-expert', 'ledger-expert', 'legal-numbering-expert', 'localization-country-pack-expert', 'tax-expert', 'tenant-organization-expert', 'treasury-expert']);
+  assert.equal(input.expertManifests.length, 13);
+  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['ap-expert', 'audit-integrity-expert', 'control-plane-expert', 'document-management-expert', 'electronic-fiscal-documents-expert', 'fx-expert', 'identity-access-expert', 'ledger-expert', 'legal-numbering-expert', 'localization-country-pack-expert', 'tax-expert', 'tenant-organization-expert', 'treasury-expert']);
   const result = evaluatePoGovernance(input);
   assert.equal(result.decision, 'CONTROLLED');
-  assert.deepEqual(result.summary, { ready: 12, blocked: 18, total: 30 });
+  assert.deepEqual(result.summary, { ready: 13, blocked: 17, total: 30 });
   assert.equal(result.experts.find(item => item.expertId === 'ap-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'audit-integrity-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'control-plane-expert').decision, 'READY');
+  assert.equal(result.experts.find(item => item.expertId === 'document-management-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'electronic-fiscal-documents-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'fx-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'identity-access-expert').decision, 'READY');
@@ -710,6 +712,26 @@ test('Localization & Country Pack separates publication from country readiness',
   assert.equal(unsupported.stage, 'authority-readiness');
 
   governed.request.action = 'hardcode-country-in-core-engine';
+  const forbidden = evaluateProductDecision(governed, catalog);
+  assert.equal(forbidden.decision, 'BLOCK');
+  assert.deepEqual(forbidden.reasons, ['expert-restriction']);
+});
+
+test('Document Management governs evidence while repository and destructive claims remain blocked', async () => {
+  const base = JSON.parse(await readFile(new URL('../examples/tax.po-request.json', import.meta.url), 'utf8'));
+  const catalog = await loadPoCatalog(base.evaluatedAt);
+  const governed = structuredClone(base);
+  governed.request = {...governed.request, domain: 'document-management', capability: 'document-management', action: 'inspect-document-foundations', impactedDomains: ['document-management'] };
+  const ready = evaluateProductDecision(governed, catalog);
+  assert.equal(ready.decision, 'GO');
+  assert.equal(ready.primaryExpert, 'document-management-expert');
+
+  governed.request.action = 'declare-document-management-runtime-ready';
+  const unsupported = evaluateProductDecision(governed, catalog);
+  assert.equal(unsupported.decision, 'BLOCK');
+  assert.equal(unsupported.stage, 'authority-readiness');
+
+  governed.request.action = 'mutate-immutable-document-version';
   const forbidden = evaluateProductDecision(governed, catalog);
   assert.equal(forbidden.decision, 'BLOCK');
   assert.deepEqual(forbidden.reasons, ['expert-restriction']);

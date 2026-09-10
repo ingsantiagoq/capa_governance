@@ -1,0 +1,122 @@
+{
+  "capability": {
+    "id": "document-management",
+    "name": "Gestión documental transversal",
+    "intents": [
+      "almacenar y versionar un documento",
+      "vincular un documento a un objeto de negocio",
+      "compartir o revocar un documento entre organizaciones",
+      "clasificar e indexar documentos",
+      "aplicar retención legal o legal hold",
+      "verificar integridad o firma documental",
+      "buscar documentos por contenido y metadatos",
+      "gestionar originales renditions y evidencia fiscal"
+    ]
+  },
+  "services": [
+    "document-service",
+    "document-generator-service",
+    "ubp-bff",
+    "admin-service",
+    "identity-service",
+    "audit-service",
+    "b2b-service",
+    "notification-service"
+  ],
+  "contracts": [
+    "DocumentInfoRecord",
+    "DocumentVersion",
+    "ContentObject",
+    "ObjectLink",
+    "DocumentGrant",
+    "RetentionPolicy",
+    "LegalHold",
+    "IntegrityProof",
+    "SignatureRequest",
+    "DocumentEvent"
+  ],
+  "dependencies": [
+    "tenant legal entity and branch context",
+    "content-addressed object storage",
+    "document type and metadata policy",
+    "identity authorization and anti-IDOR",
+    "commercial relationship and consent state",
+    "country pack retention policy",
+    "workflow approval policy",
+    "outbox events and immutable audit trail"
+  ],
+  "restrictions": [
+    "the document master metadata and immutable versions are distinct from the business transaction that references them",
+    "AP AR POS Payroll Inventory and Ledger own business meaning while DMS owns content metadata versions links grants and retention",
+    "fiscal generation signature and authority response remain owned by Electronic Fiscal Documents",
+    "a shared document uses one content object with tenant-scoped grants rather than uncontrolled copies",
+    "cross-organization visibility requires an active consented relationship and an explicit revocable grant",
+    "retention legal hold storage tier metadata schemas and access policy are governed configuration",
+    "OCR extraction creates attributable candidates and never mutates or posts a business fact",
+    "deletion never bypasses retention legal hold audit or evidence-preservation policy"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect document metadata versions links grants retention and integrity state",
+      "trace a document from source content through linked business objects",
+      "verify content hash version history and access provenance",
+      "identify retention policy and legal-hold effects without mutating content"
+    ],
+    "poDecision": [
+      "approve the DMS service boundary and rollout",
+      "approve document taxonomies metadata schemas and retention classes",
+      "approve external sharing signature and OCR scope",
+      "approve jurisdictional archive and WORM policy"
+    ],
+    "architectHandoff": [
+      "content-addressed repository and storage tiers",
+      "polymorphic object-link contract",
+      "cross-tenant grants and consent enforcement",
+      "search indexing OCR and rendition pipeline",
+      "signature KMS retention WORM and purge architecture",
+      "outbox and business-service integration"
+    ],
+    "reviewerGate": [
+      "tenant isolation and anti-IDOR",
+      "immutable version and content-hash verification",
+      "object-link integrity without domain coupling",
+      "consent-bound grant and atomic revocation",
+      "retention legal-hold and WORM enforcement",
+      "audited access share download and purge",
+      "malware content-type size and duplicate controls",
+      "BFF-only user access and protected download URLs"
+    ],
+    "forbiddenWithoutApproval": [
+      "purge a document",
+      "release a legal hold",
+      "change a retention policy",
+      "share a document outside its tenant",
+      "change a document access policy",
+      "change a signature or KMS policy",
+      "enable an OCR or storage provider",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0044 Gestion Documental",
+      "CAPA ADR-0044 repositorio-documental-versionado",
+      "CAPA ADR-0044 document-info-record-maestro",
+      "CAPA ADR-0044 object-linking-polimorfico",
+      "CAPA ADR-0044 compartir-documento-en-la-relacion",
+      "CAPA ADR-0044 aislamiento-y-consentimiento-b2b-del-dms",
+      "CAPA ADR-0044 captura-entrante-ocr-inbox",
+      "ubp_ledger_service_src_ubp_ledger_domain_journalentry_cs_documentref",
+      "sharedbusinessdocument",
+      "ubp_buildingblocks_consentgate_consentgate"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Document Management capability derived from proposed UBP ADR-0044 and partial Graphify anchors at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. A transversal repository, version lifecycle, retention/WORM, signature, search and shared-document runtime are not yet demonstrated."
+  }
+}

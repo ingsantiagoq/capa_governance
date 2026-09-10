@@ -1,0 +1,397 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "document-management-expert",
+  "domain": "document-management",
+  "scope": [
+    "Document master metadata, immutable versions, content objects, originals and renditions",
+    "Polymorphic links from one document to business objects without transferring domain ownership",
+    "Tenant-scoped access, cross-organization grants, consent and revocation",
+    "Document classification, full-text search, capture, OCR candidates and controlled automation",
+    "Integrity proof, general electronic signatures, retention, legal hold, WORM archive and governed purge",
+    "Document-generator, Electronic Fiscal Documents, AP, AR, Payroll, Inventory, Ledger, B2B and Workflow handoffs"
+  ],
+  "coveredCapabilities": [
+    "document-management"
+  ],
+  "seedNodes": [
+    "ADR-0044 Gestion Documental",
+    "CAPA ADR-0044 repositorio-documental-versionado",
+    "CAPA ADR-0044 document-info-record-maestro",
+    "CAPA ADR-0044 object-linking-polimorfico",
+    "CAPA ADR-0044 compartir-documento-en-la-relacion",
+    "CAPA ADR-0044 aislamiento-y-consentimiento-b2b-del-dms",
+    "CAPA ADR-0044 captura-entrante-ocr-inbox",
+    "ubp_ledger_service_src_ubp_ledger_domain_journalentry_cs_documentref",
+    "sharedbusinessdocument",
+    "ubp_buildingblocks_consentgate_consentgate"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-or-access-boundary",
+      "targets": [
+        "identity-access-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "cross-organization-sharing",
+      "targets": [
+        "b2b-intercompany-expert",
+        "identity-access-expert",
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "fiscal-archive",
+      "targets": [
+        "electronic-fiscal-documents-expert",
+        "localization-country-pack-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "retention-or-legal-hold",
+      "targets": [
+        "control-plane-expert",
+        "audit-integrity-expert",
+        "compliance",
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "ocr-to-business-object",
+      "targets": [
+        "ap-expert",
+        "parties-expert",
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "workflow-or-signature",
+      "targets": [
+        "workflow-approvals-expert",
+        "identity-access-expert",
+        "po",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "bypass-tenant-isolation",
+      "bypass-consent-for-cross-tenant-document",
+      "mutate-immutable-document-version",
+      "delete-document-under-legal-hold",
+      "post-business-transaction-from-ocr",
+      "log-document-content-or-signing-secret"
+    ],
+    "withoutApproval": [
+      "purge-document",
+      "release-legal-hold",
+      "change-retention-policy",
+      "share-document-externally",
+      "change-document-access-policy",
+      "change-signature-kms-policy",
+      "enable-ocr-provider",
+      "enable-storage-provider",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "identity-access-expert",
+    "audit-integrity-expert",
+    "electronic-fiscal-documents-expert",
+    "localization-country-pack-expert",
+    "workflow-approvals-expert",
+    "b2b-intercompany-expert",
+    "ap-expert",
+    "ar-expert",
+    "payroll-expert",
+    "inventory-expert",
+    "ledger-expert",
+    "parties-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0044 Gestion Documental",
+      "CAPA ADR-0044 repositorio-documental-versionado",
+      "CAPA ADR-0044 document-info-record-maestro",
+      "CAPA ADR-0044 object-linking-polimorfico",
+      "CAPA ADR-0044 compartir-documento-en-la-relacion",
+      "CAPA ADR-0044 aislamiento-y-consentimiento-b2b-del-dms",
+      "CAPA ADR-0044 captura-entrante-ocr-inbox",
+      "ubp_ledger_service_src_ubp_ledger_domain_journalentry_cs_documentref",
+      "sharedbusinessdocument",
+      "ubp_buildingblocks_consentgate_consentgate"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Document Management expert derived from proposed UBP ADR-0044, pinned Graphify evidence for partial Ledger, B2B and document-reception pieces, and official SAP, Dynamics, Epicor and Odoo material reviewed on 2026-09-10. Authority activation does not assert an implemented transversal DMS."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0044",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0044-gestion-documental.md",
+        "purpose": "Proposed DMS vision, boundaries, market gaps and 30-objective backlog"
+      },
+      {
+        "id": "document-management-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/document-management.manifest.json",
+        "purpose": "Published routing and governance context for document management"
+      },
+      {
+        "id": "document-management-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/document-management/market-lens.md",
+        "purpose": "Curated market comparison with explicit UBP decisions"
+      },
+      {
+        "id": "ledger-document-ref",
+        "type": "graph-node",
+        "reference": "ubp_ledger_service_src_ubp_ledger_domain_journalentry_cs_documentref",
+        "purpose": "Existing ledger-local reference that must migrate to or integrate with transversal object linking"
+      },
+      {
+        "id": "shared-business-document",
+        "type": "graph-node",
+        "reference": "sharedbusinessdocument",
+        "purpose": "Existing network primitive related to shared-document projection"
+      },
+      {
+        "id": "consent-gate",
+        "type": "graph-node",
+        "reference": "ubp_buildingblocks_consentgate_consentgate",
+        "purpose": "Existing consent boundary required before cross-tenant visibility"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/c0c54048d35849128be8e872df5bea6d/468aea57bc51f032e10000000a441470-4312.html",
+        "purpose": "Document Info Record identity, version, status, classification and object-link semantics",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/organization-administration/configure-document-management",
+        "purpose": "Governed document types, attachment classes and configurable storage locations",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-content-management/ecm/",
+        "purpose": "Central capture, repository, workflow, integrity verification and ERP integration",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/productivity/documents.html",
+        "purpose": "Centralized files, versions, locks, links, permissions, aliases and digitization",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "document-info-record",
+      "ubpMeaning": "Tenant-scoped logical document identity carrying type, metadata, status and version lineage independently of any single content blob.",
+      "marketLens": "SAP centers DMS on a versioned Document Info Record rather than loose attachments.",
+      "decisionRule": "Every stored artifact belongs to a governed document master before modules link to it."
+    },
+    {
+      "term": "document-version",
+      "ubpMeaning": "Immutable content-addressed version with hash, media type, size, creator, timestamp and lineage.",
+      "marketLens": "Odoo and Epicor expose version management while SAP distinguishes document identity and version.",
+      "decisionRule": "Upload creates a new version; it never overwrites prior evidence."
+    },
+    {
+      "term": "object-link",
+      "ubpMeaning": "Typed reference from a document to a domain object while that domain retains ownership of business semantics.",
+      "marketLens": "SAP object links and Odoo linked records let content serve multiple business contexts.",
+      "decisionRule": "DMS validates link identity and authorization but never posts or mutates the linked transaction."
+    },
+    {
+      "term": "document-grant",
+      "ubpMeaning": "Auditable tenant or external-party permission over one logical document with mode, scope, expiry and revocation.",
+      "marketLens": "Odoo supports file and folder sharing with roles and expirations.",
+      "decisionRule": "Cross-tenant access requires active consent plus explicit grant; revocation removes visibility without destroying evidence."
+    },
+    {
+      "term": "retention-policy",
+      "ubpMeaning": "Versioned rule by document type and jurisdiction defining retention, archive tier, legal hold and controlled purge.",
+      "marketLens": "Enterprise DMS products separate retention and controlled storage from ordinary user deletion.",
+      "decisionRule": "Country packs publish policy data; runtime enforces it and code contains no country-specific retention literals."
+    },
+    {
+      "term": "shared-content-object",
+      "ubpMeaning": "One immutable content object projected through independent authorized document views across organizations.",
+      "marketLens": "Most suites link or distribute documents inside one company boundary.",
+      "decisionRule": "UBP deduplicates content by hash while preserving separate tenant metadata, grants, audit and legal obligations."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic retention, signature and provider-adapter policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant ownership, anti-IDOR, consent and grant policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain document impact"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A country-agnostic document fabric where every business artifact has one governed identity, immutable evidence, reusable links, controlled lifecycle and explainable access across UBP organizations without creating ungoverned copies.",
+    "businessOutcomes": [
+      "Find and verify every business document from the transaction, party, employee, item or accounting event it supports.",
+      "Exchange one trusted document across consented organizations while each tenant preserves its own authorization, metadata and legal duties.",
+      "Open countries and industries by publishing metadata, retention, signature and storage policies through Control Plane."
+    ],
+    "invariants": [
+      "Content versions are immutable and hash-verifiable.",
+      "Every access, link, share, signature, hold and purge is attributable and auditable.",
+      "Business domains own transaction meaning; DMS owns document evidence and lifecycle.",
+      "Cross-tenant visibility requires active consent and explicit grants.",
+      "Legal hold dominates deletion and retention expiry.",
+      "OCR and automation produce reviewable candidates before business mutation.",
+      "Fiscal artifacts preserve authority response and signature provenance without transferring fiscal ownership to DMS."
+    ],
+    "configurationBoundary": "Document types, metadata schemas, lifecycle states, retention classes, legal-hold rules, storage tiers, OCR and signature providers, sharing modes and jurisdiction bindings are versioned Control Plane data; code changes only for universal lifecycle primitives or isolated adapters."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/c0c54048d35849128be8e872df5bea6d/468aea57bc51f032e10000000a441470-4312.html",
+        "observedCapability": "Document Info Records carry type, number, version, part, status, classification and object links.",
+        "lesson": "A governed metadata master is the foundation; loose blobs and module-local references are insufficient.",
+        "ubpDecision": "Create DocumentInfoRecord as the stable identity above immutable content versions and polymorphic links."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/organization-administration/configure-document-management",
+        "observedCapability": "Document types configure attachment behavior and storage locations such as Azure Storage or SharePoint.",
+        "lesson": "Type policy and storage placement must remain configurable.",
+        "ubpDecision": "Publish document types, required metadata and storage tiers through Control Plane rather than hardcoding module storage."
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-content-management/ecm/",
+        "observedCapability": "ECM combines capture, centralized storage, workflow, ERP integration, digital fingerprints and access audit.",
+        "lesson": "Repository, process and integrity controls must work as one traceable lifecycle.",
+        "ubpDecision": "Preserve source, hash, extraction, workflow and access provenance end to end while keeping business mutation in the owning domain."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/productivity/documents.html",
+        "observedCapability": "Documents provides centralization, versions, locking, aliases, record links, sharing roles and expiration.",
+        "lesson": "Daily usability depends on retrieval, links and sharing as much as storage.",
+        "ubpDecision": "Make object linking, search and controlled grants first-class, with one-content cross-company projection as the UBP differentiator."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "document-management-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve ADR-0044, selected CAPAs and partial Ledger/B2B code anchors against the pinned UBP graph."
+      },
+      {
+        "id": "document-master-and-version-e2e",
+        "reference": "ADR-0044: document-info-record-maestro + repositorio-documental-versionado",
+        "purpose": "Require tenant-scoped metadata identity, immutable content versions, hashes and retrieval evidence."
+      },
+      {
+        "id": "object-link-and-sharing-e2e",
+        "reference": "ADR-0044: object-linking-polimorfico + compartir-documento-en-la-relacion",
+        "purpose": "Require links from two owning domains and consent-bound cross-organization grant/revocation evidence."
+      },
+      {
+        "id": "retention-integrity-e2e",
+        "reference": "ADR-0044: retencion-legal-y-worm + audit-trail-inmutable-documento",
+        "purpose": "Require executable retention, legal hold, WORM, controlled purge and immutable audit evidence."
+      }
+    ],
+    "readyWhen": "The expert contract, market lens and Graphify anchors validate, making Document Management an active product authority. Runtime readiness remains BLOCK while ADR-0044 is proposed and no transversal repository, version lifecycle, retention/WORM or shared-document implementation is demonstrated."
+  }
+}

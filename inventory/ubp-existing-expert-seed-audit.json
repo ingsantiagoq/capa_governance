@@ -1937,6 +1937,139 @@
           "matchCount": 1
         }
       ]
+    },
+    {
+      "expertId": "document-management-expert",
+      "manifestSha256": "6f2748acbee935666c2a19e94bdbadceac105cb011f1aa50b3ccf870b27281a7",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "4444edac4bda6f4624fe22b96a990e91e5a4a97e02d74b76b835181a0c263575",
+      "seeds": [
+        {
+          "seed": "ADR-0044 Gestion Documental",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0044_gestion_documental_adr_0044_gestión_documental",
+              "sourceFile": "docs/adr/ADR-0044-gestion-documental.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0044 repositorio-documental-versionado",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "repositorio_documental_versionado_manifest",
+              "sourceFile": "capa/ADR-0044-gestion-documental/repositorio-documental-versionado/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0044 document-info-record-maestro",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "document_info_record_maestro_manifest",
+              "sourceFile": "capa/ADR-0044-gestion-documental/document-info-record-maestro/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0044 object-linking-polimorfico",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "object_linking_polimorfico_manifest",
+              "sourceFile": "capa/ADR-0044-gestion-documental/object-linking-polimorfico/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0044 compartir-documento-en-la-relacion",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "compartir_documento_en_la_relacion_manifest",
+              "sourceFile": "capa/ADR-0044-gestion-documental/compartir-documento-en-la-relacion/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0044 aislamiento-y-consentimiento-b2b-del-dms",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "aislamiento_y_consentimiento_b2b_del_dms_manifest",
+              "sourceFile": "capa/ADR-0044-gestion-documental/aislamiento-y-consentimiento-b2b-del-dms/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0044 captura-entrante-ocr-inbox",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "captura_entrante_ocr_inbox_manifest",
+              "sourceFile": "capa/ADR-0044-gestion-documental/captura-entrante-ocr-inbox/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_service_src_ubp_ledger_domain_journalentry_cs_documentref",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_service_src_ubp_ledger_domain_journalentry_cs_documentref",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/JournalEntry.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "sharedbusinessdocument",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "sharedbusinessdocument",
+              "sourceFile": "building-blocks/Ubp.BuildingBlocks/ConsentGate.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_buildingblocks_consentgate_consentgate",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_buildingblocks_consentgate_consentgate",
+              "sourceFile": "building-blocks/Ubp.BuildingBlocks/ConsentGate.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
     }
   ]
 }

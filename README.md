@@ -65,6 +65,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Electronic Fiscal Documents](catalog/ubp/experts/electronic-fiscal-documents.expert.manifest.json): aplicabilidad, emisión por proveedor, reconciliación, estados, artefactos y evidencia fiscal E2E.
 - [Experto FX](catalog/ubp/experts/fx.expert.manifest.json): monedas, tasas vigentes, conversión, diferencias realizadas/no realizadas y posteo multimoneda.
 - [Experto Treasury](catalog/ubp/experts/treasury.expert.manifest.json): caja, pagos, recaudos, depósitos, settlements, bancos y conciliación.
+- [Experto Document Management](catalog/ubp/experts/document-management.expert.manifest.json): identidad documental, versiones, object links, grants, retención, integridad y evidencia compartida.
+- [Document Management Market Lens](knowledge/document-management/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
 - [Treasury Market Lens](knowledge/treasury/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [FX Market Lens](knowledge/fx/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [Electronic Fiscal Documents Market Lens](knowledge/electronic-fiscal-documents/market-lens.md): contraste oficial con Dynamics, OpenPeppol y Odoo.
