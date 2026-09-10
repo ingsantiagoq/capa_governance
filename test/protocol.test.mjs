@@ -12,6 +12,7 @@ import { evaluateEngineSovereignty, requiredStages } from '../tools/engine-sover
 import { auditExpertSeeds, resolveSeed } from '../tools/audit-expert-seeds.mjs';
 import { evaluatePoGovernance, loadPoCatalog } from '../tools/po-governance-gate.mjs';
 import { evaluateProductDecision } from '../tools/po-decision.mjs';
+import { evaluateClaudeExecution } from '../tools/claude-execution-gate.mjs';
 
 const examples = await Promise.all(['inventory', 'control-plane'].map(name => readFile(new URL(`../examples/${name}.manifest.json`, import.meta.url), 'utf8').then(JSON.parse)));
 const facts = { route: 'matched', manifestValid: true, policyDenied: false, approvalRequired: false, approvalGranted: false, decisionRequired: false, contextSufficient: true, graphAvailable: true, graphAttempted: false, expansions: 0, maxExpansions: 1, sourceAllowed: true, sourceAttempted: false };
@@ -620,6 +621,64 @@ test('PO decision blocks prohibited actions and cross-domain work without active
   assert.equal(authorityBlock.decision, 'BLOCK');
   assert.equal(authorityBlock.stage, 'authority-readiness');
   assert.ok(authorityBlock.reasons.includes('impacted:ledger-expert:expert-not-active'));
+});
+
+test('Claude execution requires the full governed sequence before completion', async () => {
+  const [attestation, policy] = await Promise.all([
+    readFile(new URL('../examples/claude-execution.attestation.json', import.meta.url), 'utf8').then(JSON.parse),
+    readFile(new URL('../inventory/claude-execution-policy.json', import.meta.url), 'utf8').then(JSON.parse)
+  ]);
+  const result = evaluateClaudeExecution(attestation, policy);
+  assert.equal(result.decision, 'COMPLETE');
+  assert.equal(result.goalId, 'example-governed-goal');
+
+  const start = structuredClone(attestation);
+  start.phase = 'start';
+  start.goal.status = 'active';
+  start.agents.status = 'dispatched';
+  assert.equal(evaluateClaudeExecution(start, policy).decision, 'READY_TO_START');
+});
+
+test('Claude execution blocks missing skills, stale Graphify and review findings', async () => {
+  const [source, policy] = await Promise.all([
+    readFile(new URL('../examples/claude-execution.attestation.json', import.meta.url), 'utf8').then(JSON.parse),
+    readFile(new URL('../inventory/claude-execution-policy.json', import.meta.url), 'utf8').then(JSON.parse)
+  ]);
+  const cases = [
+    [input => { input.objective.status = 'unclear'; }, 'objective-not-clear'],
+    [input => { input.plan.invoked = false; }, 'plan-not-complete'],
+    [input => { input.goal.receipt = ''; }, 'goal-not-active'],
+    [input => { input.agents.assignments = []; }, 'agents-not-dispatched'],
+    [input => { input.review.reviewerId = input.agents.workerIds[0]; }, 'peer-review-not-passed'],
+    [input => { input.graphify.before.indexSha256 = 'stale'; }, 'graphify-before-missing'],
+    [input => { input.graphify.after.anchors = []; }, 'graphify-after-missing'],
+    [input => { input.review.unresolvedFindings = 1; }, 'peer-review-not-passed'],
+    [input => { input.goal.completedAt = '2026-09-10T12:05:00Z'; }, 'completion-sequence-invalid']
+  ];
+  for (const [mutate, reason] of cases) {
+    const input = structuredClone(source);
+    mutate(input);
+    const result = evaluateClaudeExecution(input, policy);
+    assert.equal(result.decision, 'BLOCK');
+    assert.ok(result.reasons.includes(reason), reason);
+  }
+});
+
+test('Claude execution permits the declared planning fallback only with a clear objective', async () => {
+  const [input, policy] = await Promise.all([
+    readFile(new URL('../examples/claude-execution.attestation.json', import.meta.url), 'utf8').then(JSON.parse),
+    readFile(new URL('../inventory/claude-execution-policy.json', import.meta.url), 'utf8').then(JSON.parse)
+  ]);
+  input.plan.method = policy.planFallback;
+  input.plan.invoked = false;
+  input.plan.fallbackReason = '/ultraplan was unavailable; objective and acceptance criteria were clarified before work.';
+  assert.equal(evaluateClaudeExecution(input, policy).decision, 'COMPLETE');
+  input.objective.status = 'unclear';
+  assert.equal(evaluateClaudeExecution(input, policy).decision, 'BLOCK');
+
+  const weakened = structuredClone(policy);
+  weakened.skills.review = '/review';
+  assert.deepEqual(evaluateClaudeExecution(input, weakened).reasons, ['invalid-claude-execution-policy']);
 });
 
 function sovereigntyInput() {

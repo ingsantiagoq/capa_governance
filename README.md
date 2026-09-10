@@ -50,6 +50,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Governance Readiness Gate](protocol/governance-readiness-gate.md) y
   [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
 - [Autoridad PO](protocol/po-authority.md) y [motor de decisión](tools/po-decision.mjs): convierten una intención normalizada en `GO`, `NEEDS_EVIDENCE`, `ESCALATE` o `BLOCK` y adjuntan los fundamentos de producto.
+- [Ejecución gobernada de Claude](protocol/claude-governed-execution.md): exige `/ultraplan`, `/goal`, `/agent`, `/ultrareviewer` y evidencia Graphify ordenada; los hooks bloquean edición o cierre cuando falta el contrato.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
   [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v11.

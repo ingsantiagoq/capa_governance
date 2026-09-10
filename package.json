@@ -10,8 +10,9 @@
     "validate": "node tools/validate-capability-manifests.mjs",
     "test": "node --test",
     "audit:po": "node tools/po-governance-gate.mjs",
+    "audit:claude-protocol": "node tools/claude-execution-gate.mjs examples/claude-execution.attestation.json",
     "decide:po": "node tools/po-decision.mjs",
-    "check": "npm run validate && npm test && npm run audit:po",
+    "check": "npm run validate && npm test && npm run audit:po && npm run audit:claude-protocol",
     "audit:tax-sovereignty": "node tools/engine-sovereignty-gate.mjs inventory/tax-sovereignty-evidence.json"
   }
 }

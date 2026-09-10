@@ -6,23 +6,27 @@ description: Inicializa el protocolo CAPA Governance al iniciar una tarea sobre 
 Usar el catalogo UBP aprobado y la revision fijada de capa_governance. Este skill
 es un adaptador, no una fuente de verdad ni un permiso para ejecutar acciones.
 
-1. Leer [protocolo de expertos](../../protocol/domain-experts.md) y
+1. Si el runtime es Claude Code, ejecutar primero
+   [claude-governed-execution](../claude-governed-execution/SKILL.md). Sin
+   atestación `READY_TO_START`, no modificar código; sin `COMPLETE`, no cerrar,
+   commitear ni publicar.
+2. Leer [protocolo de expertos](../../protocol/domain-experts.md) y
    [router](../../protocol/capability-router.md), resolver la intencion contra
    manifests y validarlos con tools/validate-capability-manifests.mjs del repo.
    Sin catalogo o coincidencia: block. Con ambiguedad: escalate al PO.
-2. Resolver dominio, capacidad, accion, impactos y riesgos verificados para
+3. Resolver dominio, capacidad, accion, impactos y riesgos verificados para
    expertContext; usar un experto primario publicado. Ausencia o ambiguedad de
    experto escala a Arquitecto; no inventar experto ni iniciar agentes paralelos.
    Producir el [Context Pack](../../protocol/context-pack.md) de siete campos;
    conservar politicas y registrar revision e intencion en el sobre de ejecucion.
-3. Aplicar [broker](../../protocol/context-broker-state-machine.md) con hechos
+4. Aplicar [broker](../../protocol/context-broker-state-machine.md) con hechos
    verificados usando transition(previous, facts, expertContext) de
    tools/context-broker.mjs. No omitir expertContext para evadir v2. No inventar aprobaciones ni
    considerar suficiente un pack solo porque tiene siete campos.
-4. ready: continuar dentro de alcance. expand/graphify: expandir solo semillas
+5. ready: continuar dentro de alcance. expand/graphify: expandir solo semillas
    curadas, registrar intento y presupuesto, reevaluar. expand/source: abrir solo
    evidencia focalizada cuando manifest y grafo resultan insuficientes.
-5. escalate: entregar brecha o decision a expertDecision.targets con evidencia
+6. escalate: entregar brecha o decision a expertDecision.targets con evidencia
    y conservar primaryExpert en el sobre. block: informar motivo
    y requisito faltante. No ejecutar la accion pendiente en ninguno de ellos.
 

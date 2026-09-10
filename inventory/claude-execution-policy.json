@@ -1,0 +1,25 @@
+{
+  "kind": "claude-execution-policy",
+  "version": 1,
+  "runtime": "claude-code",
+  "requiredSequence": [
+    "objective-clear",
+    "plan-complete",
+    "goal-active",
+    "graphify-before",
+    "agents-dispatched",
+    "implementation",
+    "agents-complete",
+    "graphify-after",
+    "peer-review-passed",
+    "goal-complete"
+  ],
+  "skills": {
+    "plan": "/ultraplan",
+    "goal": "/goal",
+    "agents": "/agent",
+    "review": "/ultrareviewer"
+  },
+  "planFallback": "objective-clarification-fallback",
+  "attestationPath": ".capa/claude-execution-attestation.json"
+}

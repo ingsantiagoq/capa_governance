@@ -1,0 +1,114 @@
+{
+  "kind": "claude-execution-attestation",
+  "version": 1,
+  "runtime": "claude-code",
+  "phase": "complete",
+  "repository": {
+    "worktree": "/example/capa_governance",
+    "baseRevision": "658bb343d043a430be7e00060d804c68db6d7df7",
+    "resultRevision": "pending"
+  },
+  "repository": {
+    "worktree": "/path/to/governed/worktree",
+    "baseRevision": "658bb343d043a430be7e00060d804c68db6d7df7",
+    "resultRevision": "pending"
+  },
+  "objective": {
+    "status": "clear",
+    "statement": "Demonstrate the governed Claude execution contract without changing UBP runtime behavior.",
+    "acceptanceCriteria": [
+      "The start sequence is complete before implementation.",
+      "Graphify and peer review evidence exist before goal completion."
+    ],
+    "confirmedAt": "2026-09-10T12:00:00Z"
+  },
+  "plan": {
+    "method": "/ultraplan",
+    "skill": "/ultraplan",
+    "invoked": true,
+    "receipt": "example-ultraplan-receipt",
+    "workstreams": [
+      "contract",
+      "tests",
+      "review"
+    ],
+    "completedAt": "2026-09-10T12:01:00Z"
+  },
+  "goal": {
+    "skill": "/goal",
+    "invoked": true,
+    "receipt": "example-goal-receipt",
+    "id": "example-governed-goal",
+    "status": "complete",
+    "startedAt": "2026-09-10T12:02:00Z",
+    "completedAt": "2026-09-10T12:10:00Z"
+  },
+  "agents": {
+    "skill": "/agent",
+    "invoked": true,
+    "receipt": "example-agent-receipt",
+    "status": "complete",
+    "assignments": [
+      "contract-analysis",
+      "adversarial-tests"
+    ],
+    "workerIds": [
+      "worker-contract",
+      "worker-tests"
+    ],
+    "workerIds": [
+      "claude-contract-agent",
+      "claude-test-agent"
+    ],
+    "dispatchedAt": "2026-09-10T12:04:00Z",
+    "completedAt": "2026-09-10T12:07:00Z"
+  },
+  "graphify": {
+    "before": {
+      "status": "PASS",
+      "updatedAt": "2026-09-10T12:03:00Z",
+      "nodeCount": 754,
+      "indexSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "queries": [
+        "claude execution governance"
+      ],
+      "anchors": [
+        "tools/claude-execution-gate.mjs"
+      ]
+    },
+    "after": {
+      "status": "PASS",
+      "updatedAt": "2026-09-10T12:08:00Z",
+      "nodeCount": 800,
+      "indexSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "queries": [
+        "claude execution gate"
+      ],
+      "anchors": [
+        "tools/claude-execution-gate.mjs"
+      ]
+    }
+  },
+  "review": {
+    "skill": "/ultrareviewer",
+    "invoked": true,
+    "receipt": "example-ultrareviewer-receipt",
+    "reviewerId": "peer-reviewer",
+    "reviewerId": "claude-ultrareviewer-agent",
+    "status": "passed",
+    "unresolvedFindings": 0,
+    "reviewedScopes": [
+      "contract",
+      "tests",
+      "graph-index"
+    ],
+    "completedAt": "2026-09-10T12:09:00Z"
+  },
+  "evidence": [
+    {
+      "command": "npm run check",
+      "exitCode": 0,
+      "resultSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ]
+}
