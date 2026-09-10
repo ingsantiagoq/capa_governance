@@ -918,27 +918,15 @@
     },
     {
       "expertId": "inventory-expert",
-      "manifestSha256": "a69234bff00720c57bfdc2bd096549ba77c64326af8f5bcce4eade0a90e8af5d",
-      "decision": "BLOCK",
+      "manifestSha256": "4aa8a8d7e1c36616a48f45f99903d615721e43a09681c1dfc09bb52404e41c31",
+      "decision": "READY",
       "counts": {
-        "resolved": 17,
+        "resolved": 14,
         "ambiguous": 0,
-        "missing": 1
+        "missing": 0
       },
-      "seedVerificationSha256": null,
+      "seedVerificationSha256": "02c440a1e77bc15cd6bbf7c1bbf0d196f6ec641a2b5ced2d14228ae472c9c506",
       "seeds": [
-        {
-          "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "resolved",
-          "method": "exact-source",
-          "matches": [
-            {
-              "id": "architecture_accounting_segmentation_engine",
-              "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
-            }
-          ],
-          "matchCount": 1
-        },
         {
           "seed": "ADR-0021 Inventario y Sucursales",
           "status": "resolved",
@@ -950,13 +938,6 @@
             }
           ],
           "matchCount": 1
-        },
-        {
-          "seed": "Market Lens Inventory 2026-09-07",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
         },
         {
           "seed": "CAPA ADR-0021 stock-types-reservas-y-atp",
@@ -983,13 +964,25 @@
           "matchCount": 1
         },
         {
-          "seed": "CAPA ADR-0021 trazabilidad-financiera-fiscal-por-sucursal",
+          "seed": "CAPA ADR-0021 inventory-receipt-y-costeo",
           "status": "resolved",
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "trazabilidad_financiera_fiscal_por_sucursal_manifest",
-              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/trazabilidad-financiera-fiscal-por-sucursal/manifest.json"
+              "id": "inventory_receipt_y_costeo_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/inventory-receipt-y-costeo/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 politica-costeo-versionada-avg",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "politica_costeo_versionada_avg_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/politica-costeo-versionada-avg/manifest.json"
             }
           ],
           "matchCount": 1
@@ -1007,37 +1000,25 @@
           "matchCount": 1
         },
         {
-          "seed": "CAPA ADR-0021 carga-saldos-iniciales-inventario",
+          "seed": "CAPA ADR-0021 valuacion-inventario-reportes",
           "status": "resolved",
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "carga_saldos_iniciales_inventario_manifest",
-              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/carga-saldos-iniciales-inventario/manifest.json"
+              "id": "valuacion_inventario_reportes_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/valuacion-inventario-reportes/manifest.json"
             }
           ],
           "matchCount": 1
         },
         {
-          "seed": "CAPA ADR-0021 lote-loop-s2a-recepcion-lote-inventory",
+          "seed": "CAPA ADR-0021 actual-costing-periodico",
           "status": "resolved",
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "lote_loop_s2a_recepcion_lote_inventory_manifest",
-              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/lote-loop-s2a-recepcion-lote-inventory/manifest.json"
-            }
-          ],
-          "matchCount": 1
-        },
-        {
-          "seed": "CAPA ADR-0021 kardex-saldo-por-bodega",
-          "status": "resolved",
-          "method": "capa-manifest",
-          "matches": [
-            {
-              "id": "kardex_saldo_por_bodega_manifest",
-              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/kardex-saldo-por-bodega/manifest.json"
+              "id": "actual_costing_periodico_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/actual-costing-periodico/manifest.json"
             }
           ],
           "matchCount": 1
@@ -1067,73 +1048,49 @@
           "matchCount": 1
         },
         {
-          "seed": "ubp_inventory_domain_item_item",
+          "seed": "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
           "status": "resolved",
           "method": "exact-id",
           "matches": [
             {
-              "id": "ubp_inventory_domain_item_item",
-              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Item.cs"
+              "id": "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Costing/WeightedAverageCostingStrategy.cs"
             }
           ],
           "matchCount": 1
         },
         {
-          "seed": "ubp_inventory_domain_warehouse_warehouse",
+          "seed": "costing_fifocostingstrategy_fifocostingstrategy",
           "status": "resolved",
           "method": "exact-id",
           "matches": [
             {
-              "id": "ubp_inventory_domain_warehouse_warehouse",
-              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Warehouse.cs"
+              "id": "costing_fifocostingstrategy_fifocostingstrategy",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Costing/FifoCostingStrategy.cs"
             }
           ],
           "matchCount": 1
         },
         {
-          "seed": "ubp_inventory_domain_branch_branch",
+          "seed": "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
           "status": "resolved",
           "method": "exact-id",
           "matches": [
             {
-              "id": "ubp_inventory_domain_branch_branch",
-              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Branch.cs"
+              "id": "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/CostingPolicyService.cs"
             }
           ],
           "matchCount": 1
         },
         {
-          "seed": "ubp_inventory_application_stockservice_stockservice",
+          "seed": "ubp_inventory_application_inventorycostingengine_inventorycostingengine",
           "status": "resolved",
           "method": "exact-id",
           "matches": [
             {
-              "id": "ubp_inventory_application_stockservice_stockservice",
-              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/StockService.cs"
-            }
-          ],
-          "matchCount": 1
-        },
-        {
-          "seed": "services_inventorygrpcservice_inventorygrpcservice",
-          "status": "resolved",
-          "method": "exact-id",
-          "matches": [
-            {
-              "id": "services_inventorygrpcservice_inventorygrpcservice",
-              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Api/Services/InventoryGrpcService.cs"
-            }
-          ],
-          "matchCount": 1
-        },
-        {
-          "seed": "endpoints_v1inventoryendpoints_v1inventoryendpoints",
-          "status": "resolved",
-          "method": "exact-id",
-          "matches": [
-            {
-              "id": "endpoints_v1inventoryendpoints_v1inventoryendpoints",
-              "sourceFile": "ubp-bff/src/Ubp.Bff.Api/Endpoints/V1InventoryEndpoints.cs"
+              "id": "ubp_inventory_application_inventorycostingengine_inventorycostingengine",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/InventoryCostingEngine.cs"
             }
           ],
           "matchCount": 1

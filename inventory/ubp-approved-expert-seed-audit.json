@@ -1791,6 +1791,187 @@
           "matchCount": 1
         }
       ]
+    },
+    {
+      "expertId": "inventory-expert",
+      "manifestSha256": "4aa8a8d7e1c36616a48f45f99903d615721e43a09681c1dfc09bb52404e41c31",
+      "decision": "READY",
+      "counts": {
+        "resolved": 14,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "02c440a1e77bc15cd6bbf7c1bbf0d196f6ec641a2b5ced2d14228ae472c9c506",
+      "seeds": [
+        {
+          "seed": "ADR-0021 Inventario y Sucursales",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0021_inventario_y_sucursales",
+              "sourceFile": "docs/adr/ADR-0021-inventario-y-sucursales.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 stock-types-reservas-y-atp",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "stock_types_reservas_y_atp_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/stock-types-reservas-y-atp/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 reorden-min-max-safety-stock",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "reorden_min_max_safety_stock_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/reorden-min-max-safety-stock/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 inventory-receipt-y-costeo",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "inventory_receipt_y_costeo_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/inventory-receipt-y-costeo/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 politica-costeo-versionada-avg",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "politica_costeo_versionada_avg_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/politica-costeo-versionada-avg/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 ajustes-manuales-inventario-contabilizados",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "ajustes_manuales_inventario_contabilizados_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/ajustes-manuales-inventario-contabilizados/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 valuacion-inventario-reportes",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "valuacion_inventario_reportes_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/valuacion-inventario-reportes/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0021 actual-costing-periodico",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "actual_costing_periodico_manifest",
+              "sourceFile": "capa/ADR-0021-inventario-y-sucursales/actual-costing-periodico/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_stockbalance_stockbalance",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_stockbalance_stockbalance",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/StockBalance.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_domain_stockmovement_stockmovement",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_domain_stockmovement_stockmovement",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/StockMovement.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Costing/WeightedAverageCostingStrategy.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "costing_fifocostingstrategy_fifocostingstrategy",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "costing_fifocostingstrategy_fifocostingstrategy",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Domain/Costing/FifoCostingStrategy.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/CostingPolicyService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_inventory_application_inventorycostingengine_inventorycostingengine",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_inventory_application_inventorycostingengine_inventorycostingengine",
+              "sourceFile": "ubp-inventory-service/src/Ubp.Inventory.Application/InventoryCostingEngine.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
     }
   ]
 }

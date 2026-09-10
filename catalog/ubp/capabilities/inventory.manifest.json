@@ -1,0 +1,126 @@
+{
+  "services": [
+    "inventory-service",
+    "ubp-bff",
+    "admin-service",
+    "ledger-service",
+    "ap-service",
+    "ar-service",
+    "pos-service",
+    "production-service",
+    "edge-node"
+  ],
+  "contracts": [
+    "Item",
+    "Warehouse",
+    "Branch",
+    "StockBalance",
+    "StockMovement",
+    "Reservation",
+    "InventoryCostLayer",
+    "CostingPolicy",
+    "ValuationSnapshot",
+    "InventoryAdjustment",
+    "InventoryPostingFact"
+  ],
+  "dependencies": [
+    "tenant legal entity branch and warehouse context",
+    "item UoM lot serial and bin policy",
+    "versioned effective costing policy",
+    "source document identity",
+    "semantic posting behavior and account roles",
+    "accounting period and currency context",
+    "outbox idempotency and audit trail"
+  ],
+  "restrictions": [
+    "stock and cost history is append-only",
+    "reservations do not move quantity or value",
+    "costing policy is versioned and effective-dated",
+    "inventory owns quantity and cost facts while Ledger owns journals",
+    "country and industry differences are configuration",
+    "write-downs preserve original cost and require approval",
+    "inventory is not depreciated; capitalization hands off to Fixed Assets",
+    "BFF and tenant boundaries are mandatory"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect on-hand reserved ATP movement layers cost and valuation",
+      "trace source document to movement to cost fact to Ledger handoff",
+      "calculate evidenced AVG or FIFO outcomes",
+      "identify advanced-costing or write-down gaps without claiming readiness"
+    ],
+    "poDecision": [
+      "approve costing methods and rollout scope",
+      "approve negative-stock reservation and adjustment policy",
+      "approve landed-cost allocation and obsolescence policy",
+      "approve capitalization boundary and inventory close model"
+    ],
+    "architectHandoff": [
+      "costing strategy and layer persistence",
+      "backdated recomputation and period close",
+      "landed cost standard cost rollup and PPV",
+      "production consumption and actual costing",
+      "intercompany and offline synchronization",
+      "durable Ledger posting and reconciliation"
+    ],
+    "reviewerGate": [
+      "tenant and branch isolation",
+      "movement idempotency and immutable history",
+      "quantity value and layer reconciliation",
+      "effective costing-policy snapshot",
+      "reversal and backdating behavior",
+      "semantic account roles without embedded accounts",
+      "inventory-to-Ledger control matrix",
+      "no depreciation of inventory"
+    ],
+    "forbiddenWithoutApproval": [
+      "real stock or value adjustment",
+      "costing-policy change",
+      "inventory write-down",
+      "period close or recosting",
+      "standard-cost activation",
+      "inventory migration",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0021 Inventario y Sucursales",
+      "CAPA ADR-0021 stock-types-reservas-y-atp",
+      "CAPA ADR-0021 reorden-min-max-safety-stock",
+      "CAPA ADR-0021 inventory-receipt-y-costeo",
+      "CAPA ADR-0021 politica-costeo-versionada-avg",
+      "CAPA ADR-0021 ajustes-manuales-inventario-contabilizados",
+      "CAPA ADR-0021 valuacion-inventario-reportes",
+      "CAPA ADR-0021 actual-costing-periodico",
+      "ubp_inventory_domain_stockbalance_stockbalance",
+      "ubp_inventory_domain_stockmovement_stockmovement",
+      "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
+      "costing_fifocostingstrategy_fifocostingstrategy",
+      "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
+      "ubp_inventory_application_inventorycostingengine_inventorycostingengine"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Inventory expert derived from accepted UBP ADR-0021 and pinned Graphify evidence at revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. AVG/FIFO, versioned costing policy and core stock facts are evidenced; standard cost, landed cost, PPV, periodic actual costing, backdated recomputation and obsolescence provisioning remain unproven."
+  },
+  "capability": {
+    "id": "inventory",
+    "name": "Inventario",
+    "intents": [
+      "consultar disponibilidad y ATP",
+      "reservar o liberar inventario",
+      "registrar recepción salida transferencia devolución o ajuste",
+      "calcular y explicar costo AVG o FIFO",
+      "consultar kardex capas y valuación a fecha",
+      "analizar landed cost costo estándar variaciones o recosteo",
+      "evaluar obsolescencia deterioro y write-down",
+      "conciliar valuación de inventario con Ledger"
+    ]
+  }
+}

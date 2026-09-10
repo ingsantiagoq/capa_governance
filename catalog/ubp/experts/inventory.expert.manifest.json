@@ -1,0 +1,425 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "inventory-expert",
+  "domain": "inventory",
+  "scope": [
+    "Item master, units, branches, warehouses, bins, lots, serials and physical stock authority",
+    "Append-only stock movements, reservations, ATP, replenishment, transfers, counts, returns and traceability",
+    "Inventory costing by governed strategy, valuation layers, as-of valuation, adjustments, write-downs and accounting handoff",
+    "Inventory owns quantity and cost facts; Ledger owns journals; AP, AR, POS and Production own their source documents",
+    "Inventory impairment, obsolescence and net-realizable-value adjustment are distinct from fixed-asset depreciation",
+    "Country, industry, costing, movement and posting differences are versioned Control Plane policy or isolated adapters"
+  ],
+  "coveredCapabilities": [
+    "inventory"
+  ],
+  "seedNodes": [
+    "ADR-0021 Inventario y Sucursales",
+    "CAPA ADR-0021 stock-types-reservas-y-atp",
+    "CAPA ADR-0021 reorden-min-max-safety-stock",
+    "CAPA ADR-0021 inventory-receipt-y-costeo",
+    "CAPA ADR-0021 politica-costeo-versionada-avg",
+    "CAPA ADR-0021 ajustes-manuales-inventario-contabilizados",
+    "CAPA ADR-0021 valuacion-inventario-reportes",
+    "CAPA ADR-0021 actual-costing-periodico",
+    "ubp_inventory_domain_stockbalance_stockbalance",
+    "ubp_inventory_domain_stockmovement_stockmovement",
+    "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
+    "costing_fifocostingstrategy_fifocostingstrategy",
+    "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
+    "ubp_inventory_application_inventorycostingengine_inventorycostingengine"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "ledger-or-valuation-impact",
+      "targets": [
+        "ledger-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tax-or-nrv-policy",
+      "targets": [
+        "tax-expert",
+        "localization-country-pack-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "costing-policy-or-recosting",
+      "targets": [
+        "control-plane-expert",
+        "ledger-expert",
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "purchase-or-landed-cost",
+      "targets": [
+        "ap-expert",
+        "treasury-expert",
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "sale-or-fulfillment",
+      "targets": [
+        "ar-expert",
+        "pos-expert",
+        "logistics-fulfillment-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "production-or-standard-cost",
+      "targets": [
+        "production-expert",
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "intercompany-or-edge",
+      "targets": [
+        "b2b-intercompany-expert",
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-isolation-or-bff",
+      "targets": [
+        "identity-access-expert",
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "bypass-tenant-isolation",
+      "bypass-bff",
+      "allow-negative-stock-by-default",
+      "mutate-kardex-history",
+      "depreciate-inventory",
+      "embed-ledger-account-in-inventory",
+      "hardcode-country-costing-rule"
+    ],
+    "withoutApproval": [
+      "apply-stock-adjustment",
+      "apply-inventory-write-down",
+      "change-costing-policy",
+      "change-stock-type-semantics",
+      "change-reservation-policy",
+      "activate-standard-cost",
+      "run-periodic-recosting",
+      "run-inventory-migration",
+      "enable-edge-sync",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "ledger-expert",
+    "tax-expert",
+    "audit-integrity-expert",
+    "ap-expert",
+    "ar-expert",
+    "pos-expert",
+    "production-expert",
+    "fixed-assets-expert",
+    "b2b-intercompany-expert",
+    "logistics-fulfillment-expert",
+    "localization-country-pack-expert",
+    "treasury-expert",
+    "identity-access-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0021 Inventario y Sucursales",
+      "CAPA ADR-0021 stock-types-reservas-y-atp",
+      "CAPA ADR-0021 reorden-min-max-safety-stock",
+      "CAPA ADR-0021 inventory-receipt-y-costeo",
+      "CAPA ADR-0021 politica-costeo-versionada-avg",
+      "CAPA ADR-0021 ajustes-manuales-inventario-contabilizados",
+      "CAPA ADR-0021 valuacion-inventario-reportes",
+      "CAPA ADR-0021 actual-costing-periodico",
+      "ubp_inventory_domain_stockbalance_stockbalance",
+      "ubp_inventory_domain_stockmovement_stockmovement",
+      "costing_weightedaveragecostingstrategy_weightedaveragecostingstrategy",
+      "costing_fifocostingstrategy_fifocostingstrategy",
+      "ubp_inventory_application_costingpolicyservice_costingpolicyservice",
+      "ubp_inventory_application_inventorycostingengine_inventorycostingengine"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Inventory expert derived from accepted UBP ADR-0021 and pinned Graphify evidence at revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. AVG/FIFO, versioned costing policy and core stock facts are evidenced; standard cost, landed cost, PPV, periodic actual costing, backdated recomputation and obsolescence provisioning remain unproven."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0021",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0021-inventario-y-sucursales.md",
+        "purpose": "Vision accepted for inventory, branches, stock balances, movements, costing boundaries and market gap backlog"
+      },
+      {
+        "id": "capa-stock-types-reservas-y-atp",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0021-inventario-y-sucursales/stock-types-reservas-y-atp/manifest.json",
+        "purpose": "Verified reservation and ATP behavior; prevents overselling without moving physical stock"
+      },
+      {
+        "id": "capa-reorden-min-max-safety-stock",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0021-inventario-y-sucursales/reorden-min-max-safety-stock/manifest.json",
+        "purpose": "Verified replenishment recommendation policy; recommendations do not create AP documents automatically"
+      },
+      {
+        "id": "capa-trazabilidad-financiera-fiscal-por-sucursal",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0021-inventario-y-sucursales/trazabilidad-financiera-fiscal-por-sucursal/manifest.json",
+        "purpose": "Branch, legal entity, warehouse and financial/tax propagation boundary"
+      },
+      {
+        "id": "inventory-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/inventory/market-lens.md",
+        "purpose": "Curated comparison pressure for SAP, Dynamics, Epicor and Odoo without claiming UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://learning.sap.com/courses/inventory-management-and-physical-inventory-in-sap-s-4hana/setting-up-movement-types-1",
+        "purpose": "Movement semantics connecting quantity, value, account grouping and reversal",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/supply-chain/cost-management/inventory-costing-faq",
+        "purpose": "FIFO, weighted-average and standard-cost settlement, inventory close and variance behavior",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-resource-planning-erp/epicor-kinetic/supply-chain-management/ptw-warehouse/",
+        "purpose": "Warehouse, bins, lots, receiving, counts, WIP and mobile execution",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory/inventory_valuation/operations_valuation.html",
+        "purpose": "AVCO/FIFO/standard valuation effects and movement-level value corrections",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "stock-movement",
+      "ubpMeaning": "Append-only tenant-scoped quantity and value fact with source, warehouse, item, time, idempotency and costing snapshot.",
+      "marketLens": "ERP movement models connect physical operations with valuation and later accounting.",
+      "decisionRule": "Corrections use explicit reversal or adjustment facts; history is never overwritten."
+    },
+    {
+      "term": "costing-policy",
+      "ubpMeaning": "Versioned effective strategy resolved by legal entity and operational location before each movement.",
+      "marketLens": "Dynamics and Odoo support multiple costing methods at governed product scopes.",
+      "decisionRule": "AVG and FIFO are evidenced; a new method requires a universal strategy, migration rules and E2E valuation proof."
+    },
+    {
+      "term": "inventory-valuation",
+      "ubpMeaning": "Reproducible quantity-times-cost position whose detail reconciles movements, layers and Ledger handoff at a cutoff.",
+      "marketLens": "Odoo separates operational stock valuation from accounting recognition and Dynamics uses inventory close for periodic methods.",
+      "decisionRule": "Inventory calculates cost facts; Ledger decides and records balanced entries through semantic account roles."
+    },
+    {
+      "term": "inventory-write-down",
+      "ubpMeaning": "Approved value adjustment for obsolescence, damage or lower net realizable value, preserving quantity and original cost history.",
+      "marketLens": "Inventory reporting and accounting controls distinguish valuation losses from normal issue costing.",
+      "decisionRule": "Use an auditable adjustment and Ledger handoff; never call it depreciation or silently replace unit cost."
+    },
+    {
+      "term": "reservation",
+      "ubpMeaning": "Allocation that reduces ATP without moving physical quantity or consuming cost.",
+      "marketLens": "SAP and Dynamics separate availability commitment from physical issue.",
+      "decisionRule": "Reservation cannot create a stock movement or COGS until fulfillment."
+    },
+    {
+      "term": "inventory-fixed-asset-boundary",
+      "ubpMeaning": "Items held for sale or consumption remain inventory; capitalized durable goods transfer to Fixed Assets through an approved business event.",
+      "marketLens": "ERP suites separate inventory valuation from asset depreciation subledgers.",
+      "decisionRule": "Inventory is written down or consumed; only Fixed Assets runs depreciation after capitalization."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for valid cross-domain escalations"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory segmented chart of accounts and typed posting dimensions policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engines, Control Plane configuration boundary and transversal accounting integrity"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A cross-industry inventory engine where every quantity, reservation, layer, unit cost and valuation is reproducible by item and location, configurable by policy, traceable to its source and reconcilable with accounting across organizations.",
+    "businessOutcomes": [
+      "Expose reliable on-hand, reserved, ATP, aging and value at any cutoff.",
+      "Cost retail, restaurant, beauty, hotel and manufacturing flows with one governed strategy framework.",
+      "Explain purchase cost, landed cost, consumption, variance, write-down and Ledger effect without country or customer forks."
+    ],
+    "invariants": [
+      "Movement history is append-only and idempotent.",
+      "Reservation changes ATP without moving quantity or cost.",
+      "Quantity, value and cost layers reconcile for every item-location scope.",
+      "Inventory emits semantic valuation facts and never embeds concrete Ledger accounts.",
+      "Write-down and obsolescence preserve original facts and require approval.",
+      "Inventory is not depreciated; capitalization hands ownership to Fixed Assets."
+    ],
+    "configurationBoundary": "Costing method, effective scope, movement behavior, negative-stock policy, tracking, replenishment, landed-cost allocation, NRV/obsolescence policy, tolerances and semantic account roles are versioned Control Plane data; code owns universal inventory primitives and strategy interfaces."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://learning.sap.com/courses/inventory-management-and-physical-inventory-in-sap-s-4hana/setting-up-movement-types-1",
+        "observedCapability": "Movement types govern quantity, value and account-grouping consequences.",
+        "lesson": "Operational movement semantics and financial effects need one governed vocabulary.",
+        "ubpDecision": "Keep append-only universal movements with configured behavior and semantic account roles."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/supply-chain/cost-management/inventory-costing-faq",
+        "observedCapability": "FIFO, weighted average and standard cost interact with settlement, period close and purchase-price variances.",
+        "lesson": "A costing method is a lifecycle with close, adjustment and variance behavior, not just a formula.",
+        "ubpDecision": "Require strategy, effective scope, layer/settlement evidence, migration and Ledger reconciliation before activating each method."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory/inventory_valuation/operations_valuation.html",
+        "observedCapability": "Stock movements retain valuation under AVCO/FIFO while standard price and corrections follow distinct rules.",
+        "lesson": "Physical movement, valuation fact and accounting entry must remain traceable but independently controlled.",
+        "ubpDecision": "Persist the costing snapshot and correction fact on movement, then hand semantic value effects to Ledger."
+      },
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en/products/enterprise-resource-planning-erp/epicor-kinetic/supply-chain-management/ptw-warehouse/",
+        "observedCapability": "Operational execution spans bins, lots, receipts, counts, material queues and WIP.",
+        "lesson": "Industry breadth depends on a common location and traceability core.",
+        "ubpDecision": "Layer vertical workflows over shared item, warehouse, lot, serial, movement and costing primitives."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "inventory-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve ADR-0021, costing CAPAs and implementation anchors against the pinned UBP graph."
+      },
+      {
+        "id": "inventory-costing-avg-fifo-e2e",
+        "reference": "ADR-0021: inventory-receipt-y-costeo + politica-costeo-versionada-avg",
+        "purpose": "Require actual receipt, issue, transfer, layers, effective policy and valuation evidence for AVG/FIFO."
+      },
+      {
+        "id": "inventory-ledger-control-e2e",
+        "reference": "ADR-0021: ajustes-manuales-inventario-contabilizados + gl-control-matrix-inventario",
+        "purpose": "Require durable balanced Ledger handoff and reconciliation for every valued movement class."
+      },
+      {
+        "id": "inventory-advanced-costing-e2e",
+        "reference": "ADR-0021: standard-cost-y-cost-rollup + landed-cost-y-cuentas-interim + variance-ppv-posting + actual-costing-periodico + costeo-backdating-recompute",
+        "purpose": "Keep advanced costing claims blocked until each lifecycle has executable evidence."
+      },
+      {
+        "id": "inventory-write-down-e2e",
+        "reference": "ADR-0021: valuacion-inventario-reportes",
+        "purpose": "Require aging, obsolescence, NRV/write-down approval, posting and reversal evidence."
+      }
+    ],
+    "readyWhen": "The expert contract, market lens and Graphify anchors validate, making Inventory an active product authority. AVG/FIFO and core stock claims follow their evidence; advanced costing, full GL control and write-down readiness remain BLOCK until their dedicated gates pass."
+  }
+}

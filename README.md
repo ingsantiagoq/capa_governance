@@ -56,8 +56,6 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
   [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v11.
 - [Experto AR](examples/ar.expert.manifest.json): cuentas por cobrar y gates;
   anclas propuestas pendientes de verificar contra UBP.
-- [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
-  separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
 - [Catálogo UBP aprobado](catalog/ubp/approved-catalog.json): índice consumible de autoridades, capacidades y evidencia vigentes.
 - [Experto AP](catalog/ubp/experts/ap.expert.manifest.json): compras y cuentas por pagar, recepción documental, matching, excepciones y handoff contable.
 - [Experto Localization & Country Pack](catalog/ubp/experts/localization-country-pack.expert.manifest.json): packs versionados, instalación, procedencia y gate de apertura de país.
@@ -66,6 +64,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto FX](catalog/ubp/experts/fx.expert.manifest.json): monedas, tasas vigentes, conversión, diferencias realizadas/no realizadas y posteo multimoneda.
 - [Experto Treasury](catalog/ubp/experts/treasury.expert.manifest.json): caja, pagos, recaudos, depósitos, settlements, bancos y conciliación.
 - [Experto Document Management](catalog/ubp/experts/document-management.expert.manifest.json): identidad documental, versiones, object links, grants, retención, integridad y evidencia compartida.
+- [Experto Inventory](catalog/ubp/experts/inventory.expert.manifest.json): stock, reservas, trazabilidad, AVG/FIFO, valuación, deterioro y frontera con Ledger/Fixed Assets.
+- [Inventory Market Lens](knowledge/inventory/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
 - [Document Management Market Lens](knowledge/document-management/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
 - [Treasury Market Lens](knowledge/treasury/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [FX Market Lens](knowledge/fx/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
@@ -82,14 +82,12 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Tax](catalog/ubp/experts/tax.expert.manifest.json): determinación tributaria, soberanía por Country Pack, vigencias, legs, posiciones fiscales y reporte declarativo.
 - [Tax Market Lens](knowledge/tax/market-lens.md): comparación oficial contra Dynamics, Oracle, Odoo y SAP con decisiones explícitas para UBP.
 - [Experto Control Plane](catalog/ubp/experts/control-plane.expert.manifest.json): capabilities, permisos, configuracion por tenant y politicas runtime.
-- [Inventory Market Lens](knowledge/inventory/market-lens.md): comparacion curada contra SAP, Dynamics, Epicor y Odoo;
-  funciona como presion de diseno, no como prueba de implementacion UBP.
 - [Ledger Market Lens](knowledge/ledger/market-lens.md): comparacion curada para asientos, dimensiones, centros de costo, periodos y account maps.
 - [Control Plane Market Lens](knowledge/control-plane/market-lens.md): comparacion curada para capabilities, permisos, politicas por tenant y provisioning.
 - [Context Pack](protocol/context-pack.md): siete campos y procedencia.
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
-- [Inventory](examples/inventory.manifest.json) conserva estado de ejemplo.
+- [Inventory](catalog/ubp/capabilities/inventory.manifest.json) está publicado en el catálogo UBP.
   [AP](catalog/ubp/capabilities/ap.manifest.json), [Document Reception](catalog/ubp/capabilities/document-reception.manifest.json),
   [Ledger](catalog/ubp/capabilities/ledger.manifest.json),
   [Cost Center](catalog/ubp/capabilities/cost-center.manifest.json),

@@ -232,7 +232,25 @@
     },
     {
       "expertId": "inventory-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:inventory-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "d882afe00bd859018d74401630e5e8b5660a1cff",
+      "manifestSha256": "4aa8a8d7e1c36616a48f45f99903d615721e43a09681c1dfc09bb52404e41c31",
+      "reviewDueAt": "2027-03-10T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "02c440a1e77bc15cd6bbf7c1bbf0d196f6ec641a2b5ced2d14228ae472c9c506",
+      "blockedActions": [
+        "declare-standard-cost-ready",
+        "declare-landed-cost-ready",
+        "declare-ppv-ready",
+        "declare-periodic-actual-costing-ready",
+        "declare-backdating-recompute-ready",
+        "declare-obsolescence-write-down-ready",
+        "declare-inventory-gl-reconciled",
+        "declare-inventory-costing-complete"
+      ]
     },
     {
       "expertId": "ar-expert",
