@@ -59,6 +59,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
   separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
 - [Catálogo UBP aprobado](catalog/ubp/approved-catalog.json): índice consumible de autoridades, capacidades y evidencia vigentes.
+- [Experto AP](catalog/ubp/experts/ap.expert.manifest.json): compras y cuentas por pagar, recepción documental, matching, excepciones y handoff contable.
 - [Experto Ledger](catalog/ubp/experts/ledger.expert.manifest.json): gobierno contable, dimensiones, centros de costo, periodos y posteo.
 - [Experto Tax](catalog/ubp/experts/tax.expert.manifest.json): determinación tributaria, soberanía por Country Pack, vigencias, legs, posiciones fiscales y reporte declarativo.
 - [Tax Market Lens](knowledge/tax/market-lens.md): comparación oficial contra Dynamics, Oracle, Odoo y SAP con decisiones explícitas para UBP.
@@ -71,6 +72,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
 - [Inventory](examples/inventory.manifest.json) conserva estado de ejemplo.
+  [AP](catalog/ubp/capabilities/ap.manifest.json), [Document Reception](catalog/ubp/capabilities/document-reception.manifest.json),
   [Ledger](catalog/ubp/capabilities/ledger.manifest.json),
   [Cost Center](catalog/ubp/capabilities/cost-center.manifest.json),
   [Accounting Segmentation](catalog/ubp/capabilities/accounting-segmentation.manifest.json),

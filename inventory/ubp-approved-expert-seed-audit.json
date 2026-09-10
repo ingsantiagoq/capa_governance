@@ -4,6 +4,151 @@
   "graphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
   "experts": [
     {
+      "expertId": "ap-expert",
+      "manifestSha256": "6d1bdb6e0917a498f99e1d2b7f63cae85895b3055c12deb181d7331a481f458f",
+      "decision": "READY",
+      "counts": {
+        "resolved": 11,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "2667f0ce1e99662bf1222c8907f934ac82b377dc1ef195363ce156d10b1f0510",
+      "seeds": [
+        {
+          "seed": "ADR-0023 Compras y Cuentas por Pagar",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0023_compras_cxp",
+              "sourceFile": "docs/adr/ADR-0023-compras-cxp.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0044 Gestion Documental",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0044_gestion_documental_adr_0044_gestión_documental",
+              "sourceFile": "docs/adr/ADR-0044-gestion-documental.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "knowledge/ap/market-lens.md",
+          "status": "resolved",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "ap_market_lens",
+              "sourceFile": "capa-governance/protocol/knowledge/ap/market-lens.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "knowledge/document-reception/market-lens.md",
+          "status": "resolved",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "document_reception_market_lens",
+              "sourceFile": "capa-governance/protocol/knowledge/document-reception/market-lens.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 captura-factura-ocr",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "captura_factura_ocr_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/captura-factura-ocr/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 grir-clearing-account",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "grir_clearing_account_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/grir-clearing-account/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 conversion-oc-a-factura-muestra-sus-lineas",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "conversion_oc_a_factura_muestra_sus_lineas_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/conversion-oc-a-factura-muestra-sus-lineas/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0023 compra-del-dia-entra-despues-de-las-ventas",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "compra_del_dia_entra_despues_de_las_ventas_manifest",
+              "sourceFile": "capa/ADR-0023-compras-cxp/compra-del-dia-entra-despues-de-las-ventas/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ap_domain_purchasereceipt_purchasereceipt",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ap_domain_purchasereceipt_purchasereceipt",
+              "sourceFile": "ubp-ap-service/src/Ubp.Ap.Domain/PurchaseReceipt.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ap_application_ipurchasereceiptservice_purchasereceiptservice",
+              "sourceFile": "ubp-ap-service/src/Ubp.Ap.Application/IPurchaseReceiptService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "endpoints_v1apendpoints_v1apendpoints",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "endpoints_v1apendpoints_v1apendpoints",
+              "sourceFile": "ubp-bff/src/Ubp.Bff.Api/Endpoints/V1ApEndpoints.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "control-plane-expert",
       "manifestSha256": "697de1a6f85af23195a896a600da5e19cc4fc528e7852eed5f53ec71af81f9ae",
       "decision": "READY",

@@ -2,6 +2,7 @@
   "kind": "po-governance-policy",
   "version": 1,
   "requiredReadyExperts": [
+    "ap-expert",
     "control-plane-expert",
     "ledger-expert",
     "tax-expert"

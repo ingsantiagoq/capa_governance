@@ -112,7 +112,7 @@ const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.jso
 const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory.expert.manifest.json', import.meta.url), 'utf8'));
 const ledgerExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/ledger.expert.manifest.json', import.meta.url), 'utf8'));
 const controlPlaneExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
-const apExpert = JSON.parse(await readFile(new URL('../examples/ap.expert.manifest.json', import.meta.url), 'utf8'));
+const apExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/ap.expert.manifest.json', import.meta.url), 'utf8'));
 const taxExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/tax.expert.manifest.json', import.meta.url), 'utf8'));
 const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
 const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
@@ -265,8 +265,8 @@ test('cost-center capability manifest validates as cross-domain route seed', asy
 
 
 test('document reception routes to AP and blocks auto-posting', async () => {
-  const apCapability = JSON.parse(await readFile(new URL('../examples/ap.manifest.json', import.meta.url), 'utf8'));
-  const receptionCapability = JSON.parse(await readFile(new URL('../examples/document-reception.manifest.json', import.meta.url), 'utf8'));
+  const apCapability = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/ap.manifest.json', import.meta.url), 'utf8'));
+  const receptionCapability = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/document-reception.manifest.json', import.meta.url), 'utf8'));
   assert.deepEqual(validate(apCapability), []);
   assert.deepEqual(validate(receptionCapability), []);
   assert.deepEqual(validateManifest(apExpert), []);
@@ -334,7 +334,7 @@ test('cross-domain escalation carries deliberation policy for impacted experts',
 
 
 test('document workflow policy is mandatory for AP handoff', async () => {
-  const receptionCapability = JSON.parse(await readFile(new URL('../examples/document-reception.manifest.json', import.meta.url), 'utf8'));
+  const receptionCapability = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/document-reception.manifest.json', import.meta.url), 'utf8'));
   assert.deepEqual(validate(receptionCapability), []);
   for (const expert of [apExpert, ledgerExpert, controlPlaneExpert]) {
     assert.ok(expert.policies.some(policy => policy.id === 'document-workflow-deliberation'), `${expert.id} missing document workflow policy`);
@@ -511,14 +511,14 @@ test('governance readiness rejects invalid registry state and ambiguous authorit
   assert.deepEqual(evaluateGovernanceReadiness(ambiguous).reasons, ['ambiguous-primary-expert']);
 });
 
-test('UBP registry promotes Control Plane, Ledger and Tax after complete evidence', async () => {
+test('UBP registry promotes AP, Control Plane, Ledger and Tax after complete evidence', async () => {
   const registryPath = fileURLToPath(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url));
   const registry = JSON.parse(await readFile(registryPath, 'utf8'));
   assert.deepEqual(validateRegistry(registry), []);
   assert.equal(registry.entries.length, 30);
   assert.equal(new Set(registry.entries.map(entry => entry.expertId)).size, 30);
   const active = registry.entries.filter(entry => entry.status === 'active').map(entry => entry.expertId).sort();
-  assert.deepEqual(active, ['control-plane-expert', 'ledger-expert', 'tax-expert']);
+  assert.deepEqual(active, ['ap-expert', 'control-plane-expert', 'ledger-expert', 'tax-expert']);
   assert.ok(registry.entries.filter(entry => !active.includes(entry.expertId)).every(entry => entry.status === 'candidate'));
   const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
@@ -598,16 +598,17 @@ test('committed UBP seed audit remains tied to current manifests and registry re
   }
 });
 
-test('PO governance publishes coherent Control Plane, Ledger and Tax authorities', async () => {
+test('PO governance publishes coherent AP, Control Plane, Ledger and Tax authorities', async () => {
   const input = await loadPoCatalog('2026-09-10T12:00:00Z');
   assert.equal(input.approvedCatalog.kind, 'approved-domain-catalog');
   assert.ok(input.approvedCatalog.expertManifests.every(path => path.startsWith('catalog/ubp/experts/')));
   assert.ok(input.approvedCatalog.capabilityManifests.every(path => path.startsWith('catalog/ubp/capabilities/')));
-  assert.equal(input.expertManifests.length, 3);
-  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['control-plane-expert', 'ledger-expert', 'tax-expert']);
+  assert.equal(input.expertManifests.length, 4);
+  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['ap-expert', 'control-plane-expert', 'ledger-expert', 'tax-expert']);
   const result = evaluatePoGovernance(input);
   assert.equal(result.decision, 'CONTROLLED');
-  assert.deepEqual(result.summary, { ready: 3, blocked: 27, total: 30 });
+  assert.deepEqual(result.summary, { ready: 4, blocked: 26, total: 30 });
+  assert.equal(result.experts.find(item => item.expertId === 'ap-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'control-plane-expert').decision, 'READY');
   assert.equal(result.experts.find(item => item.expertId === 'ledger-expert').decision, 'READY');
   const tax = result.experts.find(item => item.expertId === 'tax-expert');

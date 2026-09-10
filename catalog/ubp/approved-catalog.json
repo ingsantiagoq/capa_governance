@@ -8,14 +8,17 @@
   "seedAudit": "inventory/ubp-approved-expert-seed-audit.json",
   "policy": "inventory/po-governance-policy.json",
   "expertManifests": [
+    "catalog/ubp/experts/ap.expert.manifest.json",
     "catalog/ubp/experts/control-plane.expert.manifest.json",
     "catalog/ubp/experts/ledger.expert.manifest.json",
     "catalog/ubp/experts/tax.expert.manifest.json"
   ],
   "capabilityManifests": [
     "catalog/ubp/capabilities/accounting-segmentation.manifest.json",
+    "catalog/ubp/capabilities/ap.manifest.json",
     "catalog/ubp/capabilities/control-plane.manifest.json",
     "catalog/ubp/capabilities/cost-center.manifest.json",
+    "catalog/ubp/capabilities/document-reception.manifest.json",
     "catalog/ubp/capabilities/ledger.manifest.json",
     "catalog/ubp/capabilities/tax.manifest.json"
   ],

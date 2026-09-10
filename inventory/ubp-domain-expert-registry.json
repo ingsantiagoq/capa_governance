@@ -101,7 +101,20 @@
     },
     {
       "expertId": "ap-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:ap-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "beebba1a269498200700e64f15fe71abfd3493e6",
+      "manifestSha256": "6d1bdb6e0917a498f99e1d2b7f63cae85895b3055c12deb181d7331a481f458f",
+      "reviewDueAt": "2027-03-09T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "2667f0ce1e99662bf1222c8907f934ac82b377dc1ef195363ce156d10b1f0510",
+      "blockedActions": [
+        "execute-payment",
+        "post-vendor-bill",
+        "run-three-way-match"
+      ]
     },
     {
       "expertId": "pos-expert",
