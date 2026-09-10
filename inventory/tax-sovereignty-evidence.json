@@ -1,0 +1,24 @@
+{
+  "kind": "engine-sovereignty-evidence",
+  "version": 1,
+  "engine": "tax",
+  "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13",
+  "evaluatedAt": "2026-09-09T12:00:00Z",
+  "stages": [
+    { "id": "control-plane-publication", "status": "BLOCK", "evidence": [{ "reference": "CountryPack resource publication exists but Tax resources are incomplete", "command": "graphify query CountryPack", "result": "Partial publication path; national defaults still compiled", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "unique-resolution", "status": "BLOCK", "evidence": [{ "reference": "Tax onboarding passes countryCode and reconstructs runtime policy", "command": "graphify path CountryPack TaxCalculationService", "result": "No unique published Tax resource resolver demonstrated", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "manifest-integrity", "status": "BLOCK", "evidence": [{ "reference": "CountryPack hashes exist", "command": "graphify explain CountryPackVersion", "result": "Tax consumption does not demonstrate resource hash verification", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "tenant-version-pin", "status": "BLOCK", "evidence": [{ "reference": "No Tax tenant-country immutable pin demonstrated", "command": "graphify query CountryPackAssignment", "result": "Version pin missing from inspected Tax path", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "engine-consumption", "status": "BLOCK", "evidence": [{ "reference": "CountryTaxTemplateSeeder and DefaultCountryBaselineProfiles", "command": "graphify path CountryTaxTemplateSeeder TaxCalculationService", "result": "Tax still consumes runtime defaults outside the published pack", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "explicit-upgrade", "status": "BLOCK", "evidence": [{ "reference": "CountryTaxPolicyVersion is immutable", "command": "graphify explain CountryTaxPolicyVersion", "result": "Tenant Country Pack upgrade workflow not demonstrated end to end", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "multi-country-same-engine", "status": "BLOCK", "evidence": [{ "reference": "Ubp.Tax.Tests baseline", "command": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj", "result": "338 tests pass but do not prove two published Country Packs through the same path", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "fictitious-country", "status": "BLOCK", "evidence": [{ "reference": "No fictitious Country Pack acceptance fixture", "command": "graphify query CountryTaxPolicyVersion", "result": "Extensibility beyond known country literals not demonstrated", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "no-runtime-country-fallback", "status": "BLOCK", "evidence": [{ "reference": "DefaultCountryBaselineProfiles and CountryUvtSeeder", "command": "graphify query DefaultCountryBaselineProfiles", "result": "Known national fallback remains compiled in Tax runtime", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] },
+    { "id": "accounting-handoff", "status": "BLOCK", "evidence": [{ "reference": "TaxLeg semantic output and Ledger ownership", "command": "graphify path TaxLeg JournalEntry", "result": "No complete published-policy-to-balanced-journal executable trace demonstrated", "ubpRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13" }] }
+  ],
+  "countryArtifacts": [
+    { "reference": "DefaultCountryBaselineProfiles", "classification": "country-pack-data", "justification": "National defaults belong in executable versioned Country Pack resources." },
+    { "reference": "CountryUvtSeeder", "classification": "country-pack-data", "justification": "Fiscal units and vigencies are policy data." },
+    { "reference": "US tax reporting implementation", "classification": "legal-adapter", "justification": "Allowed only behind a universal reporting contract with governed binding and declarative semantics." }
+  ]
+}

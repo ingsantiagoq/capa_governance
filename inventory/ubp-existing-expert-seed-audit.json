@@ -758,7 +758,7 @@
     },
     {
       "expertId": "tax-expert",
-      "manifestSha256": "4f8cbc56f400915b89f91dcd4b90a9dc20bb8c24282a5ea07d5bb1e895a1b93d",
+      "manifestSha256": "ad1fb00d963a6d27dfdefc64e38183aa899688661a37ce876a0c07a5c66e5cf6",
       "decision": "BLOCK",
       "counts": {
         "resolved": 7,

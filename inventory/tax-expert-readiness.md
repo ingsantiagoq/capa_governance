@@ -37,3 +37,9 @@ La auditoría del manifiesto resolvió **7 de 9 seeds**, sin ambigüedades. Las 
 ## Condición para READY
 
 Tax podrá avanzar a `active` cuando tenga dueño, suplente y aprobación; el grafo esté fijado y verificado; todas las seeds resuelvan en un grafo combinado; y una prueba reproducible demuestre dos configuraciones nacionales ejecutadas por el mismo motor sin editar código. La eliminación de toda deuda nacional no es requisito para publicar el experto, pero sí para afirmar soberanía completa de apertura de país.
+
+## Gate de cadena completa
+
+El inventario ejecutable vive en `inventory/tax-sovereignty-evidence.json` y se evalúa con `tools/engine-sovereignty-gate.mjs`. Separa diez pruebas de la cadena país → Control Plane → pin de tenant → Tax → Ledger. El corte actual bloquea las diez; la suite amplia de Tax prueba estabilidad del motor, pero no sustituye la prueba de publicación y consumo de dos Country Packs ni la configuración de un país ficticio.
+
+Governance debe mantener el veredicto `BLOCK` hasta que todas las etapas tengan evidencia ejecutada sobre el mismo commit de UBP. El cambio de código que cierre una etapa ocurre en UBP; CAPA Governance solo conserva el contrato, la evidencia y la decisión reproducible.

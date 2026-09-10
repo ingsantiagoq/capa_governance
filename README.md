@@ -45,6 +45,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Registry UBP](inventory/ubp-domain-expert-registry.json): estado operativo y revision de código usada por el gate.
 - [Auditoria inicial de semillas](inventory/ubp-existing-expert-seed-audit.json): resolución determinista de los seis expertos existentes contra el índice UBP fijado.
 - [Readiness de Tax](inventory/tax-expert-readiness.md): balance entre capacidad real del motor y brechas que bloquean soberanía de país.
+- [Evidencia de soberanía Tax](inventory/tax-sovereignty-evidence.json) y [gate ejecutable](tools/engine-sovereignty-gate.mjs): diez etapas desde publicación en Control Plane hasta handoff contable, fijadas a una revisión UBP.
 - [Governance Readiness Gate](protocol/governance-readiness-gate.md) y
   [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.

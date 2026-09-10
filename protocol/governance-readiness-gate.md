@@ -51,3 +51,17 @@ node tools/governance-readiness-gate.mjs evidence-bundle.json
 ```
 
 El proceso termina con código `0` para `READY` y `1` para `BLOCK` o entrada inválida. El bundle contiene `registry`, `expertManifests`, `capabilityManifests`, `request` y `evaluatedAt`.
+
+## Soberanía ejecutable del motor
+
+La autoridad del experto y la soberanía del motor son decisiones distintas. Un experto Tax puede estar vigente y aun así debe responder `BLOCK` a una apertura de país cuando UBP no demuestre la cadena técnica completa. `tools/engine-sovereignty-gate.mjs` evalúa esa segunda decisión con evidencia fijada a una sola revisión de UBP.
+
+Tax debe demostrar publicación de recursos ejecutables en Control Plane, resolución única, integridad del manifiesto, pin inmutable por tenant y país, consumo efectivo por el motor, upgrade explícito, dos países sobre el mismo binario, un país ficticio que descarte switches conocidos, ausencia de fallback nacional en runtime y handoff contable trazable. Para marcar una etapa `PASS` exige ancla, comando, código de salida cero, digest del resultado, fecha de ejecución y revisión UBP coincidente. Documentos, porcentajes o pruebas generales sin esa trazabilidad no producen `READY`.
+
+Todo artefacto con semántica nacional se clasifica como `country-pack-data`, `legal-adapter` o `universal-primitive`. Un artefacto sin clasificación y justificación bloquea. El adaptador legal solo es válido detrás de un contrato universal y un binding gobernado; no autoriza reglas fiscales nacionales dentro del núcleo.
+
+```sh
+node tools/engine-sovereignty-gate.mjs inventory/tax-sovereignty-evidence.json
+```
+
+La evidencia publicada representa el estado auditado, no una aspiración. Por eso el comando termina con código 1 mientras permanezca una brecha. Al cambiar UBP se regenera contra el commit nuevo; no se cambia un `BLOCK` a `PASS` sin ejecutar el comando y conservar el resultado correspondiente.

@@ -316,9 +316,14 @@
         "id": "agnostic-engine-sovereignty",
         "reference": "policies/architecture/agnostic-engine-sovereignty.md",
         "purpose": "Block national logic in the Tax core and require executable versioned Country Pack resources."
+      },
+      {
+        "id": "engine-sovereignty-e2e",
+        "reference": "node tools/engine-sovereignty-gate.mjs inventory/tax-sovereignty-evidence.json",
+        "purpose": "Require executable evidence from Control Plane publication through version pin, Tax consumption, multi-country proof and accounting handoff."
       }
     ],
-    "readyWhen": "The Tax manifest and capability validate, authority is active, all seeds resolve against the pinned UBP revision, country-specific behavior is delivered as executable Control Plane policy, and the same engine passes reproducible tests with at least two country configurations."
+    "readyWhen": "The Tax manifest and capability validate, authority is active, all seeds resolve against the pinned UBP revision, and engine-sovereignty-e2e returns READY for the same revision. This requires published executable policy, unique resolution, integrity verification, immutable tenant pinning, explicit upgrade, no runtime country fallback, two real country configurations, a fictitious country and a balanced accounting handoff."
   },
   "policies": [
     {

@@ -9,6 +9,7 @@
   "scripts": {
     "validate": "node tools/validate-capability-manifests.mjs",
     "test": "node --test",
-    "check": "npm run validate && npm test"
+    "check": "npm run validate && npm test",
+    "audit:tax-sovereignty": "node tools/engine-sovereignty-gate.mjs inventory/tax-sovereignty-evidence.json"
   }
 }

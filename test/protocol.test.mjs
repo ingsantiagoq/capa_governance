@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { validate, validateRegistry, assertSupported } from '../tools/validate-capability-manifests.mjs';
 import { transition } from '../tools/context-broker.mjs';
 import { evaluateGovernanceReadiness, seedVerificationSha256, sha256 } from '../tools/governance-readiness-gate.mjs';
+import { evaluateEngineSovereignty, requiredStages } from '../tools/engine-sovereignty-gate.mjs';
 import { auditExpertSeeds, resolveSeed } from '../tools/audit-expert-seeds.mjs';
 
 const examples = await Promise.all(['inventory', 'control-plane'].map(name => readFile(new URL(`../examples/${name}.manifest.json`, import.meta.url), 'utf8').then(JSON.parse)));
@@ -553,4 +554,90 @@ test('committed UBP seed audit remains tied to current manifests and registry re
     assert.equal(audited.decision, 'BLOCK');
     assert.equal(audited.seedVerificationSha256, null);
   }
+});
+
+function sovereigntyInput() {
+  const ubpRevision = 'ubp-test-revision';
+  const proof = id => ({
+    reference: `${id}:anchor`,
+    command: `${id}:test`,
+    result: 'passed',
+    exitCode: 0,
+    resultSha256: 'a'.repeat(64),
+    executedAt: '2026-09-09T11:00:00Z',
+    ubpRevision
+  });
+  return {
+    kind: 'engine-sovereignty-evidence',
+    version: 1,
+    engine: 'tax',
+    ubpRevision,
+    evaluatedAt: '2026-09-09T12:00:00Z',
+    stages: requiredStages.map(id => ({
+      id,
+      status: 'PASS',
+      evidence: [proof(id)]
+    })),
+    countryArtifacts: [
+      { reference: 'TaxPolicyResource', classification: 'country-pack-data', justification: 'Versioned fiscal policy.' },
+      { reference: 'ExternalFiscalRenderer', classification: 'legal-adapter', justification: 'Universal adapter boundary.' },
+      { reference: 'CompoundTaxPrimitive', classification: 'universal-primitive', justification: 'Country-neutral engine capability.' }
+    ]
+  };
+}
+
+test('engine sovereignty requires every executable stage on one UBP revision', () => {
+  const ready = evaluateEngineSovereignty(sovereigntyInput());
+  assert.equal(ready.decision, 'READY');
+  assert.equal(Object.keys(ready.stages).length, requiredStages.length);
+
+  for (const id of requiredStages) {
+    const missing = sovereigntyInput();
+    missing.stages = missing.stages.filter(stage => stage.id !== id);
+    assert.ok(evaluateEngineSovereignty(missing).reasons.includes(`${id}:missing-stage`), id);
+
+    const blocked = sovereigntyInput();
+    blocked.stages.find(stage => stage.id === id).status = 'BLOCK';
+    assert.ok(evaluateEngineSovereignty(blocked).reasons.includes(`${id}:not-demonstrated`), id);
+  }
+});
+
+test('documents without executable evidence and stale anchors never prove sovereignty', () => {
+  const empty = sovereigntyInput();
+  empty.stages[0].evidence = [];
+  assert.equal(evaluateEngineSovereignty(empty).decision, 'BLOCK');
+  assert.ok(evaluateEngineSovereignty(empty).reasons.includes('control-plane-publication:missing-or-stale-executable-evidence'));
+
+  const stale = sovereigntyInput();
+  stale.stages[0].evidence[0].ubpRevision = 'old-revision';
+  assert.ok(evaluateEngineSovereignty(stale).reasons.includes('control-plane-publication:missing-or-stale-executable-evidence'));
+
+  const failed = sovereigntyInput();
+  failed.stages[0].evidence[0].exitCode = 1;
+  assert.ok(evaluateEngineSovereignty(failed).reasons.includes('control-plane-publication:missing-or-stale-executable-evidence'));
+
+  const unsigned = sovereigntyInput();
+  delete unsigned.stages[0].evidence[0].resultSha256;
+  assert.ok(evaluateEngineSovereignty(unsigned).reasons.includes('control-plane-publication:missing-or-stale-executable-evidence'));
+});
+
+test('every country artifact must have a governed architectural classification', () => {
+  for (const mutate of [
+    item => { delete item.classification; },
+    item => { item.classification = 'country-switch'; },
+    item => { item.justification = ''; }
+  ]) {
+    const input = sovereigntyInput();
+    mutate(input.countryArtifacts[0]);
+    assert.ok(evaluateEngineSovereignty(input).reasons.includes('unclassified-country-artifact'));
+  }
+});
+
+test('committed Tax sovereignty evidence reports the audited UBP state as BLOCK', async () => {
+  const evidence = JSON.parse(await readFile(new URL('../inventory/tax-sovereignty-evidence.json', import.meta.url), 'utf8'));
+  const result = evaluateEngineSovereignty(evidence);
+  assert.equal(result.decision, 'BLOCK');
+  assert.ok(result.reasons.includes('engine-consumption:not-demonstrated'));
+  assert.ok(result.reasons.includes('fictitious-country:not-demonstrated'));
+  assert.ok(result.reasons.includes('accounting-handoff:not-demonstrated'));
 });
