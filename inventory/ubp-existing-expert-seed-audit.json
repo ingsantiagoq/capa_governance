@@ -755,6 +755,117 @@
           "matchCount": 1
         }
       ]
+    },
+    {
+      "expertId": "tax-expert",
+      "manifestSha256": "4f8cbc56f400915b89f91dcd4b90a9dc20bb8c24282a5ea07d5bb1e895a1b93d",
+      "decision": "BLOCK",
+      "counts": {
+        "resolved": 7,
+        "ambiguous": 0,
+        "missing": 2
+      },
+      "seedVerificationSha256": null,
+      "seeds": [
+        {
+          "seed": "policies/architecture/agnostic-engine-sovereignty.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "knowledge/tax/market-lens.md",
+          "status": "missing",
+          "method": null,
+          "matches": [],
+          "matchCount": 0
+        },
+        {
+          "seed": "ADR-0010 Impuestos por comportamiento",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0010_impuestos_por_comportamiento_adr_0010_impuestos_por_comportamiento",
+              "sourceFile": "docs/adr/ADR-0010-impuestos-por-comportamiento.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ADR-0014 Localizacion Country Packs",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0014_localizacion_country_packs_adr_0014_localización_country_packs",
+              "sourceFile": "docs/adr/ADR-0014-localizacion-country-packs.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0010 gobierno-fiscal-control-plane",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0010_impuestos_por_comportamiento_gobierno_fiscal_control_plane_manifest_json",
+              "sourceFile": "capa/ADR-0010-impuestos-por-comportamiento/gobierno-fiscal-control-plane/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_application_taxcalculationservice_taxcalculationservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_application_taxcalculationservice_taxcalculationservice",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Application/TaxCalculationService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_application_countrytaxpolicyservice_countrytaxpolicyservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_application_countrytaxpolicyservice_countrytaxpolicyservice",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Application/CountryTaxPolicyService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_domain_taxcode_taxcode",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_domain_taxcode_taxcode",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Domain/TaxCode.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_tax_domain_countrytaxpolicyversion_countrytaxpolicyversion",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_tax_domain_countrytaxpolicyversion_countrytaxpolicyversion",
+              "sourceFile": "ubp-tax-service/src/Ubp.Tax.Domain/CountryTaxPolicyVersion.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
     }
   ]
 }

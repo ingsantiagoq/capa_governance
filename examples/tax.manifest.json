@@ -1,0 +1,117 @@
+{
+  "capability": {
+    "id": "tax",
+    "name": "Motor tributario",
+    "intents": [
+      "calcular impuestos de una transaccion",
+      "determinar jurisdiccion y lugar de suministro",
+      "resolver tasas y tratamientos fiscales vigentes",
+      "aplicar exenciones sustituciones y posiciones fiscales",
+      "evaluar retenciones y su momento de causacion",
+      "producir legs y tags para contabilidad y reporte fiscal",
+      "provisionar o actualizar politica tributaria de un pais"
+    ]
+  },
+  "services": [
+    "tax-service",
+    "admin-service",
+    "ledger-service",
+    "parties-service",
+    "inventory-service",
+    "ar-service",
+    "ap-service",
+    "pos-service",
+    "electronic-fiscal-documents-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "tax.proto: TaxService",
+    "TaxCalculationService",
+    "TaxBehavior",
+    "TaxCode",
+    "TaxLeg",
+    "TaxAssignment",
+    "TaxSubstitution",
+    "TenantNexus",
+    "CountryTaxPolicyVersion",
+    "CountryTaxTemplate"
+  ],
+  "dependencies": [
+    "tenant and legal entity context",
+    "transaction direction and date",
+    "seller origin and customer destination",
+    "party fiscal profile and registrations",
+    "product tax classification and attached tax codes",
+    "published country tax policy",
+    "jurisdiction and nexus catalogs",
+    "rounding and effective dating policy",
+    "ledger account roles and tax tags",
+    "country pack version"
+  ],
+  "restrictions": [
+    "the tax engine never selects behavior by hardcoded country branch",
+    "rates formulas thresholds sourcing and report layouts require effective versioned policy",
+    "AR AP POS Inventory and Payroll consume tax results but do not implement tax calculation",
+    "tax emits semantic legs and account roles but never posts concrete Ledger accounts",
+    "missing required jurisdiction nexus behavior or policy fails closed",
+    "historical documents retain the policy and behavior versions used at calculation time",
+    "tenant and legal entity isolation are mandatory"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect effective tax codes behaviors assignments and substitutions",
+      "explain calculation legs and applied policy versions",
+      "identify jurisdiction nexus and sourcing inputs",
+      "compare a requested rule against published universal primitives"
+    ],
+    "poDecision": [
+      "accepting a new universal tax primitive",
+      "changing product behavior visible to customers",
+      "prioritizing country or transaction coverage",
+      "accepting a compatibility break in country pack lifecycle"
+    ],
+    "architectHandoff": [
+      "new determination or calculation semantics",
+      "new cross-domain fiscal event",
+      "country pack publication or migration design",
+      "tax to Ledger posting contract change",
+      "retention at payment saga design"
+    ],
+    "reviewerGate": [
+      "same engine passes with at least two country configurations",
+      "no new country literal in core calculation logic",
+      "effective dating and historical behavior pinning",
+      "tenant legal entity and jurisdiction isolation",
+      "balanced traceable Ledger handoff",
+      "fail-closed handling of missing fiscal context"
+    ],
+    "forbiddenWithoutApproval": [
+      "publishing a country tax policy",
+      "changing a tax behavior version",
+      "migrating historical tax codes",
+      "changing tax accounting roles",
+      "changing withholding timing",
+      "running tax data migrations",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0010 Impuestos por comportamiento",
+      "ADR-0014 Localizacion Country Packs",
+      "CAPA ADR-0010 gobierno-fiscal-control-plane",
+      "ubp_tax_application_taxcalculationservice_taxcalculationservice",
+      "ubp_tax_application_countrytaxpolicyservice_countrytaxpolicyservice",
+      "ubp_tax_domain_taxcode_taxcode",
+      "ubp_tax_domain_countrytaxpolicyversion_countrytaxpolicyversion"
+    ],
+    "maxExpansions": 2,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Tax capability published from UBP ADR-0010, ADR-0014, the pinned backend Graphify index and the verified Tax service structure on 2026-09-09. Implementation claims still require current code evidence."
+  }
+}

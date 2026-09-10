@@ -32,7 +32,7 @@ La unidad de inventario es una autoridad de dominio estable. Un ADR, un servicio
 | `ar-expert` | Cuentas por cobrar | `ar` | Ejemplo V11; falta elevarlo a catálogo aprobado |
 | `ap-expert` | Cuentas por pagar | `ap`, `document-reception` | Ejemplo V11; la recepción documental debe separarse cuando el documento cruza AP |
 
-Los cinco manifiestos son una base útil, pero el propio repositorio los presenta como ejemplos. En V11 protocolo, esquema y ejemplos ya comparten el mismo contrato; el catálogo sigue bloqueado porque aún faltan responsables aprobados y resolución completa de seeds contra una revisión UBP fijada.
+Los seis manifiestos son una base útil, pero el propio repositorio los presenta como ejemplos. En V11 protocolo, esquema y ejemplos ya comparten el mismo contrato; el catálogo sigue bloqueado porque aún faltan responsables aprobados y resolución completa de seeds contra una revisión UBP fijada.
 
 ## Inventario requerido
 
@@ -44,7 +44,7 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 |---|---|---|---|---|
 | P0 | `control-plane-expert` | Catálogo de capabilities, planes, configuración soberana y plantillas organizacionales | `ubp-admin-service`; ADR-0005, ADR-0006 | Ejemplo V11 por aprobar |
 | P0 | `ledger-expert` | Plan de cuentas, libros, diarios, periodos, reglas de contabilización y saldos | `ubp-ledger-service`; ADR-0011, ADR-0016 | Ejemplo V11 por aprobar |
-| P0 | `tax-expert` | Determinación tributaria, códigos, asignaciones, nexus, redondeo y evidencia fiscal | `ubp-tax-service`; ADR-0010 | Faltante |
+| P0 | `tax-expert` | Determinación tributaria, códigos, asignaciones, nexus, redondeo y evidencia fiscal | `ubp-tax-service`; ADR-0010, ADR-0014 | Ejemplo V11; 7 seeds resueltas y 2 faltantes; pendiente dueño, suplente, aprobación y grafo UBP verificado |
 | P0 | `identity-access-expert` | Identidad, membresías, roles, permisos, firmas contables, acceso de emergencia y segregación de funciones | `ubp-membership-service`, Keycloak; ADR-0003, ADR-0081 | Faltante |
 | P0 | `audit-integrity-expert` | Inmutabilidad, trazabilidad, cadena de evidencia, retención, SoD y reconstrucción de decisiones | `ubp-audit-service`, kernel de auditoría y Ledger; ADR-0009, ADR-0016 | Faltante |
 | P0 | `tenant-organization-expert` | Tenant, entidad legal, firma contable, sucursal, centro de costo y límites organizacionales | Membership, Admin, Inventory; ADR-0007, ADR-0008 | Faltante; hoy la autoridad está fragmentada |
@@ -83,13 +83,13 @@ Estos expertos intervienen en decisiones que pueden alterar libros, obligaciones
 | P2 | `integration-events-expert` | Contratos, outbox/inbox, idempotencia, orden, replay, compatibilidad y APIs de plataforma | Protos, building blocks y servicios; ADR-0001, ADR-0016, ADR-0045, ADR-0050 | Faltante; autoridad técnica transversal |
 | P2 | `experience-delivery-expert` | BFF, navegación, diseño de interacción, formatos impresos y coherencia de experiencia | BFF y `ubp-app`; ADR-0002, ADR-0030, ADR-0034, ADR-0035, ADR-0055 | Faltante; autoridad de producto transversal |
 
-Resultado inicial: **30 autoridades de dominio**: 5 con manifiesto de ejemplo y 25 sin manifiesto. Este número es una hipótesis de catálogo, no una decisión cerrada. La deliberación puede fusionar expertos si conservan vocabulario e invariantes coherentes, o dividirlos si el enrutamiento produce autoridad ambigua.
+Resultado actual: **30 autoridades de dominio**: 6 con manifiesto de ejemplo y 24 sin manifiesto. Este número es una hipótesis de catálogo, no una decisión cerrada. La deliberación puede fusionar expertos si conservan vocabulario e invariantes coherentes, o dividirlos si el enrutamiento produce autoridad ambigua.
 
-Todos comienzan como `candidate`. Los cinco manifests existentes tampoco pasan a `active` por existir: necesitan dueño, suplente, aprobación, digest, revisión vigente y semillas verificadas contra el commit UBP declarado.
+Todos comienzan como `candidate`. Los seis manifests existentes tampoco pasan a `active` por existir: necesitan dueño, suplente, aprobación, digest, revisión vigente y semillas verificadas contra el commit UBP declarado.
 
 ## Auditoría inicial de semillas
 
-La auditoría reproducible en [`ubp-existing-expert-seed-audit.json`](ubp-existing-expert-seed-audit.json) evaluó los cinco manifests existentes contra el índice Graphify generado desde UBP `8a90e057c5e65d536163bba01ed30adc9c209b13`.
+La auditoría reproducible en [`ubp-existing-expert-seed-audit.json`](ubp-existing-expert-seed-audit.json) evaluó los seis manifests existentes contra el índice Graphify generado desde UBP `8a90e057c5e65d536163bba01ed30adc9c209b13`.
 
 | Expert ID | Resueltas | Ambiguas | Ausentes | Decisión |
 |---|---:|---:|---:|---|
@@ -98,9 +98,10 @@ La auditoría reproducible en [`ubp-existing-expert-seed-audit.json`](ubp-existi
 | `control-plane-expert` | 6 | 5 | 4 | `BLOCK` |
 | `inventory-expert` | 16 | 0 | 2 | `BLOCK` |
 | `ledger-expert` | 9 | 0 | 2 | `BLOCK` |
-| **Total** | **40** | **5** | **16** | **BLOCK** |
+| `tax-expert` | 7 | 0 | 2 | `BLOCK` |
+| **Total** | **47** | **5** | **18** | **BLOCK** |
 
-Los faltantes de AP, Inventory y Ledger son principalmente knowledge lenses y policies alojadas en Governance, fuera del índice UBP auditado. AR usa seis descripciones conceptuales que no resuelven como nodos. Control Plane combina fuentes externas al índice, como protos, con nombres de servicios que producen varios nodos. Ningún experto obtiene `seedVerificationSha256` mientras conserve una semilla ausente o ambigua.
+Los faltantes de AP, Inventory, Ledger y Tax son principalmente knowledge lenses y policies alojadas en Governance, fuera del índice UBP auditado. AR usa seis descripciones conceptuales que no resuelven como nodos. Control Plane combina fuentes externas al índice, como protos, con nombres de servicios que producen varios nodos. Ningún experto obtiene `seedVerificationSha256` mientras conserve una semilla ausente o ambigua.
 
 ## Fronteras y handoffs obligatorios
 
@@ -152,8 +153,8 @@ Este registro no debe duplicar `scope`, capabilities, fuentes ni políticas del 
 ## Vacíos de gobierno detectados
 
 1. **Deriva de versión cerrada:** protocolo, schema y ejemplos publican V11.
-2. **Ejemplos sin promoción:** no existe evidencia en el repositorio de que los cinco expertos actuales sean un catálogo de producción aprobado.
-3. **Cobertura incompleta:** siete capability manifests existentes no representan la mayoría de los bounded contexts implementados en UBP.
+2. **Ejemplos sin promoción:** no existe evidencia en el repositorio de que los seis expertos actuales sean un catálogo de producción aprobado.
+3. **Cobertura incompleta:** ocho capability manifests existentes no representan la mayoría de los bounded contexts implementados en UBP.
 4. **Responsabilidad humana ausente:** el esquema no contiene dueño, suplente, vigencia ni firma de aprobación.
 5. **Ambigüedad potencial:** `cost-center` y `accounting-segmentation` aparecen en Control Plane, Inventory y Ledger. El broker depende de que la intención declare correctamente el dominio primario.
 6. **Frontera documental incorrecta:** AP figura como dueño de `document-reception`, aunque el alcance real cruza múltiples dominios.
@@ -178,7 +179,7 @@ Un candidato pasa a `active` únicamente cuando cumple todo lo siguiente:
 ## Secuencia recomendada
 
 1. Activar responsables y suplentes en el registro humano complementario.
-2. Validar y promover los cinco manifests existentes contra el commit actual de UBP.
+2. Validar y promover los seis manifests existentes contra el commit actual de UBP.
 3. Publicar primero `tax`, `identity-access`, `audit-integrity`, `tenant-organization`, `localization-country-pack`, `legal-numbering`, `electronic-fiscal-documents`, `treasury` y `document-management`.
 4. Ajustar AP para transferir la autoridad transversal de recepción documental.
 5. Completar la ola transaccional usando los servicios y ADR existentes.

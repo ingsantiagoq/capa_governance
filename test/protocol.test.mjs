@@ -106,6 +106,7 @@ const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory
 const ledgerExpert = JSON.parse(await readFile(new URL('../examples/ledger.expert.manifest.json', import.meta.url), 'utf8'));
 const controlPlaneExpert = JSON.parse(await readFile(new URL('../examples/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
 const apExpert = JSON.parse(await readFile(new URL('../examples/ap.expert.manifest.json', import.meta.url), 'utf8'));
+const taxExpert = JSON.parse(await readFile(new URL('../examples/tax.expert.manifest.json', import.meta.url), 'utf8'));
 const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
 const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
 
@@ -363,7 +364,7 @@ test('accounting segmentation capability formalizes DisplayCode as derived and r
 });
 
 test('v11 experts publish product direction, official market lessons and executable gates', () => {
-  for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert]) {
+  for (const expert of [ar, inventoryExpert, ledgerExpert, controlPlaneExpert, apExpert, taxExpert]) {
     assert.deepEqual(validateManifest(expert), []);
     assert.ok(expert.northStar.bestVersion.length > 20, expert.id);
     assert.ok(expert.northStar.businessOutcomes.length > 0, expert.id);
@@ -378,6 +379,24 @@ test('v11 experts publish product direction, official market lessons and executa
       assert.ok(validateManifest(bad).length, `${expert.id} accepted without ${key}`);
     }
   }
+});
+
+test('Tax routes fiscal calculation and escalates accounting and country policy impact', async () => {
+  const taxCapability = JSON.parse(await readFile(new URL('../examples/tax.manifest.json', import.meta.url), 'utf8'));
+  assert.deepEqual(validate(taxCapability), []);
+  assert.deepEqual(validateManifest(taxExpert), []);
+  const result = transition('ready', facts, {
+    domain: 'tax',
+    capability: 'tax',
+    action: 'change-tax-treatment',
+    impactedDomains: ['tax', 'ledger', 'control-plane'],
+    risks: ['accounting-impact', 'country-policy'],
+    approvedActions: [],
+    experts: [taxExpert, ledgerExpert, controlPlaneExpert]
+  });
+  assert.equal(result.state, 'block');
+  assert.equal(result.primaryExpert, 'tax-expert');
+  assert.equal(result.reason, 'expert-approval-missing');
 });
 
 const ledgerCapability = JSON.parse(await readFile(new URL('../examples/ledger.manifest.json', import.meta.url), 'utf8'));
@@ -525,7 +544,7 @@ test('seed audit emits an attestation only when every seed resolves', () => {
 test('committed UBP seed audit remains tied to current manifests and registry revision', async () => {
   const report = JSON.parse(await readFile(new URL('../inventory/ubp-existing-expert-seed-audit.json', import.meta.url), 'utf8'));
   const registry = JSON.parse(await readFile(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url), 'utf8'));
-  const manifests = [apExpert, ar, controlPlaneExpert, inventoryExpert, ledgerExpert];
+  const manifests = [apExpert, ar, controlPlaneExpert, inventoryExpert, ledgerExpert, taxExpert];
   assert.equal(report.graphRevision, registry.ubpRevision);
   assert.equal(report.experts.length, manifests.length);
   for (const manifest of manifests) {

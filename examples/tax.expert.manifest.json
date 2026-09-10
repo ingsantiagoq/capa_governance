@@ -1,0 +1,380 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "tax-expert",
+  "domain": "tax",
+  "scope": [
+    "Tax determination and calculation across sales purchases transfers payments and intercompany flows",
+    "Tax behaviors codes rates assignments substitutions fiscal positions treatments thresholds caps rounding sourcing nexus and effective dating",
+    "Tax owns fiscal determination; transaction domains provide frozen facts; Ledger owns posting; Control Plane owns publication and country pack lifecycle",
+    "The expert governs a universal engine for VAT sales tax excise withholding reverse charge deferred tax tax-only and zero-rated outcomes",
+    "The expert covers calculation output through semantic legs tax tags and account roles, plus declarative statutory reporting inputs",
+    "Country differences are executable versioned Control Plane resources; a new country does not justify a core code branch",
+    "Market comparison covers Microsoft Dynamics, Oracle, Odoo and SAP as design pressure without claiming UBP parity"
+  ],
+  "coveredCapabilities": [
+    "tax"
+  ],
+  "seedNodes": [
+    "policies/architecture/agnostic-engine-sovereignty.md",
+    "knowledge/tax/market-lens.md",
+    "ADR-0010 Impuestos por comportamiento",
+    "ADR-0014 Localizacion Country Packs",
+    "CAPA ADR-0010 gobierno-fiscal-control-plane",
+    "ubp_tax_application_taxcalculationservice_taxcalculationservice",
+    "ubp_tax_application_countrytaxpolicyservice_countrytaxpolicyservice",
+    "ubp_tax_domain_taxcode_taxcode",
+    "ubp_tax_domain_countrytaxpolicyversion_countrytaxpolicyversion"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "country-policy",
+      "targets": [
+        "control-plane-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-impact",
+      "targets": [
+        "ledger-expert",
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "party-fiscal-profile",
+      "targets": [
+        "parties-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "fiscal-document",
+      "targets": [
+        "electronic-fiscal-documents-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "point-of-sale",
+      "targets": [
+        "pos-expert",
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "historical-tax-result",
+      "targets": [
+        "compliance",
+        "po",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "hardcode-country-in-tax-core",
+      "bypass-tenant-isolation",
+      "silently-calculate-zero-with-missing-jurisdiction",
+      "mutate-historical-tax-result",
+      "post-concrete-ledger-account"
+    ],
+    "withoutApproval": [
+      "publish-country-tax-policy",
+      "change-tax-behavior-version",
+      "change-tax-treatment",
+      "change-withholding-timing",
+      "migrate-historical-tax-code",
+      "change-statutory-report-layout",
+      "run-tax-migration",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "ledger-expert",
+    "parties-expert",
+    "electronic-fiscal-documents-expert",
+    "pos-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "policies/architecture/agnostic-engine-sovereignty.md",
+      "knowledge/tax/market-lens.md",
+      "ADR-0010 Impuestos por comportamiento",
+      "ADR-0014 Localizacion Country Packs",
+      "CAPA ADR-0010 gobierno-fiscal-control-plane",
+      "ubp_tax_application_taxcalculationservice_taxcalculationservice",
+      "ubp_tax_application_countrytaxpolicyservice_countrytaxpolicyservice",
+      "ubp_tax_domain_taxcode_taxcode",
+      "ubp_tax_domain_countrytaxpolicyversion_countrytaxpolicyversion"
+    ],
+    "maxExpansions": 2,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Tax expert derived from UBP ADR-0010, ADR-0014, Tax CAPAs, the pinned backend Graphify index and official market documentation verified on 2026-09-09. Country onboarding remains blocked while national defaults or reports require code deployment."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0010",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0010-impuestos-por-comportamiento.md",
+        "purpose": "Accepted Tax vision, engine semantics, dependencies, market gaps and country-agnostic target"
+      },
+      {
+        "id": "adr-0014",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0014-localizacion-country-packs.md",
+        "purpose": "Country Pack lifecycle, executable resources and atomic provisioning boundary"
+      },
+      {
+        "id": "tax-control-plane-capa",
+        "type": "capa",
+        "reference": "btw-ubp-backend/capa/ADR-0010-impuestos-por-comportamiento/gobierno-fiscal-control-plane/manifest.json",
+        "purpose": "Current partial publication path and its remaining baseline migration gap"
+      },
+      {
+        "id": "tax-calculation-service",
+        "type": "graph-node",
+        "reference": "ubp_tax_application_taxcalculationservice_taxcalculationservice",
+        "purpose": "Universal calculation orchestration and dependency surface"
+      },
+      {
+        "id": "tax-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/tax/market-lens.md",
+        "purpose": "Curated market comparison with explicit UBP decisions"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/global-tax-calcuation-service-overview",
+        "purpose": "Configurable versioned tax features, applicability matrices, formulas, registrations and transaction coverage",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "oracle",
+        "reference": "https://docs.oracle.com/en/cloud/saas/financials/26a/fautx/tax-determination.html",
+        "purpose": "Ordered tax determination across regime, place of supply, applicability, registration, rate, basis and recovery",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/16.0/applications/finance/accounting/taxes/fiscal_positions.html",
+        "purpose": "Fiscal positions that map taxes and accounts by partner, geography and priority",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/doc/9c561e59168e4ed98abb6c1df315b33d/Cloud/en-US/SLH_Tax_Service_Security_PDF_en.pdf",
+        "purpose": "Tenant tax configuration, auditable configuration API and external provider routing",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "tax-behavior",
+      "ubpMeaning": "Versioned semantic rule describing nature, direction, calculation basis, family and transaction applicability independently from a numeric rate.",
+      "marketLens": "Dynamics formulas and Oracle rule types separate determination behavior from transaction data.",
+      "decisionRule": "A country rule must compose published behavior primitives; a new primitive requires architecture and PO review."
+    },
+    {
+      "term": "tax-code",
+      "ubpMeaning": "Tenant tax instance containing rate, validity, behavior version, thresholds, caps and fixed-per-unit data.",
+      "marketLens": "Enterprise engines version tax codes and apply them through determination configuration.",
+      "decisionRule": "Rates and thresholds are effective-dated data; embedding them in calculation code is blocked."
+    },
+    {
+      "term": "tax-determination",
+      "ubpMeaning": "Ordered resolution from transaction facts through jurisdiction, nexus, applicability, fiscal position, rate, treatment, basis and calculation into tax legs.",
+      "marketLens": "Oracle exposes explicit determination stages; Dynamics exposes applicability matrices and formulas.",
+      "decisionRule": "Flat family dedup cannot represent precedence or tax-on-tax alone; complex rules require an explicit governed sequence."
+    },
+    {
+      "term": "fiscal-position",
+      "ubpMeaning": "Effective rule that maps or removes taxes and account roles based on party, registration, geography and transaction context.",
+      "marketLens": "Odoo fiscal positions map taxes and accounts and can apply automatically by country, partner and priority.",
+      "decisionRule": "Substitution must preserve provenance and coordinate Tax with Ledger account roles."
+    },
+    {
+      "term": "tax-leg",
+      "ubpMeaning": "Explainable calculation result carrying amount, base, behavior, treatment, direction, timing, account role, tags and policy provenance.",
+      "marketLens": "Odoo repartition and tax grids connect calculation results to accounting and statutory reporting.",
+      "decisionRule": "A leg without treatment, accounting role or reporting provenance cannot support country-agnostic posting and reporting."
+    },
+    {
+      "term": "country-tax-policy",
+      "ubpMeaning": "Immutable published tax resource set with version, effective date, hash, dependencies and migration inside a Country Pack.",
+      "marketLens": "Dynamics publishes tax feature versions; SAP and Oracle govern reusable tax configuration content.",
+      "decisionRule": "Opening or reforming a country changes Control Plane resources; core code changes only for a universal primitive."
+    },
+    {
+      "term": "tax-reporting",
+      "ubpMeaning": "Statutory aggregation driven by tax tags and declarative report lines over immutable transaction and journal provenance.",
+      "marketLens": "Odoo tax grids feed country tax reports; hardcoded national report services do not scale.",
+      "decisionRule": "A new national form is Country Pack data unless it requires a new universal rendering primitive."
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A country-agnostic tax authority that converts frozen transaction facts and published policy into explainable tax legs for calculation, accounting, settlement and statutory reporting across every UBP process and organization.",
+    "businessOutcomes": [
+      "Open an ordinary country or tax reform through a versioned Control Plane publication without recompiling the engine.",
+      "Calculate the same transaction consistently across AR AP POS Inventory transfers payments and intercompany flows.",
+      "Explain every amount from source facts through determination policy to Ledger and statutory report lines.",
+      "Fail closed before a transaction is confirmed when required fiscal context or policy is missing."
+    ],
+    "invariants": [
+      "Tax calculation never branches on a country literal inside the universal engine.",
+      "Every rate behavior mapping threshold and report rule is versioned and effective-dated.",
+      "The legal entity owns registration nexus and obligation while the branch contributes frozen origin and jurisdiction facts.",
+      "Every tax leg preserves policy and behavior provenance and maps to semantic Ledger roles rather than concrete accounts.",
+      "Historical tax results are immutable and corrections create governed fiscal and accounting events.",
+      "Missing mandatory jurisdiction nexus or published policy cannot silently produce zero tax."
+    ],
+    "configurationBoundary": "Control Plane publishes Country Pack tax resources; Tax executes universal determination and calculation; source domains provide facts; Ledger posts semantic results; electronic fiscal documents render and transmit legal representations."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-09",
+    "refreshDays": 120,
+    "lessons": [
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/localizations/global/global-tax-calcuation-service-overview",
+        "observedCapability": "A configurable tax service with versioned features, applicability matrices, formulas, registrations and broad transaction integration.",
+        "lesson": "The transaction payload and calculation policy must evolve independently through a governed lifecycle.",
+        "ubpDecision": "Use one universal Tax contract and publish executable tax policy versions from Control Plane."
+      },
+      {
+        "vendor": "oracle",
+        "reference": "https://docs.oracle.com/en/cloud/saas/financials/26a/fautx/tax-determination.html",
+        "observedCapability": "Explicit ordered determination for regime, place of supply, applicability, registration, status, rate, basis, calculation and recovery.",
+        "lesson": "Complex legislation requires traceable stages, priorities and defaults instead of an opaque formula or flat dedup.",
+        "ubpDecision": "Evolve UBP determination into an ordered policy graph with explainable stage results."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/16.0/applications/finance/accounting/taxes/fiscal_positions.html",
+        "observedCapability": "Fiscal positions automatically map taxes and accounts based on geography, partner and sequence.",
+        "lesson": "Tax substitution and accounting mapping are two sides of the same fiscal decision.",
+        "ubpDecision": "Publish first-class fiscal positions consumed by Tax and Ledger through semantic account roles."
+      },
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/doc/9c561e59168e4ed98abb6c1df315b33d/Cloud/en-US/SLH_Tax_Service_Security_PDF_en.pdf",
+        "observedCapability": "Tax configuration API with audit logging and tenant-specific external tax provider routing.",
+        "lesson": "External providers are valid adapters when policy ownership, tenant routing, credentials and audit remain explicit.",
+        "ubpDecision": "Allow provider adapters behind a universal interface without moving country semantics or secrets into transaction domains."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, Tax capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "tax-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve Tax ADR, CAPA and code anchors against the pinned UBP graph."
+      },
+      {
+        "id": "tax-domain-tests",
+        "reference": "dotnet test ubp-tax-service/tests/Ubp.Tax.Tests/Ubp.Tax.Tests.csproj --no-restore --nologo --verbosity minimal",
+        "purpose": "Execute the Tax domain suite; the 2026-09-09 baseline passed 338 of 338 tests."
+      },
+      {
+        "id": "agnostic-engine-sovereignty",
+        "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+        "purpose": "Block national logic in the Tax core and require executable versioned Country Pack resources."
+      }
+    ],
+    "readyWhen": "The Tax manifest and capability validate, authority is active, all seeds resolve against the pinned UBP revision, country-specific behavior is delivered as executable Control Plane policy, and the same engine passes reproducible tests with at least two country configurations."
+  },
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engine, Country Pack and accounting handoff policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant legal entity and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain tax impact"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory semantic account roles and typed posting dimensions"
+    }
+  ]
+}

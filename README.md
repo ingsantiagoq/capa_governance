@@ -43,7 +43,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Inventario inicial de Domain Experts UBP](inventory/ubp-domain-experts.md):
   30 autoridades candidatas, cobertura actual, fronteras, handoffs y secuencia de activacion.
 - [Registry UBP](inventory/ubp-domain-expert-registry.json): estado operativo y revision de código usada por el gate.
-- [Auditoria inicial de semillas](inventory/ubp-existing-expert-seed-audit.json): resolución determinista de los cinco expertos existentes contra el índice UBP fijado.
+- [Auditoria inicial de semillas](inventory/ubp-existing-expert-seed-audit.json): resolución determinista de los seis expertos existentes contra el índice UBP fijado.
+- [Readiness de Tax](inventory/tax-expert-readiness.md): balance entre capacidad real del motor y brechas que bloquean soberanía de país.
 - [Governance Readiness Gate](protocol/governance-readiness-gate.md) y
   [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
@@ -54,6 +55,8 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
   separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
 - [Experto Ledger](examples/ledger.expert.manifest.json): gobierno contable, dimensiones, centros de costo, periodos y posteo.
+- [Experto Tax](examples/tax.expert.manifest.json): determinación tributaria, soberanía por Country Pack, vigencias, legs, posiciones fiscales y reporte declarativo.
+- [Tax Market Lens](knowledge/tax/market-lens.md): comparación oficial contra Dynamics, Oracle, Odoo y SAP con decisiones explícitas para UBP.
 - [Experto Control Plane](examples/control-plane.expert.manifest.json): capabilities, permisos, configuracion por tenant y politicas runtime.
 - [Inventory Market Lens](knowledge/inventory/market-lens.md): comparacion curada contra SAP, Dynamics, Epicor y Odoo;
   funciona como presion de diseno, no como prueba de implementacion UBP.
