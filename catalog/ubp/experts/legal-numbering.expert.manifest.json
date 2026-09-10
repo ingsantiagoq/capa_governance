@@ -1,0 +1,354 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "legal-numbering-expert",
+  "domain": "legal-numbering",
+  "scope": [
+    "Internal and legal numbering lifecycles from draft through issuance cancellation and audit",
+    "Legal authorizations, ranges, resolutions, masks, prefixes, validity and exhaustion",
+    "Scope by tenant, legal entity, branch, point of issue, document type and fiscal period",
+    "Transactional gapless allocation, concurrency, rollback, deadlock and idempotency behavior",
+    "Country Pack provisioning and immutable provenance on issued documents",
+    "Intercompany, offline and fiscal-document numbering boundaries"
+  ],
+  "coveredCapabilities": [
+    "legal-numbering"
+  ],
+  "seedNodes": [
+    "ADR-0012 Numeracion legal",
+    "services_numberinggrpcservice_numberinggrpcservice",
+    "ubp_numbering_application_numberingservice_numberingservice",
+    "ubp_numbering_domain_numberallocation_numberallocation",
+    "ubp_numbering_domain_numbersequence_numbersequence",
+    "ubp_numbering_domain_numberingauthorization_numberingauthorization",
+    "ubp_numbering_domain_numberingscheme_numberingscheme",
+    "numberingscope",
+    "ubp_numbering_domain_sequencekey_sequencekey",
+    "ubp_numbering_application_inumberingunitofwork_inumberingunitofwork"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "country-policy",
+      "targets": [
+        "localization-country-pack-expert",
+        "control-plane-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "organizational-scope",
+      "targets": [
+        "tenant-organization-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "fiscal-document",
+      "targets": [
+        "electronic-fiscal-documents-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-impact",
+      "targets": [
+        "ledger-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "historical-numbering",
+      "targets": [
+        "po",
+        "compliance",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "reuse-consumed-legal-number",
+      "use-database-sequence-for-gapless-legal-number",
+      "assign-legal-number-at-draft",
+      "silently-resequence-issued-document",
+      "hardcode-country-numbering-rule"
+    ],
+    "withoutApproval": [
+      "provision-legal-authorization",
+      "change-legal-authorization",
+      "override-last-used-number",
+      "migrate-numbering-state",
+      "change-void-cancellation-behavior",
+      "resequence-issued-documents",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "localization-country-pack-expert",
+    "tenant-organization-expert",
+    "ledger-expert",
+    "audit-integrity-expert",
+    "tax-expert",
+    "pos-expert",
+    "electronic-fiscal-documents-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0012 Numeracion legal",
+      "services_numberinggrpcservice_numberinggrpcservice",
+      "ubp_numbering_application_numberingservice_numberingservice",
+      "ubp_numbering_domain_numberallocation_numberallocation",
+      "ubp_numbering_domain_numbersequence_numbersequence",
+      "ubp_numbering_domain_numberingauthorization_numberingauthorization",
+      "ubp_numbering_domain_numberingscheme_numberingscheme",
+      "numberingscope",
+      "ubp_numbering_domain_sequencekey_sequencekey",
+      "ubp_numbering_application_inumberingunitofwork_inumberingunitofwork"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Legal Numbering expert derived from UBP ADR-0012, pinned Graphify implementation evidence and official SAP, Dynamics and Odoo documentation reviewed on 2026-09-10."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0012",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0012-numeracion-legal.md",
+        "purpose": "Accepted numbering vision, internal versus legal lifecycle, authorization model and implementation gaps"
+      },
+      {
+        "id": "legal-numbering-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/legal-numbering.manifest.json",
+        "purpose": "Published routing and governance context for legal numbering"
+      },
+      {
+        "id": "legal-numbering-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/legal-numbering/market-lens.md",
+        "purpose": "Curated market comparison with explicit UBP decisions"
+      },
+      {
+        "id": "numbering-service",
+        "type": "graph-node",
+        "reference": "ubp_numbering_application_numberingservice_numberingservice",
+        "purpose": "Allocation orchestration and transaction boundary"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/4603118feda9495892abadbe8f8c3d14/b15cfc3e56404640af4458ff9a16eb38.html",
+        "purpose": "Official document numbers separated from accounting numbers with unique sequential chronological behavior and scoped ranges",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/organization-administration/number-sequence-overview",
+        "purpose": "Scoped continuous and noncontinuous number sequences, formats, recovery and performance choices",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/customer_invoices/sequence.html",
+        "purpose": "Assignment at confirmation, periodic sequences, gap detection, logged changes and resequencing restrictions",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "internal-number",
+      "ubpMeaning": "Operational identifier assigned while a document is a draft; it may use buffered non-gapless allocation.",
+      "marketLens": "Enterprise suites distinguish operational or accounting identifiers from official document numbers.",
+      "decisionRule": "Internal numbering may optimize throughput but cannot be presented as the legal identifier."
+    },
+    {
+      "term": "legal-number",
+      "ubpMeaning": "Immutable official identifier consumed atomically when a document is issued under an effective authorization.",
+      "marketLens": "SAP requires official IDs to be unique, sequential and chronological; Odoo assigns invoice sequence on confirmation.",
+      "decisionRule": "Never assign at draft, reuse after failure, or resequence an issued document."
+    },
+    {
+      "term": "legal-authorization",
+      "ubpMeaning": "Effective versioned grant defining range, resolution, prefix, mask, document type and organizational scope.",
+      "marketLens": "SAP and Dynamics scope ranges by company or legal entity and period.",
+      "decisionRule": "Authorization is Country Pack data published by Control Plane; missing, ambiguous, expired or exhausted authorization is BLOCK."
+    },
+    {
+      "term": "gapless-allocation",
+      "ubpMeaning": "Serialized transactional consumption where commit, rollback and cancellation preserve a complete explainable trail.",
+      "marketLens": "Dynamics distinguishes continuous sequences and includes recovery behavior.",
+      "decisionRule": "A database sequence alone cannot prove legal gaplessness; concurrency and rollback evidence are mandatory."
+    },
+    {
+      "term": "cancellation",
+      "ubpMeaning": "A legal action that preserves the consumed number and records the required cancellation evidence or document.",
+      "marketLens": "Market controls detect gaps and restrict history changes rather than freeing issued identifiers.",
+      "decisionRule": "Voiding never returns a legal number to the pool and follows the effective country policy."
+    },
+    {
+      "term": "numbering-scope",
+      "ubpMeaning": "Complete key selecting a sequence by tenant, legal entity, branch, point of issue, document type and period as applicable.",
+      "marketLens": "Dynamics supports company, legal entity and operating-unit scopes.",
+      "decisionRule": "A producer that omits required scope cannot issue; compatibility fallback is not sovereign behavior."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engine, Country Pack and accounting handoff policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant legal entity and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain tax impact"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory semantic account roles and typed posting dimensions"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A universal numbering engine that assigns operational and legal identifiers at the correct lifecycle moment, consumes every official number atomically under a versioned Country Pack authorization and preserves immutable scope and cancellation provenance across every UBP channel.",
+    "businessOutcomes": [
+      "Open a country or point of issuance by installing authorizations and masks without recompiling the engine.",
+      "Prevent duplicate, reused, unexplained or out-of-scope legal numbers under concurrency and failures.",
+      "Explain every issued, voided, skipped or exhausted number to operations, accounting and regulators."
+    ],
+    "invariants": [
+      "Internal and legal identifiers are distinct.",
+      "Legal allocation occurs only at issuance inside the business transaction boundary.",
+      "A consumed legal number is immutable and never reused.",
+      "Authorization, scope, format and validity are versioned configuration.",
+      "Missing, ambiguous, expired or exhausted authorization fails closed.",
+      "Issued documents preserve authorization and organizational provenance."
+    ],
+    "configurationBoundary": "Country ranges, resolutions, prefixes, masks, document types, periods, branches and points of issue are Country Pack data; core code changes only for a new universal allocation primitive."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_CLOUD/4603118feda9495892abadbe8f8c3d14/b15cfc3e56404640af4458ff9a16eb38.html",
+        "observedCapability": "Official document numbering is separate from accounting document numbering and can use year- and company-scoped ranges.",
+        "lesson": "Legal identity has its own lifecycle and scope.",
+        "ubpDecision": "Keep internal and legal numbers separate and resolve authorization using the full issuance context."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/fin-ops/organization-administration/number-sequence-overview",
+        "observedCapability": "Number sequences support multiple scopes, formats and continuous allocation with recovery and performance tradeoffs.",
+        "lesson": "Scope and continuity must be explicit policy, not incidental persistence behavior.",
+        "ubpDecision": "Model scope and continuity explicitly and prove rollback and concurrency behavior."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/customer_invoices/sequence.html",
+        "observedCapability": "Invoice numbers are assigned at confirmation; gaps are detected and sequence changes are logged and constrained.",
+        "lesson": "Lifecycle timing and historical controls are product features.",
+        "ubpDecision": "Allocate at issuance, expose gap diagnostics and block silent resequencing."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "legal-numbering-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve ADR-0012 and numbering code anchors against the pinned UBP graph."
+      },
+      {
+        "id": "gapless-concurrency",
+        "reference": "ADR-0012: gapless-concurrency-rollback-hueco",
+        "purpose": "Require stress, rollback, cancellation and deadlock evidence without duplicate or unexplained legal numbers."
+      },
+      {
+        "id": "country-pack-numbering",
+        "reference": "ADR-0012: country-pack-numbering-integration",
+        "purpose": "Require provisioned authorizations, masks and document types from the effective Country Pack."
+      },
+      {
+        "id": "scoped-issuance-e2e",
+        "reference": "ADR-0012: numeracion-edge-intercompany",
+        "purpose": "Require producers to propagate legal entity, branch, point of issue and document context through issuance."
+      }
+    ],
+    "readyWhen": "The manifest and capability validate, authority is active, all seeds resolve against the pinned UBP revision and inspection actions are governed. Claims of complete sovereignty remain blocked until executable evidence proves concurrent gapless allocation, rollback and cancellation behavior, Country Pack provisioning and full scoped issuance."
+  }
+}

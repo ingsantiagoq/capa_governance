@@ -1032,6 +1032,139 @@
       ]
     },
     {
+      "expertId": "legal-numbering-expert",
+      "manifestSha256": "0b7ba7439c87fd3f6abc56500590416d61562159c3574caabe360c0c5a3ecfa1",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "6389182e35844bf40b5885d631a1b8de28bf9244a44cda3ccbbdd9a2a6015157",
+      "seeds": [
+        {
+          "seed": "ADR-0012 Numeracion legal",
+          "status": "resolved",
+          "method": "normalized-label",
+          "matches": [
+            {
+              "id": "adr_adr_0012_numeracion_legal_adr_0012_numeración_legal",
+              "sourceFile": "docs/adr/ADR-0012-numeracion-legal.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "services_numberinggrpcservice_numberinggrpcservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "services_numberinggrpcservice_numberinggrpcservice",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Api/Services/NumberingGrpcService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_application_numberingservice_numberingservice",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_application_numberingservice_numberingservice",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Application/NumberingService.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_domain_numberallocation_numberallocation",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_domain_numberallocation_numberallocation",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Domain/NumberAllocation.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_domain_numbersequence_numbersequence",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_domain_numbersequence_numbersequence",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Domain/NumberSequence.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_domain_numberingauthorization_numberingauthorization",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_domain_numberingauthorization_numberingauthorization",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Domain/NumberingAuthorization.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_domain_numberingscheme_numberingscheme",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_domain_numberingscheme_numberingscheme",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Domain/NumberingScheme.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "numberingscope",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "numberingscope",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Domain/NumberingScope.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_domain_sequencekey_sequencekey",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_domain_sequencekey_sequencekey",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Domain/SequenceKey.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_numbering_application_inumberingunitofwork_inumberingunitofwork",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_numbering_application_inumberingunitofwork_inumberingunitofwork",
+              "sourceFile": "ubp-numbering-service/src/Ubp.Numbering.Application/INumberingUnitOfWork.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
+    },
+    {
       "expertId": "localization-country-pack-expert",
       "manifestSha256": "564344b332b3b0af2458befd2d9e2216c5af727310d512e323885b173252282b",
       "decision": "READY",

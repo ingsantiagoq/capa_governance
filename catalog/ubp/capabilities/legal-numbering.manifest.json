@@ -1,0 +1,106 @@
+{
+  "capability": {
+    "id": "legal-numbering",
+    "name": "Numeración legal",
+    "intents": [
+      "asignar consecutivo interno a un borrador",
+      "asignar número legal al emitir un documento",
+      "provisionar una autorización legal",
+      "resolver alcance y vigencia de una secuencia",
+      "explicar consumo hueco anulación o agotamiento",
+      "validar numeración por país entidad sucursal y punto de emisión"
+    ]
+  },
+  "services": [
+    "numbering-service",
+    "admin-service",
+    "ar-service",
+    "ap-service",
+    "pos-service",
+    "electronic-fiscal-documents-service",
+    "audit-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "numbering.proto: NumberingService",
+    "NumberingService",
+    "NumberAllocation",
+    "NumberSequence",
+    "NumberingAuthorization",
+    "NumberingScheme",
+    "NumberingScope",
+    "SequenceKey"
+  ],
+  "dependencies": [
+    "tenant and legal entity context",
+    "branch and point of issue",
+    "document type and issuance date",
+    "published country pack",
+    "effective legal authorization",
+    "transaction and lock boundary",
+    "audit and cancellation evidence"
+  ],
+  "restrictions": [
+    "internal and legal numbering have separate lifecycles",
+    "legal numbers are assigned only at issuance",
+    "consumed legal numbers are never reused or silently resequenced",
+    "legal allocation is serialized by the complete effective scope",
+    "country masks ranges resolutions and validity are versioned configuration",
+    "missing expired ambiguous or exhausted authorization fails closed",
+    "issued documents retain authorization and organizational provenance"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect sequence authorization scope and last allocation",
+      "explain number selection and formatting",
+      "detect gaps duplicates exhaustion and scope mismatch",
+      "classify internal versus legal numbering"
+    ],
+    "poDecision": [
+      "approve supported document types and markets",
+      "approve legal cancellation behavior",
+      "accept a new universal numbering primitive",
+      "approve migration or correction of production sequences"
+    ],
+    "architectHandoff": [
+      "cross-service issuance transaction",
+      "new scope or mask semantics",
+      "offline block reservation",
+      "country pack lifecycle integration",
+      "intercompany dual numbering"
+    ],
+    "reviewerGate": [
+      "concurrency and rollback preserve allocation invariants",
+      "same engine passes with at least two country configurations",
+      "scope includes tenant legal entity branch and point of issue as applicable",
+      "issued numbers retain authorization provenance",
+      "cancellation never releases a consumed legal number",
+      "missing or exhausted authorization fails closed"
+    ],
+    "forbiddenWithoutApproval": [
+      "provision or change a legal authorization",
+      "override or migrate last used number",
+      "change cancellation behavior",
+      "resequence issued documents",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": ["manifest", "graphify", "source"],
+    "seedNodes": [
+      "ADR-0012 Numeracion legal",
+      "services_numberinggrpcservice_numberinggrpcservice",
+      "ubp_numbering_application_numberingservice_numberingservice",
+      "ubp_numbering_domain_numberallocation_numberallocation",
+      "ubp_numbering_domain_numbersequence_numbersequence",
+      "ubp_numbering_domain_numberingauthorization_numberingauthorization",
+      "ubp_numbering_domain_numberingscheme_numberingscheme",
+      "numberingscope",
+      "ubp_numbering_domain_sequencekey_sequencekey",
+      "ubp_numbering_application_inumberingunitofwork_inumberingunitofwork"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Legal Numbering capability derived from UBP ADR-0012 and implementation at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. Completeness claims remain blocked pending executable gapless, cancellation, Country Pack and scoped issuance evidence."
+  }
+}
