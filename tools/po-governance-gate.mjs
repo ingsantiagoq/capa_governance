@@ -1,6 +1,7 @@
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { isDeepStrictEqual } from 'node:util';
 import { evaluateEngineSovereignty } from './engine-sovereignty-gate.mjs';
 import { evaluateGovernanceReadiness, sha256 } from './governance-readiness-gate.mjs';
 import { validate, validateManifest, validateRegistry } from './validate-capability-manifests.mjs';
@@ -119,18 +120,48 @@ async function loadJson(path) {
   return JSON.parse(await readFile(resolve(root, path), 'utf8'));
 }
 
+const catalogPath = value => typeof value === 'string' && value.length > 0 &&
+  !value.startsWith('/') && !value.split('/').includes('..');
+
+export function validApprovedCatalog(catalog) {
+  const allowed = new Set(['kind', 'version', 'catalogId', 'ubpRevision', 'approvedBy', 'registry', 'seedAudit', 'policy', 'expertManifests', 'capabilityManifests', 'sovereigntyEvidence']);
+  if (!catalog || catalog.kind !== 'approved-domain-catalog' || catalog.version !== 1 ||
+      Object.keys(catalog).some(key => !allowed.has(key)) || Object.keys(catalog).length !== allowed.size ||
+      typeof catalog.catalogId !== 'string' || !catalog.catalogId ||
+      typeof catalog.ubpRevision !== 'string' || !catalog.ubpRevision ||
+      typeof catalog.approvedBy !== 'string' || !catalog.approvedBy ||
+      !catalogPath(catalog.registry) || !catalogPath(catalog.seedAudit) || !catalogPath(catalog.policy) ||
+      !Array.isArray(catalog.expertManifests) || !catalog.expertManifests.length ||
+      !Array.isArray(catalog.capabilityManifests) || !catalog.capabilityManifests.length ||
+      !catalog.expertManifests.every(path => catalogPath(path) && path.startsWith('catalog/ubp/experts/') && path.endsWith('.json')) ||
+      !catalog.capabilityManifests.every(path => catalogPath(path) && path.startsWith('catalog/ubp/capabilities/') && path.endsWith('.json')) ||
+      new Set(catalog.expertManifests).size !== catalog.expertManifests.length ||
+      new Set(catalog.capabilityManifests).size !== catalog.capabilityManifests.length ||
+      !catalog.sovereigntyEvidence || typeof catalog.sovereigntyEvidence !== 'object' || Array.isArray(catalog.sovereigntyEvidence) ||
+      !Object.values(catalog.sovereigntyEvidence).every(catalogPath)) return false;
+  return true;
+}
+
 export async function loadPoCatalog(evaluatedAt = new Date().toISOString()) {
-  const [registry, seedAudit, policy] = await Promise.all([
-    loadJson('inventory/ubp-domain-expert-registry.json'),
-    loadJson('inventory/ubp-existing-expert-seed-audit.json'),
-    loadJson('inventory/po-governance-policy.json')
+  const approvedCatalog = await loadJson('catalog/ubp/approved-catalog.json');
+  if (!validApprovedCatalog(approvedCatalog)) throw new TypeError('Invalid approved UBP catalog');
+  const [registry, seedAudit, policy, expertManifests, capabilityManifests] = await Promise.all([
+    loadJson(approvedCatalog.registry),
+    loadJson(approvedCatalog.seedAudit),
+    loadJson(approvedCatalog.policy),
+    Promise.all(approvedCatalog.expertManifests.map(loadJson)),
+    Promise.all(approvedCatalog.capabilityManifests.map(loadJson))
   ]);
-  const exampleFiles = (await readdir(resolve(root, 'examples'))).filter(name => name.endsWith('.manifest.json'));
-  const examples = await Promise.all(exampleFiles.map(name => loadJson(`examples/${name}`)));
-  const expertManifests = examples.filter(item => item.kind === 'domain-expert');
-  const capabilityManifests = examples.filter(item => item.kind !== 'domain-expert');
-  const sovereigntyEvidence = Object.fromEntries(await Promise.all(Object.entries(policy.sovereigntyEvidence).map(async ([id, path]) => [id, await loadJson(path)])));
-  return { registry, expertManifests, capabilityManifests, seedAudit, sovereigntyEvidence, policy, evaluatedAt };
+  const activeIds = registry.entries.filter(entry => entry.status === 'active').map(entry => entry.expertId).sort();
+  const catalogIds = expertManifests.map(manifest => manifest.id).sort();
+  if (approvedCatalog.ubpRevision !== registry.ubpRevision || !isDeepStrictEqual(activeIds, catalogIds)) {
+    throw new TypeError('Approved catalog does not match active registry authority');
+  }
+  if (!isDeepStrictEqual(approvedCatalog.sovereigntyEvidence, policy.sovereigntyEvidence)) {
+    throw new TypeError('Approved catalog sovereignty evidence does not match PO policy');
+  }
+  const sovereigntyEvidence = Object.fromEntries(await Promise.all(Object.entries(approvedCatalog.sovereigntyEvidence).map(async ([id, path]) => [id, await loadJson(path)])));
+  return { registry, expertManifests, capabilityManifests, seedAudit, sovereigntyEvidence, policy, evaluatedAt, approvedCatalog };
 }
 
 async function main() {

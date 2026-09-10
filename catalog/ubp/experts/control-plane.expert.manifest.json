@@ -184,7 +184,7 @@
       {
         "id": "control-plane-capability",
         "type": "capability-manifest",
-        "reference": "examples/control-plane.manifest.json",
+        "reference": "catalog/ubp/capabilities/control-plane.manifest.json",
         "purpose": "Published control-plane capability context pack used by the broker"
       },
       {

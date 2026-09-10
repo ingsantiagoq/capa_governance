@@ -10,11 +10,14 @@ import { transition } from '../tools/context-broker.mjs';
 import { evaluateGovernanceReadiness, seedVerificationSha256, sha256 } from '../tools/governance-readiness-gate.mjs';
 import { evaluateEngineSovereignty, requiredStages } from '../tools/engine-sovereignty-gate.mjs';
 import { auditExpertSeeds, resolveSeed } from '../tools/audit-expert-seeds.mjs';
-import { evaluatePoGovernance, loadPoCatalog } from '../tools/po-governance-gate.mjs';
+import { evaluatePoGovernance, loadPoCatalog, validApprovedCatalog } from '../tools/po-governance-gate.mjs';
 import { evaluateProductDecision } from '../tools/po-decision.mjs';
 import { evaluateClaudeExecution } from '../tools/claude-execution-gate.mjs';
 
-const examples = await Promise.all(['inventory', 'control-plane'].map(name => readFile(new URL(`../examples/${name}.manifest.json`, import.meta.url), 'utf8').then(JSON.parse)));
+const examples = await Promise.all([
+  '../examples/inventory.manifest.json',
+  '../catalog/ubp/capabilities/control-plane.manifest.json'
+].map(path => readFile(new URL(path, import.meta.url), 'utf8').then(JSON.parse)));
 const facts = { route: 'matched', manifestValid: true, policyDenied: false, approvalRequired: false, approvalGranted: false, decisionRequired: false, contextSufficient: true, graphAvailable: true, graphAttempted: false, expansions: 0, maxExpansions: 1, sourceAllowed: true, sourceAttempted: false };
 
 test('both manifests pass; every required top-level and policy field is enforced', () => {
@@ -107,10 +110,10 @@ test('missing and inconsistent facts fail closed; no implicit approval', () => {
 
 const ar = JSON.parse(await readFile(new URL('../examples/ar.expert.manifest.json', import.meta.url), 'utf8'));
 const inventoryExpert = JSON.parse(await readFile(new URL('../examples/inventory.expert.manifest.json', import.meta.url), 'utf8'));
-const ledgerExpert = JSON.parse(await readFile(new URL('../examples/ledger.expert.manifest.json', import.meta.url), 'utf8'));
-const controlPlaneExpert = JSON.parse(await readFile(new URL('../examples/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
+const ledgerExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/ledger.expert.manifest.json', import.meta.url), 'utf8'));
+const controlPlaneExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/control-plane.expert.manifest.json', import.meta.url), 'utf8'));
 const apExpert = JSON.parse(await readFile(new URL('../examples/ap.expert.manifest.json', import.meta.url), 'utf8'));
-const taxExpert = JSON.parse(await readFile(new URL('../examples/tax.expert.manifest.json', import.meta.url), 'utf8'));
+const taxExpert = JSON.parse(await readFile(new URL('../catalog/ubp/experts/tax.expert.manifest.json', import.meta.url), 'utf8'));
 const { validateManifest } = await import('../tools/validate-capability-manifests.mjs');
 const intent = { domain: 'ar', capability: 'ar', action: 'inspect-invoice', impactedDomains: ['ar'], risks: [], approvedActions: [], experts: [ar] };
 
@@ -250,7 +253,7 @@ test('expert manifests reference mandatory policies', () => {
 
 
 test('cost-center capability manifest validates as cross-domain route seed', async () => {
-  const costCenter = JSON.parse(await readFile(new URL('../examples/cost-center.manifest.json', import.meta.url), 'utf8'));
+  const costCenter = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/cost-center.manifest.json', import.meta.url), 'utf8'));
   assert.deepEqual(validate(costCenter), []);
   assert.equal(costCenter.capability.id, 'cost-center');
   assert.ok(costCenter.services.includes('ledger-service'));
@@ -342,7 +345,7 @@ test('document workflow policy is mandatory for AP handoff', async () => {
 
 
 test('accounting segmentation capability formalizes DisplayCode as derived and routes cross-domain', async () => {
-  const segmentation = JSON.parse(await readFile(new URL('../examples/accounting-segmentation.manifest.json', import.meta.url), 'utf8'));
+  const segmentation = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/accounting-segmentation.manifest.json', import.meta.url), 'utf8'));
   assert.deepEqual(validate(segmentation), []);
   assert.equal(segmentation.capability.id, 'accounting-segmentation');
   assert.ok(segmentation.restrictions.some(item => item.includes('DisplayCode')));
@@ -386,7 +389,7 @@ test('v11 experts publish product direction, official market lessons and executa
 });
 
 test('Tax routes fiscal calculation and escalates accounting and country policy impact', async () => {
-  const taxCapability = JSON.parse(await readFile(new URL('../examples/tax.manifest.json', import.meta.url), 'utf8'));
+  const taxCapability = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/tax.manifest.json', import.meta.url), 'utf8'));
   assert.deepEqual(validate(taxCapability), []);
   assert.deepEqual(validateManifest(taxExpert), []);
   const result = transition('ready', facts, {
@@ -403,7 +406,7 @@ test('Tax routes fiscal calculation and escalates accounting and country policy 
   assert.equal(result.reason, 'expert-approval-missing');
 });
 
-const ledgerCapability = JSON.parse(await readFile(new URL('../examples/ledger.manifest.json', import.meta.url), 'utf8'));
+const ledgerCapability = JSON.parse(await readFile(new URL('../catalog/ubp/capabilities/ledger.manifest.json', import.meta.url), 'utf8'));
 
 function activeEntry(manifest, overrides = {}) {
   const graphRevision = 'ubp-test-revision';
@@ -597,6 +600,11 @@ test('committed UBP seed audit remains tied to current manifests and registry re
 
 test('PO governance publishes coherent Control Plane, Ledger and Tax authorities', async () => {
   const input = await loadPoCatalog('2026-09-10T12:00:00Z');
+  assert.equal(input.approvedCatalog.kind, 'approved-domain-catalog');
+  assert.ok(input.approvedCatalog.expertManifests.every(path => path.startsWith('catalog/ubp/experts/')));
+  assert.ok(input.approvedCatalog.capabilityManifests.every(path => path.startsWith('catalog/ubp/capabilities/')));
+  assert.equal(input.expertManifests.length, 3);
+  assert.deepEqual(input.seedAudit.experts.map(item => item.expertId).sort(), ['control-plane-expert', 'ledger-expert', 'tax-expert']);
   const result = evaluatePoGovernance(input);
   assert.equal(result.decision, 'CONTROLLED');
   assert.deepEqual(result.summary, { ready: 3, blocked: 27, total: 30 });
@@ -605,6 +613,20 @@ test('PO governance publishes coherent Control Plane, Ledger and Tax authorities
   const tax = result.experts.find(item => item.expertId === 'tax-expert');
   assert.equal(tax.decision, 'READY');
   assert.equal(tax.sovereignty, 'READY');
+});
+
+test('approved catalog rejects examples, traversal and undeclared fields', async () => {
+  const source = JSON.parse(await readFile(new URL('../catalog/ubp/approved-catalog.json', import.meta.url), 'utf8'));
+  assert.equal(validApprovedCatalog(source), true);
+  for (const mutate of [
+    catalog => { catalog.expertManifests[0] = 'examples/fake.json'; },
+    catalog => { catalog.extra = true; },
+    catalog => { catalog.expertManifests.push(catalog.expertManifests[0]); }
+  ]) {
+    const invalid = structuredClone(source);
+    mutate(invalid);
+    assert.equal(validApprovedCatalog(invalid), false);
+  }
 });
 
 test('PO governance blocks authority drift and sovereignty from another UBP revision', async () => {
@@ -673,7 +695,7 @@ test('PO decision blocks prohibited actions, escalates governed crossings and bl
   const authorityBlock = evaluateProductDecision(missingDomain, catalog);
   assert.equal(authorityBlock.decision, 'BLOCK');
   assert.equal(authorityBlock.stage, 'authority-readiness');
-  assert.ok(authorityBlock.reasons.includes('impacted:inventory-expert:expert-not-active'));
+  assert.ok(authorityBlock.reasons.includes('inventory:missing-impacted-expert'));
 });
 
 test('Claude execution requires the full governed sequence before completion', async () => {

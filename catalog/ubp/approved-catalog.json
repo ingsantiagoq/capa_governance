@@ -1,0 +1,25 @@
+{
+  "kind": "approved-domain-catalog",
+  "version": 1,
+  "catalogId": "ubp-core-v11",
+  "ubpRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+  "approvedBy": "santiago-product-owner",
+  "registry": "inventory/ubp-domain-expert-registry.json",
+  "seedAudit": "inventory/ubp-approved-expert-seed-audit.json",
+  "policy": "inventory/po-governance-policy.json",
+  "expertManifests": [
+    "catalog/ubp/experts/control-plane.expert.manifest.json",
+    "catalog/ubp/experts/ledger.expert.manifest.json",
+    "catalog/ubp/experts/tax.expert.manifest.json"
+  ],
+  "capabilityManifests": [
+    "catalog/ubp/capabilities/accounting-segmentation.manifest.json",
+    "catalog/ubp/capabilities/control-plane.manifest.json",
+    "catalog/ubp/capabilities/cost-center.manifest.json",
+    "catalog/ubp/capabilities/ledger.manifest.json",
+    "catalog/ubp/capabilities/tax.manifest.json"
+  ],
+  "sovereigntyEvidence": {
+    "tax-expert": "inventory/tax-sovereignty-evidence.json"
+  }
+}

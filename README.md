@@ -22,8 +22,8 @@ Requiere Node >=22, sin dependencias externas ni npm install:
 
 ```sh
 npm run check
-node tools/validate-capability-manifests.mjs examples/*.manifest.json
-node tools/audit-expert-seeds.mjs graph.json examples/*.expert.manifest.json \
+node tools/validate-capability-manifests.mjs examples/*.manifest.json catalog/ubp/experts/*.json catalog/ubp/capabilities/*.json
+node tools/audit-expert-seeds.mjs graph.json catalog/ubp/experts/*.json \
   --graph-revision <ubp-commit> --output seed-audit.json
 ```
 
@@ -58,10 +58,11 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
   anclas propuestas pendientes de verificar contra UBP.
 - [Experto Inventario](examples/inventory.expert.manifest.json): dominio concreto derivado de ADR-0021 y CAPAs de inventario;
   separa verdad UBP, lentes de mercado, limites de dominio y escalamiento.
-- [Experto Ledger](examples/ledger.expert.manifest.json): gobierno contable, dimensiones, centros de costo, periodos y posteo.
-- [Experto Tax](examples/tax.expert.manifest.json): determinación tributaria, soberanía por Country Pack, vigencias, legs, posiciones fiscales y reporte declarativo.
+- [Catálogo UBP aprobado](catalog/ubp/approved-catalog.json): índice consumible de autoridades, capacidades y evidencia vigentes.
+- [Experto Ledger](catalog/ubp/experts/ledger.expert.manifest.json): gobierno contable, dimensiones, centros de costo, periodos y posteo.
+- [Experto Tax](catalog/ubp/experts/tax.expert.manifest.json): determinación tributaria, soberanía por Country Pack, vigencias, legs, posiciones fiscales y reporte declarativo.
 - [Tax Market Lens](knowledge/tax/market-lens.md): comparación oficial contra Dynamics, Oracle, Odoo y SAP con decisiones explícitas para UBP.
-- [Experto Control Plane](examples/control-plane.expert.manifest.json): capabilities, permisos, configuracion por tenant y politicas runtime.
+- [Experto Control Plane](catalog/ubp/experts/control-plane.expert.manifest.json): capabilities, permisos, configuracion por tenant y politicas runtime.
 - [Inventory Market Lens](knowledge/inventory/market-lens.md): comparacion curada contra SAP, Dynamics, Epicor y Odoo;
   funciona como presion de diseno, no como prueba de implementacion UBP.
 - [Ledger Market Lens](knowledge/ledger/market-lens.md): comparacion curada para asientos, dimensiones, centros de costo, periodos y account maps.
@@ -69,12 +70,12 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Context Pack](protocol/context-pack.md): siete campos y procedencia.
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
-- [Inventory](examples/inventory.manifest.json),
-  [Ledger](examples/ledger.manifest.json),
-  [Cost Center](examples/cost-center.manifest.json),
-  [Accounting Segmentation](examples/accounting-segmentation.manifest.json) y
-  [Control Plane](examples/control-plane.manifest.json): ejemplos de las pruebas
-  de contexto UBP del 2026-09-07; no son un catalogo de produccion aprobado.
+- [Inventory](examples/inventory.manifest.json) conserva estado de ejemplo.
+  [Ledger](catalog/ubp/capabilities/ledger.manifest.json),
+  [Cost Center](catalog/ubp/capabilities/cost-center.manifest.json),
+  [Accounting Segmentation](catalog/ubp/capabilities/accounting-segmentation.manifest.json),
+  [Control Plane](catalog/ubp/capabilities/control-plane.manifest.json) y
+  [Tax](catalog/ubp/capabilities/tax.manifest.json) pertenecen al catálogo aprobado.
 - [Adaptador](skills/ubp-context-broker/SKILL.md): arranque de tareas UBP.
 - tools/: validador y broker puro; test/: casos positivos, negativos y transiciones.
 

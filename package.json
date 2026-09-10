@@ -7,7 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "validate": "node tools/validate-capability-manifests.mjs",
+    "validate": "node tools/validate-capability-manifests.mjs examples/*.manifest.json catalog/ubp/experts/*.json catalog/ubp/capabilities/*.json",
     "test": "node --test",
     "audit:po": "node tools/po-governance-gate.mjs",
     "audit:claude-protocol": "node tools/claude-execution-gate.mjs examples/claude-execution.attestation.json",
