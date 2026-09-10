@@ -1,0 +1,378 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "treasury-expert",
+  "domain": "treasury",
+  "scope": [
+    "Cash sessions, movements, blind counts, over-short and branch close controls",
+    "Receipts, payments, partial applications, prepayments and unapplied cash",
+    "House banks, bank accounts, payment methods, proposals, approvals and execution",
+    "Undeposited and outstanding funds, deposits, clearing and provider settlements",
+    "Bank statement ingestion, duplicate control, manual and automatic reconciliation",
+    "POS, AR, AP, FX, Ledger and intercompany money-movement handoffs"
+  ],
+  "coveredCapabilities": [
+    "treasury"
+  ],
+  "seedNodes": [
+    "ADR-0024 Tesoreria",
+    "CAPA ADR-0024 house-bank-bank-account-maestro",
+    "CAPA ADR-0024 payment-methods-registry",
+    "CAPA ADR-0024 wompi-operational-payments",
+    "ubp_ledger_domain_treasuryaccount_treasuryaccount",
+    "ubp_ledger_domain_paymentmethodbinding_paymentmethodbinding",
+    "ubp_pos_domain_possession_possession",
+    "ubp_pos_domain_cashmovement_cashmovement",
+    "ubp_pos_domain_paymentintent_paymentintent",
+    "ubp_admin_domain_postingbehavior_postingbehavior"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "accounting-impact",
+      "targets": [
+        "ledger-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "payment-execution",
+      "targets": [
+        "identity-access-expert",
+        "po",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "fx-settlement",
+      "targets": [
+        "fx-expert",
+        "ledger-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "provider-integration",
+      "targets": [
+        "control-plane-expert",
+        "compliance",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "intercompany-settlement",
+      "targets": [
+        "b2b-intercompany-expert",
+        "po",
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "post-receipt-directly-to-bank-without-clearing",
+      "mutate-bank-statement-fact",
+      "execute-own-payment-proposal",
+      "bypass-tenant-isolation",
+      "discard-unmatched-residual",
+      "log-provider-credential"
+    ],
+    "withoutApproval": [
+      "execute-payment",
+      "write-off-reconciliation-residual",
+      "close-reconciliation-period",
+      "reopen-reconciliation-period",
+      "change-beneficiary-bank-account",
+      "change-payment-provider-credential",
+      "change-payment-approval-limit",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "ledger-expert",
+    "audit-integrity-expert",
+    "identity-access-expert",
+    "tenant-organization-expert",
+    "fx-expert",
+    "ap-expert",
+    "ar-expert",
+    "pos-expert",
+    "parties-expert",
+    "b2b-intercompany-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0024 Tesoreria",
+      "CAPA ADR-0024 house-bank-bank-account-maestro",
+      "CAPA ADR-0024 payment-methods-registry",
+      "CAPA ADR-0024 wompi-operational-payments",
+      "ubp_ledger_domain_treasuryaccount_treasuryaccount",
+      "ubp_ledger_domain_paymentmethodbinding_paymentmethodbinding",
+      "ubp_pos_domain_possession_possession",
+      "ubp_pos_domain_cashmovement_cashmovement",
+      "ubp_pos_domain_paymentintent_paymentintent",
+      "ubp_admin_domain_postingbehavior_postingbehavior"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Treasury expert derived from proposed UBP ADR-0024, pinned Graphify evidence for partial Ledger, POS and payment-provider pieces, and official SAP, Dynamics and Odoo documentation reviewed on 2026-09-10. Authority activation does not assert an implemented Treasury service."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0024",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0024-tesoreria.md",
+        "purpose": "Proposed Treasury ownership, full lifecycle, market gaps and implementation backlog"
+      },
+      {
+        "id": "treasury-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/treasury.manifest.json",
+        "purpose": "Published routing and governance context for Treasury"
+      },
+      {
+        "id": "treasury-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/treasury/market-lens.md",
+        "purpose": "Curated market comparison with explicit UBP decisions"
+      },
+      {
+        "id": "treasury-account",
+        "type": "graph-node",
+        "reference": "ubp_ledger_domain_treasuryaccount_treasuryaccount",
+        "purpose": "Existing Ledger-side treasury account configuration"
+      },
+      {
+        "id": "pos-payment-intent",
+        "type": "graph-node",
+        "reference": "ubp_pos_domain_paymentintent_paymentintent",
+        "purpose": "Existing POS-side intent that must hand off to the future Treasury lifecycle"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/848f8ce21bcd4f67bce77494799e2257/1e04c55368511d4be10000000a174cb4.html",
+        "purpose": "Bank subaccounts connecting payment runs and statement clearing",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-payable/create-vendor-payments-payment-proposal",
+        "purpose": "Vendor payment proposal selection, review and bank-account execution setup",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/payments.html",
+        "purpose": "Outstanding accounts, partial and batch payments, application and bank completion lifecycle",
+        "sourcePolicy": "comparison-only"
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/bank/reconciliation.html",
+        "purpose": "Statement matching, suspense accounts, reconciliation models, residuals and netting",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "money-movement",
+      "ubpMeaning": "Tenant-scoped idempotent receipt or payment carrying party, method, currency, source obligation and lifecycle.",
+      "marketLens": "Payments remain distinct records before bank reconciliation.",
+      "decisionRule": "AR/AP own debt; Treasury owns movement and application; Ledger owns the resulting journal."
+    },
+    {
+      "term": "clearing-account",
+      "ubpMeaning": "Semantic transit account holding received, paid or provider-settled money until the bank fact confirms movement.",
+      "marketLens": "SAP bank subaccounts and Odoo outstanding or suspense accounts bridge payments and statements.",
+      "decisionRule": "A receipt does not hit the bank directly; routing comes from governed PostingBehavior and account roles."
+    },
+    {
+      "term": "payment-proposal",
+      "ubpMeaning": "Editable selection of obligations and instruments awaiting independent approval and execution.",
+      "marketLens": "Dynamics builds vendor payment proposals before generating payments.",
+      "decisionRule": "The proposer cannot self-approve and execute; amount limits, signers and beneficiary changes are governed."
+    },
+    {
+      "term": "settlement",
+      "ubpMeaning": "Provider payout that reconciles gross charges, refunds, disputes and fees to a net bank deposit.",
+      "marketLens": "Payment ecosystems settle batches later than the commercial charge.",
+      "decisionRule": "The payout batch is the bank-match unit and every component remains traceable."
+    },
+    {
+      "term": "bank-statement-line",
+      "ubpMeaning": "Immutable imported or synchronized bank fact with source identity, account, date, amount, currency and reference.",
+      "marketLens": "Reconciliation systems compare bank transactions with payments, invoices and journal items.",
+      "decisionRule": "Deduplicate on provider identity and never edit the source fact to force a match."
+    },
+    {
+      "term": "reconciliation",
+      "ubpMeaning": "Auditable relation between statement lines and one or more internal movements, with splits, partials, residuals and explicit write-offs.",
+      "marketLens": "Odoo applies exact, discounted and reference matches and retains remaining balances.",
+      "decisionRule": "Matching suggestions are reversible; execution requires balanced counterparts and approval for residual write-off."
+    }
+  ],
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory architecture pattern policy"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory country-agnostic engine, Country Pack and accounting handoff policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant legal entity and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for valid escalations"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for cross-domain treasury impact"
+    },
+    {
+      "id": "accounting-segmentation-engine",
+      "reference": "policies/architecture/accounting-segmentation-engine.md",
+      "scope": "mandatory semantic account roles and typed posting dimensions"
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A universal Treasury domain where every unit of money moves from obligation or sale through an attributable payment method and clearing account into a deposit, provider settlement or bank statement, then reconciles exactly once to balanced accounting with controlled exceptions.",
+    "businessOutcomes": [
+      "Explain at any moment what was sold, collected, deposited, settled, paid and reconciled.",
+      "Operate cash, banks and payment providers across countries through configuration and adapters.",
+      "Prevent unauthorized payments, duplicate movements, hidden fees and untraceable reconciliation differences."
+    ],
+    "invariants": [
+      "AR/AP own obligations and Treasury owns money movement.",
+      "Bank facts and internal movements remain independently immutable.",
+      "Receipts and payments use clearing before bank confirmation.",
+      "Every movement is tenant-scoped, idempotent and attributable.",
+      "Proposal, approval, execution and acknowledgment are distinct states.",
+      "Residuals remain visible until approved resolution.",
+      "Ledger posting uses semantic roles and an outbox or saga boundary."
+    ],
+    "configurationBoundary": "Payment methods, providers, bank formats, routing, clearing roles, tolerances, matching rules, approval limits and country routing validations are governed configuration; code changes only for universal lifecycle primitives or isolated connectors."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-10",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "sap",
+        "reference": "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/848f8ce21bcd4f67bce77494799e2257/1e04c55368511d4be10000000a174cb4.html",
+        "observedCapability": "Bank subaccounts preserve outgoing payment-run identity until statement clearing.",
+        "lesson": "Transit accounts are structural to reconciliation.",
+        "ubpDecision": "Route each payment method through semantic outstanding or clearing roles before final bank posting."
+      },
+      {
+        "vendor": "dynamics",
+        "reference": "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-payable/create-vendor-payments-payment-proposal",
+        "observedCapability": "Payment proposals select vendor obligations and bank setup before payment generation.",
+        "lesson": "Selection, review, approval and execution need separate control points.",
+        "ubpDecision": "Model proposals and execution independently with four-eyes approval and idempotent bank acknowledgment."
+      },
+      {
+        "vendor": "odoo",
+        "reference": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/bank/reconciliation.html",
+        "observedCapability": "Statement transactions remain in suspense until matched, split or written off through explicit models.",
+        "lesson": "Reconciliation is its own domain object and exception workflow.",
+        "ubpDecision": "Keep statements immutable, rank candidates, preserve residuals and require governed write-off."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 contract, capability and deterministic routing."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership, approval, pinned revisions, fresh market evidence and resolved seeds."
+      },
+      {
+        "id": "treasury-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve ADR-0024, partial CAPAs and code anchors against the pinned UBP graph."
+      },
+      {
+        "id": "treasury-adr-acceptance",
+        "reference": "ADR-0024 decision axis",
+        "purpose": "Require PO acceptance before treating the proposed domain boundary as committed implementation."
+      },
+      {
+        "id": "money-lifecycle-e2e",
+        "reference": "ADR-0024: register-payment-receipt + recaudo-a-undeposited + deposito-agrupacion-lote",
+        "purpose": "Require obligation-to-clearing-to-bank-to-Ledger evidence."
+      },
+      {
+        "id": "payment-four-eyes-e2e",
+        "reference": "ADR-0024: payment-run-seleccion-pagos + payment-proposal-aprobacion-dual-control",
+        "purpose": "Require separated proposal, approval, execution and acknowledgment actors."
+      },
+      {
+        "id": "bank-reconciliation-e2e",
+        "reference": "ADR-0024: bank-statement-import + conciliacion-bancaria",
+        "purpose": "Require immutable deduplicated statements, splits, partials, residuals and balanced reconciliation."
+      }
+    ],
+    "readyWhen": "The expert contract, market lens and Graphify anchors validate, making Treasury an active product authority. Runtime readiness remains BLOCK while ADR-0024 is proposed, the central service is absent and cash-to-bank, payment-run and reconciliation E2E evidence do not exist."
+  }
+}

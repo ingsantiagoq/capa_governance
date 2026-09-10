@@ -12,7 +12,8 @@
     "legal-numbering-expert",
     "localization-country-pack-expert",
     "tax-expert",
-    "tenant-organization-expert"
+    "tenant-organization-expert",
+    "treasury-expert"
   ],
   "sovereigntyEvidence": {
     "tax-expert": "inventory/tax-sovereignty-evidence.json"

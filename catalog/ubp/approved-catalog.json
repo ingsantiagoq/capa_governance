@@ -18,7 +18,8 @@
     "catalog/ubp/experts/legal-numbering.expert.manifest.json",
     "catalog/ubp/experts/localization-country-pack.expert.manifest.json",
     "catalog/ubp/experts/tax.expert.manifest.json",
-    "catalog/ubp/experts/tenant-organization.expert.manifest.json"
+    "catalog/ubp/experts/tenant-organization.expert.manifest.json",
+    "catalog/ubp/experts/treasury.expert.manifest.json"
   ],
   "capabilityManifests": [
     "catalog/ubp/capabilities/accounting-segmentation.manifest.json",
@@ -34,7 +35,8 @@
     "catalog/ubp/capabilities/legal-numbering.manifest.json",
     "catalog/ubp/capabilities/localization-country-pack.manifest.json",
     "catalog/ubp/capabilities/tax.manifest.json",
-    "catalog/ubp/capabilities/tenant-organization.manifest.json"
+    "catalog/ubp/capabilities/tenant-organization.manifest.json",
+    "catalog/ubp/capabilities/treasury.manifest.json"
   ],
   "sovereigntyEvidence": {
     "tax-expert": "inventory/tax-sovereignty-evidence.json"

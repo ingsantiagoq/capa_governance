@@ -1525,6 +1525,139 @@
           "matchCount": 1
         }
       ]
+    },
+    {
+      "expertId": "treasury-expert",
+      "manifestSha256": "ce6112246525e4b9b1f2f903375b6d61f9ce93ac0f848bd6441d850122f14230",
+      "decision": "READY",
+      "counts": {
+        "resolved": 10,
+        "ambiguous": 0,
+        "missing": 0
+      },
+      "seedVerificationSha256": "b1582640832330361ad28eb69f03cccdf5a2336f7f4b90219d56d1fc8ba6bc32",
+      "seeds": [
+        {
+          "seed": "ADR-0024 Tesoreria",
+          "status": "resolved",
+          "method": "adr-document",
+          "matches": [
+            {
+              "id": "adr_adr_0024_tesoreria",
+              "sourceFile": "docs/adr/ADR-0024-tesoreria.md"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0024 house-bank-bank-account-maestro",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "house_bank_bank_account_maestro_manifest",
+              "sourceFile": "capa/ADR-0024-tesoreria/house-bank-bank-account-maestro/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0024 payment-methods-registry",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "payment_methods_registry_manifest",
+              "sourceFile": "capa/ADR-0024-tesoreria/payment-methods-registry/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "CAPA ADR-0024 wompi-operational-payments",
+          "status": "resolved",
+          "method": "capa-manifest",
+          "matches": [
+            {
+              "id": "wompi_operational_payments_manifest",
+              "sourceFile": "capa/ADR-0024-tesoreria/wompi-operational-payments/manifest.json"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_treasuryaccount_treasuryaccount",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_treasuryaccount_treasuryaccount",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/TreasuryAccount.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_ledger_domain_paymentmethodbinding_paymentmethodbinding",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_ledger_domain_paymentmethodbinding_paymentmethodbinding",
+              "sourceFile": "ubp-ledger-service/src/Ubp.Ledger.Domain/PaymentMethodBinding.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_pos_domain_possession_possession",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_pos_domain_possession_possession",
+              "sourceFile": "ubp-pos-service/src/Ubp.Pos.Domain/PosSession.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_pos_domain_cashmovement_cashmovement",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_pos_domain_cashmovement_cashmovement",
+              "sourceFile": "ubp-pos-service/src/Ubp.Pos.Domain/CashMovement.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_pos_domain_paymentintent_paymentintent",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_pos_domain_paymentintent_paymentintent",
+              "sourceFile": "ubp-pos-service/src/Ubp.Pos.Domain/PaymentIntent.cs"
+            }
+          ],
+          "matchCount": 1
+        },
+        {
+          "seed": "ubp_admin_domain_postingbehavior_postingbehavior",
+          "status": "resolved",
+          "method": "exact-id",
+          "matches": [
+            {
+              "id": "ubp_admin_domain_postingbehavior_postingbehavior",
+              "sourceFile": "ubp-admin-service/src/Ubp.Admin.Domain/PostingBehavior.cs"
+            }
+          ],
+          "matchCount": 1
+        }
+      ]
     }
   ]
 }

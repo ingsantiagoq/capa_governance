@@ -181,7 +181,24 @@
     },
     {
       "expertId": "treasury-expert",
-      "status": "candidate"
+      "status": "active",
+      "accountableOwner": "capa-governance:treasury-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "bfdbe0563b599101099638a27eff5dcd57dadca0",
+      "manifestSha256": "ce6112246525e4b9b1f2f903375b6d61f9ce93ac0f848bd6441d850122f14230",
+      "reviewDueAt": "2027-03-10T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "b1582640832330361ad28eb69f03cccdf5a2336f7f4b90219d56d1fc8ba6bc32",
+      "blockedActions": [
+        "declare-treasury-adr-accepted",
+        "declare-treasury-service-complete",
+        "declare-money-lifecycle-complete",
+        "declare-payment-four-eyes-complete",
+        "declare-bank-reconciliation-complete",
+        "declare-treasury-runtime-ready",
+        "execute-payment"
+      ]
     },
     {
       "expertId": "document-management-expert",

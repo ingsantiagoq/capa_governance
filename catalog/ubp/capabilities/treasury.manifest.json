@@ -1,0 +1,115 @@
+{
+  "capability": {
+    "id": "treasury",
+    "name": "Tesorería",
+    "intents": [
+      "registrar un pago o recaudo",
+      "abrir cerrar o arquear una caja",
+      "agrupar recaudos en un depósito",
+      "procesar un settlement de pasarela",
+      "preparar revisar o ejecutar una corrida de pagos",
+      "importar y conciliar un extracto bancario",
+      "explicar dinero en tránsito o una diferencia de conciliación"
+    ]
+  },
+  "services": [
+    "treasury-service",
+    "ledger-service",
+    "admin-service",
+    "ar-service",
+    "ap-service",
+    "pos-service",
+    "parties-service",
+    "membership-service",
+    "ubp-bff"
+  ],
+  "contracts": [
+    "TreasuryAccount",
+    "PaymentMethodBinding",
+    "CashSession",
+    "CashMovement",
+    "PaymentIntent",
+    "Payment",
+    "Receipt",
+    "Deposit",
+    "Settlement",
+    "BankStatementLine",
+    "BankReconciliation"
+  ],
+  "dependencies": [
+    "tenant legal entity branch and currency context",
+    "party and open-item identity",
+    "house bank and bank account master",
+    "payment method and provider route",
+    "posting behavior and semantic clearing accounts",
+    "approval and segregation-of-duties policy",
+    "FX settlement result",
+    "outbox saga and audit trail"
+  ],
+  "restrictions": [
+    "AR and AP own obligations while Treasury owns movement and settlement of money",
+    "money reaches a bank account through deposit settlement or reconciliation rather than direct receipt posting",
+    "every movement is tenant scoped idempotent and attributable",
+    "payment proposal approval execution and bank acknowledgment are distinct states",
+    "provider credentials and signing authority never leave their protected boundary",
+    "matching never destroys an unmatched residual or alters a bank statement fact",
+    "country formats routing and accounting differences are governed configuration"
+  ],
+  "governance": {
+    "deterministic": [
+      "inspect cash payment deposit settlement statement and reconciliation state",
+      "trace obligation to movement to clearing to bank to Ledger",
+      "explain expected counted deposited and reconciled differences",
+      "score reconciliation candidates without executing a match"
+    ],
+    "poDecision": [
+      "approve treasury ADR and service boundary",
+      "approve payment providers instruments and countries",
+      "approve write-off tolerance and settlement policy",
+      "approve bank connectivity and payment execution scope"
+    ],
+    "architectHandoff": [
+      "treasury service and shared contracts",
+      "posting outbox and compensation",
+      "bank parser or feed adapter",
+      "matching engine and reconciliation lifecycle",
+      "cross-tenant settlement and remittance"
+    ],
+    "reviewerGate": [
+      "idempotent tenant-scoped money movements",
+      "four-eyes separation for payment execution",
+      "clearing account and Ledger traceability",
+      "statement immutability and duplicate detection",
+      "partial split and residual reconciliation",
+      "provider settlement gross fee refund and net identity",
+      "negative-cycle reversals linked to originals"
+    ],
+    "forbiddenWithoutApproval": [
+      "execute a payment",
+      "close or reopen a reconciled period",
+      "write off a reconciliation residual",
+      "change a beneficiary bank account",
+      "change payment provider credentials",
+      "change approval limits",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": ["manifest", "graphify", "source"],
+    "seedNodes": [
+      "ADR-0024 Tesoreria",
+      "CAPA ADR-0024 house-bank-bank-account-maestro",
+      "CAPA ADR-0024 payment-methods-registry",
+      "CAPA ADR-0024 wompi-operational-payments",
+      "ubp_ledger_domain_treasuryaccount_treasuryaccount",
+      "ubp_ledger_domain_paymentmethodbinding_paymentmethodbinding",
+      "ubp_pos_domain_possession_possession",
+      "ubp_pos_domain_cashmovement_cashmovement",
+      "ubp_pos_domain_paymentintent_paymentintent",
+      "ubp_admin_domain_postingbehavior_postingbehavior"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Treasury capability derived from proposed UBP ADR-0024 and partial code anchors at pinned UBP revision ebf1c845bdf917d821f3182bff0cbe04c21d2c8e. The central Treasury service and full cash-to-bank cycle remain unimplemented."
+  }
+}
