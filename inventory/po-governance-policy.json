@@ -1,0 +1,10 @@
+{
+  "kind": "po-governance-policy",
+  "version": 1,
+  "requiredReadyExperts": [
+    "tax-expert"
+  ],
+  "sovereigntyEvidence": {
+    "tax-expert": "inventory/tax-sovereignty-evidence.json"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "kind": "domain-expert-seed-audit",
   "version": 1,
-  "graphRevision": "8a90e057c5e65d536163bba01ed30adc9c209b13",
+  "graphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
   "experts": [
     {
       "expertId": "ap-expert",
@@ -9,8 +9,8 @@
       "decision": "BLOCK",
       "counts": {
         "resolved": 9,
-        "ambiguous": 0,
-        "missing": 2
+        "ambiguous": 2,
+        "missing": 0
       },
       "seedVerificationSha256": null,
       "seeds": [
@@ -40,17 +40,35 @@
         },
         {
           "seed": "knowledge/ap/market-lens.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "ap_market_lens",
+              "sourceFile": "capa-governance/protocol/knowledge/ap/market-lens.md"
+            },
+            {
+              "id": "ap_market_lens",
+              "sourceFile": "knowledge/ap/market-lens.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "knowledge/document-reception/market-lens.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "document_reception_market_lens",
+              "sourceFile": "capa-governance/protocol/knowledge/document-reception/market-lens.md"
+            },
+            {
+              "id": "document_reception_market_lens",
+              "sourceFile": "knowledge/document-reception/market-lens.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "CAPA ADR-0023 captura-factura-ocr",
@@ -199,17 +217,26 @@
       "decision": "BLOCK",
       "counts": {
         "resolved": 6,
-        "ambiguous": 5,
-        "missing": 4
+        "ambiguous": 7,
+        "missing": 2
       },
       "seedVerificationSha256": null,
       "seeds": [
         {
           "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "architecture_accounting_segmentation_engine",
+              "sourceFile": "capa-governance/protocol/policies/architecture/accounting-segmentation-engine.md"
+            },
+            {
+              "id": "architecture_accounting_segmentation_engine",
+              "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "ADR-0006 Control Plane",
@@ -225,10 +252,19 @@
         },
         {
           "seed": "knowledge/control-plane/market-lens.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "control_plane_market_lens",
+              "sourceFile": "capa-governance/protocol/knowledge/control-plane/market-lens.md"
+            },
+            {
+              "id": "control_plane_market_lens",
+              "sourceFile": "knowledge/control-plane/market-lens.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "ADR-0003 Identidad y Acceso",
@@ -408,17 +444,26 @@
       "decision": "BLOCK",
       "counts": {
         "resolved": 16,
-        "ambiguous": 0,
-        "missing": 2
+        "ambiguous": 1,
+        "missing": 1
       },
       "seedVerificationSha256": null,
       "seeds": [
         {
           "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "architecture_accounting_segmentation_engine",
+              "sourceFile": "capa-governance/protocol/policies/architecture/accounting-segmentation-engine.md"
+            },
+            {
+              "id": "architecture_accounting_segmentation_engine",
+              "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "ADR-0021 Inventario y Sucursales",
@@ -627,17 +672,26 @@
       "decision": "BLOCK",
       "counts": {
         "resolved": 9,
-        "ambiguous": 0,
-        "missing": 2
+        "ambiguous": 2,
+        "missing": 0
       },
       "seedVerificationSha256": null,
       "seeds": [
         {
           "seed": "policies/architecture/accounting-segmentation-engine.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "architecture_accounting_segmentation_engine",
+              "sourceFile": "capa-governance/protocol/policies/architecture/accounting-segmentation-engine.md"
+            },
+            {
+              "id": "architecture_accounting_segmentation_engine",
+              "sourceFile": "policies/architecture/accounting-segmentation-engine.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "ADR-0011 Contabilidad GL",
@@ -653,10 +707,19 @@
         },
         {
           "seed": "knowledge/ledger/market-lens.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "ambiguous",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "ledger_market_lens",
+              "sourceFile": "capa-governance/protocol/knowledge/ledger/market-lens.md"
+            },
+            {
+              "id": "ledger_market_lens",
+              "sourceFile": "knowledge/ledger/market-lens.md"
+            }
+          ],
+          "matchCount": 2
         },
         {
           "seed": "ADR-0009 Auditoria e Integridad Contable",
@@ -759,27 +822,37 @@
     {
       "expertId": "tax-expert",
       "manifestSha256": "ad1fb00d963a6d27dfdefc64e38183aa899688661a37ce876a0c07a5c66e5cf6",
-      "decision": "BLOCK",
+      "decision": "READY",
       "counts": {
-        "resolved": 7,
+        "resolved": 9,
         "ambiguous": 0,
-        "missing": 2
+        "missing": 0
       },
-      "seedVerificationSha256": null,
+      "seedVerificationSha256": "7dff441c70e6c14320973c825c41b2c66d1358835c854b8385fef0bb5ffa078c",
       "seeds": [
         {
           "seed": "policies/architecture/agnostic-engine-sovereignty.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "resolved",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "architecture_agnostic_engine_sovereignty",
+              "sourceFile": "policies/architecture/agnostic-engine-sovereignty.md"
+            }
+          ],
+          "matchCount": 1
         },
         {
           "seed": "knowledge/tax/market-lens.md",
-          "status": "missing",
-          "method": null,
-          "matches": [],
-          "matchCount": 0
+          "status": "resolved",
+          "method": "exact-source",
+          "matches": [
+            {
+              "id": "tax_market_lens",
+              "sourceFile": "knowledge/tax/market-lens.md"
+            }
+          ],
+          "matchCount": 1
         },
         {
           "seed": "ADR-0010 Impuestos por comportamiento",
@@ -811,7 +884,7 @@
           "method": "capa-manifest",
           "matches": [
             {
-              "id": "volumes_datos_proyectos_btw_btw_ubp_btw_ubp_backend_capa_adr_0010_impuestos_por_comportamiento_gobierno_fiscal_control_plane_manifest_json",
+              "id": "gobierno_fiscal_control_plane_manifest",
               "sourceFile": "capa/ADR-0010-impuestos-por-comportamiento/gobierno-fiscal-control-plane/manifest.json"
             }
           ],

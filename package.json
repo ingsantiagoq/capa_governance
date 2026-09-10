@@ -9,7 +9,9 @@
   "scripts": {
     "validate": "node tools/validate-capability-manifests.mjs",
     "test": "node --test",
-    "check": "npm run validate && npm test",
+    "audit:po": "node tools/po-governance-gate.mjs",
+    "decide:po": "node tools/po-decision.mjs",
+    "check": "npm run validate && npm test && npm run audit:po",
     "audit:tax-sovereignty": "node tools/engine-sovereignty-gate.mjs inventory/tax-sovereignty-evidence.json"
   }
 }

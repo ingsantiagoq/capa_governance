@@ -46,8 +46,10 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Auditoria inicial de semillas](inventory/ubp-existing-expert-seed-audit.json): resolución determinista de los seis expertos existentes contra el índice UBP fijado.
 - [Readiness de Tax](inventory/tax-expert-readiness.md): balance entre capacidad real del motor y brechas que bloquean soberanía de país.
 - [Evidencia de soberanía Tax](inventory/tax-sovereignty-evidence.json) y [gate ejecutable](tools/engine-sovereignty-gate.mjs): diez etapas desde publicación en Control Plane hasta handoff contable, fijadas a una revisión UBP.
+- [Gate PO](tools/po-governance-gate.mjs) y [política de ratchet](inventory/po-governance-policy.json): cruzan Registry, manifests, auditoría de semillas y soberanía. El pipeline falla si un experto activo pierde evidencia o si un experto requerido deja de estar `READY`.
 - [Governance Readiness Gate](protocol/governance-readiness-gate.md) y
   [Registry schema](schemas/domain-expert-registry.schema.json): evidencia objetiva para bloquear o habilitar el Context Broker.
+- [Autoridad PO](protocol/po-authority.md) y [motor de decisión](tools/po-decision.mjs): convierten una intención normalizada en `GO`, `NEEDS_EVIDENCE`, `ESCALATE` o `BLOCK` y adjuntan los fundamentos de producto.
 - [Capability schema](schemas/capability-manifest.schema.json): contrato v1 cerrado.
 - [Expert schema](schemas/domain-expert-manifest.schema.json) y
   [protocolo de expertos](protocol/domain-experts.md): seleccion determinista; contrato de conocimiento v11.
@@ -103,7 +105,7 @@ Capas iniciales:
 
 Un cambio de manifest se revisa y se publica en Git con su revision. UBP consume
 una revision fijada del protocolo y un catalogo aprobado, nunca el skill como
-fuente de verdad. El pipeline de este repo ejecuta npm run check.
+fuente de verdad. El pipeline de este repo ejecuta `npm run check`, que incluye el dictamen PO mediante `npm run audit:po`.
 
 El gate de UBP debe validar su catalogo y comprobar referencias y frescura:
 registrar revisiones/digests de protos, ADRs, endpoints y semillas; si cambia una

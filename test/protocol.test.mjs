@@ -10,6 +10,8 @@ import { transition } from '../tools/context-broker.mjs';
 import { evaluateGovernanceReadiness, seedVerificationSha256, sha256 } from '../tools/governance-readiness-gate.mjs';
 import { evaluateEngineSovereignty, requiredStages } from '../tools/engine-sovereignty-gate.mjs';
 import { auditExpertSeeds, resolveSeed } from '../tools/audit-expert-seeds.mjs';
+import { evaluatePoGovernance, loadPoCatalog } from '../tools/po-governance-gate.mjs';
+import { evaluateProductDecision } from '../tools/po-decision.mjs';
 
 const examples = await Promise.all(['inventory', 'control-plane'].map(name => readFile(new URL(`../examples/${name}.manifest.json`, import.meta.url), 'utf8').then(JSON.parse)));
 const facts = { route: 'matched', manifestValid: true, policyDenied: false, approvalRequired: false, approvalGranted: false, decisionRequired: false, contextSufficient: true, graphAvailable: true, graphAttempted: false, expansions: 0, maxExpansions: 1, sourceAllowed: true, sourceAttempted: false };
@@ -505,13 +507,15 @@ test('governance readiness rejects invalid registry state and ambiguous authorit
   assert.deepEqual(evaluateGovernanceReadiness(ambiguous).reasons, ['ambiguous-primary-expert']);
 });
 
-test('UBP registry publishes every inventoried expert as a blocked candidate', async () => {
+test('UBP registry promotes only Tax after complete evidence', async () => {
   const registryPath = fileURLToPath(new URL('../inventory/ubp-domain-expert-registry.json', import.meta.url));
   const registry = JSON.parse(await readFile(registryPath, 'utf8'));
   assert.deepEqual(validateRegistry(registry), []);
   assert.equal(registry.entries.length, 30);
   assert.equal(new Set(registry.entries.map(entry => entry.expertId)).size, 30);
-  assert.ok(registry.entries.every(entry => entry.status === 'candidate'));
+  assert.equal(registry.entries.filter(entry => entry.status === 'active').length, 1);
+  assert.equal(registry.entries.find(entry => entry.expertId === 'tax-expert').status, 'active');
+  assert.ok(registry.entries.filter(entry => entry.expertId !== 'tax-expert').every(entry => entry.status === 'candidate'));
   const cli = fileURLToPath(new URL('../tools/validate-capability-manifests.mjs', import.meta.url));
   assert.equal(spawnSync(process.execPath, [cli, registryPath]).status, 0);
 });
@@ -551,9 +555,71 @@ test('committed UBP seed audit remains tied to current manifests and registry re
   for (const manifest of manifests) {
     const audited = report.experts.find(expert => expert.expertId === manifest.id);
     assert.equal(audited.manifestSha256, sha256(manifest), manifest.id);
-    assert.equal(audited.decision, 'BLOCK');
-    assert.equal(audited.seedVerificationSha256, null);
+    if (manifest.id === 'tax-expert') {
+      assert.equal(audited.decision, 'READY');
+      assert.match(audited.seedVerificationSha256, /^[a-f0-9]{64}$/);
+    } else {
+      assert.equal(audited.decision, 'BLOCK');
+      assert.equal(audited.seedVerificationSha256, null);
+    }
   }
+});
+
+test('PO governance publishes one coherent Tax authority and keeps incomplete domains blocked', async () => {
+  const input = await loadPoCatalog('2026-09-10T12:00:00Z');
+  const result = evaluatePoGovernance(input);
+  assert.equal(result.decision, 'CONTROLLED');
+  assert.deepEqual(result.summary, { ready: 1, blocked: 29, total: 30 });
+  const tax = result.experts.find(item => item.expertId === 'tax-expert');
+  assert.equal(tax.decision, 'READY');
+  assert.equal(tax.sovereignty, 'READY');
+});
+
+test('PO governance blocks authority drift and sovereignty from another UBP revision', async () => {
+  const inactive = await loadPoCatalog('2026-09-10T12:00:00Z');
+  inactive.registry.entries.find(item => item.expertId === 'tax-expert').status = 'candidate';
+  const missingAuthority = evaluatePoGovernance(inactive);
+  assert.equal(missingAuthority.decision, 'BLOCK');
+  assert.ok(missingAuthority.reasons.includes('tax-expert:required-expert-not-ready'));
+
+  const stale = await loadPoCatalog('2026-09-10T12:00:00Z');
+  stale.sovereigntyEvidence['tax-expert'].ubpRevision = 'another-ubp-revision';
+  const drift = evaluatePoGovernance(stale);
+  assert.equal(drift.decision, 'BLOCK');
+  assert.ok(drift.experts.find(item => item.expertId === 'tax-expert').reasons.includes('sovereignty-revision-drift'));
+
+  const duplicate = await loadPoCatalog('2026-09-10T12:00:00Z');
+  duplicate.expertManifests.push(structuredClone(duplicate.expertManifests[0]));
+  assert.ok(evaluatePoGovernance(duplicate).reasons.includes('duplicate-expert-id'));
+});
+
+test('PO decision returns product foundations with GO for a governed Tax action', async () => {
+  const input = JSON.parse(await readFile(new URL('../examples/tax.po-request.json', import.meta.url), 'utf8'));
+  const catalog = await loadPoCatalog(input.evaluatedAt);
+  const result = evaluateProductDecision(input, catalog);
+  assert.equal(result.decision, 'GO');
+  assert.equal(result.primaryExpert, 'tax-expert');
+  assert.ok(result.productBasis.bestVersion.length > 20);
+  assert.ok(result.productBasis.invariants.length > 0);
+  assert.ok(result.productBasis.requiredGates.includes('engine-sovereignty-e2e'));
+});
+
+test('PO decision blocks prohibited actions and cross-domain work without active authorities', async () => {
+  const base = JSON.parse(await readFile(new URL('../examples/tax.po-request.json', import.meta.url), 'utf8'));
+  const catalog = await loadPoCatalog(base.evaluatedAt);
+
+  const prohibited = structuredClone(base);
+  prohibited.request.action = 'hardcode-country-in-tax-core';
+  const hardBlock = evaluateProductDecision(prohibited, catalog);
+  assert.equal(hardBlock.decision, 'BLOCK');
+  assert.deepEqual(hardBlock.reasons, ['expert-restriction']);
+
+  const crossDomain = structuredClone(base);
+  crossDomain.request.impactedDomains = ['tax', 'ledger'];
+  const authorityBlock = evaluateProductDecision(crossDomain, catalog);
+  assert.equal(authorityBlock.decision, 'BLOCK');
+  assert.equal(authorityBlock.stage, 'authority-readiness');
+  assert.ok(authorityBlock.reasons.includes('impacted:ledger-expert:expert-not-active'));
 });
 
 function sovereigntyInput() {

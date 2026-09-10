@@ -1,0 +1,28 @@
+{
+  "evaluatedAt": "2026-09-10T12:00:00Z",
+  "request": {
+    "domain": "tax",
+    "capability": "tax",
+    "action": "inspect-tax-policy",
+    "impactedDomains": [
+      "tax"
+    ],
+    "risks": [],
+    "approvedActions": []
+  },
+  "facts": {
+    "route": "matched",
+    "manifestValid": true,
+    "policyDenied": false,
+    "approvalRequired": false,
+    "approvalGranted": false,
+    "decisionRequired": false,
+    "contextSufficient": true,
+    "graphAvailable": true,
+    "graphAttempted": false,
+    "sourceAllowed": true,
+    "sourceAttempted": false,
+    "expansions": 0,
+    "maxExpansions": 1
+  }
+}
