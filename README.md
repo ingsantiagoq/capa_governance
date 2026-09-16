@@ -93,6 +93,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
 - [Inventory](catalog/ubp/capabilities/inventory.manifest.json) está publicado en el catálogo UBP.
 - [Epicor Inventory Bootstrap](catalog/ubp/capabilities/integrations-epicor-inventory-bootstrap.manifest.json) publica el primer flujo externo gobernado; no afirma runtime implementado.
+- [Integrations](catalog/ubp/capabilities/integrations.manifest.json) publica la autoridad primaria del dominio; cada proveedor y flujo conserva capability y evidencia separadas.
   [AP](catalog/ubp/capabilities/ap.manifest.json), [Document Reception](catalog/ubp/capabilities/document-reception.manifest.json),
   [Ledger](catalog/ubp/capabilities/ledger.manifest.json),
   [Cost Center](catalog/ubp/capabilities/cost-center.manifest.json),

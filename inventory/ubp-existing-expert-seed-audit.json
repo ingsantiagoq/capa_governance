@@ -2271,7 +2271,7 @@
     },
     {
       "expertId": "integrations-expert",
-      "manifestSha256": "7ea1c3765ba63521902bcdc23075bf16d746d38340b8b1fb0bd3fe5e517c142e",
+      "manifestSha256": "034bc7940f9d2aebc43026f5f14db2caaf5b5c3364ed013d4f0412fa942ba654",
       "decision": "READY",
       "counts": {
         "resolved": 7,

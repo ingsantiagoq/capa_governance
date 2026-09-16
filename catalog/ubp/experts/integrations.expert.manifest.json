@@ -12,6 +12,7 @@
     "Epicor is the first provider; version 9 and 10 support must remain isolated and evidenced independently"
   ],
   "coveredCapabilities": [
+    "integrations",
     "integrations-epicor-inventory-bootstrap"
   ],
   "seedNodes": [

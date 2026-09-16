@@ -1,0 +1,104 @@
+{
+  "services": [
+    "admin-service",
+    "ubp-bff",
+    "provider connector services",
+    "owning UBP domain services"
+  ],
+  "contracts": [
+    "IntegrationProviderDefinition planned",
+    "TenantIntegrationConnection planned",
+    "TenantIntegrationFlow planned",
+    "TenantIntegrationLocationMap planned",
+    "IntegrationRun planned"
+  ],
+  "dependencies": [
+    "tenant context and actor permissions",
+    "control plane capability catalog",
+    "secret reference without plaintext persistence",
+    "provider and version adapter registry",
+    "domain-owned canonical commands",
+    "auditable idempotency checkpoint and external identity"
+  ],
+  "restrictions": [
+    "BFF remains the user-facing boundary",
+    "connections mappings flows runs and rows are tenant-scoped",
+    "credentials and tokens never appear in reads logs events or audit payloads",
+    "provider adapters never write UBP domain databases",
+    "each flow declares direction system of record scope idempotency and conflict policy",
+    "provider and version behavior remains isolated behind adapters",
+    "BAQ direct SQL table access and screen scraping are not generic fallbacks",
+    "capability publication does not activate a tenant or assert provider runtime support"
+  ],
+  "governance": {
+    "deterministic": [
+      "resolve whether a tenant is entitled to configure an integration",
+      "resolve provider flow and supported adapter version",
+      "validate completeness of required mappings",
+      "explain integration status by tenant connection flow run and row",
+      "identify the owning UBP domain for every canonical command"
+    ],
+    "poDecision": [
+      "commercial packaging and tenant availability",
+      "provider and version support policy",
+      "flow direction and system of record",
+      "permissions exposed by each integration capability",
+      "rollout from manual execution to continuous synchronization"
+    ],
+    "architectHandoff": [
+      "provider trust and authentication model",
+      "connector service boundary and canonical contracts",
+      "cross-domain orchestration and outbox design",
+      "idempotency checkpoint retry and conflict semantics",
+      "new provider adapter mechanism or provider version"
+    ],
+    "reviewerGate": [
+      "tenant isolation and anti-IDOR",
+      "BFF-only user boundary",
+      "secret redaction and storage boundary",
+      "no direct writes to domain databases",
+      "domain-owned invariants and append-only histories",
+      "idempotency and audit completeness",
+      "no customer fork or provider logic in core domains"
+    ],
+    "forbiddenWithoutApproval": [
+      "activate integration capability for a tenant",
+      "execute a mutating integration flow",
+      "enable continuous synchronization",
+      "add a provider or supported version",
+      "change provider authentication policy",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0006 Control Plane",
+      "ADR-0021 Inventario y Sucursales",
+      "configurations_capabilityconfiguration_capabilityconfiguration",
+      "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+      "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+      "ubp_inventory_domain_stockbalance_stockbalance",
+      "ubp_inventory_domain_stockmovement_stockmovement"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Primary Integrations capability published from accepted ADR-0093 on 2026-09-16. Existing Control Plane and Inventory anchors prove governance and domain ownership only; individual provider flows require their own capability and runtime evidence."
+  },
+  "capability": {
+    "id": "integrations",
+    "name": "Integraciones externas",
+    "intents": [
+      "configurar una conexión externa por tenant",
+      "seleccionar un adaptador por proveedor y versión",
+      "mapear coordenadas externas con identidades UBP",
+      "habilitar un flujo de integración independiente",
+      "consultar estado errores checkpoints y resultados",
+      "gobernar reintentos idempotencia y conflictos"
+    ]
+  }
+}
