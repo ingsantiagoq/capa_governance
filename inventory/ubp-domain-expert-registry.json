@@ -340,6 +340,26 @@
       "status": "candidate"
     },
     {
+      "expertId": "integrations-expert",
+      "status": "active",
+      "accountableOwner": "capa-governance:integrations-expert",
+      "backupOwner": "santiago-product-owner",
+      "approvedBy": "santiago-product-owner",
+      "approvedRevision": "88b03d9a8ac776dcf2c66afdcd8b7b181ac76154",
+      "manifestSha256": "7ea1c3765ba63521902bcdc23075bf16d746d38340b8b1fb0bd3fe5e517c142e",
+      "reviewDueAt": "2027-03-16T23:59:59Z",
+      "seedGraphRevision": "ebf1c845bdf917d821f3182bff0cbe04c21d2c8e",
+      "seedVerificationSha256": "805661c28aae3952d6f9feca8709c9ba1a5f887b0ca46175d2c9fac1c9bd0f85",
+      "blockedActions": [
+        "declare-epicor-adapter-ready",
+        "declare-inventory-bootstrap-ready",
+        "declare-integration-runtime-ready",
+        "enable-production-connector",
+        "execute-inventory-bootstrap",
+        "production-deploy"
+      ]
+    },
+    {
       "expertId": "experience-delivery-expert",
       "status": "candidate"
     }

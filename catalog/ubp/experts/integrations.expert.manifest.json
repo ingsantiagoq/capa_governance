@@ -1,0 +1,309 @@
+{
+  "kind": "domain-expert",
+  "version": 11,
+  "id": "integrations-expert",
+  "domain": "integrations",
+  "scope": [
+    "Tenant-scoped external-system connections, provider catalogs, adapter selection and governed credentials",
+    "Canonical inbound and outbound integration flows with explicit system of record direction scope checkpoints and conflicts",
+    "Organizational mapping from provider coordinates to UBP tenant branch warehouse and bin identities",
+    "Idempotency retries throttling circuit breaking observability and auditable run and row outcomes",
+    "Connector services translate provider protocols while UBP domains retain business validation and all writes",
+    "Epicor is the first provider; version 9 and 10 support must remain isolated and evidenced independently"
+  ],
+  "coveredCapabilities": [
+    "integrations-epicor-inventory-bootstrap"
+  ],
+  "seedNodes": [
+    "ADR-0006 Control Plane",
+    "ADR-0021 Inventario y Sucursales",
+    "configurations_capabilityconfiguration_capabilityconfiguration",
+    "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+    "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+    "ubp_inventory_domain_stockbalance_stockbalance",
+    "ubp_inventory_domain_stockmovement_stockmovement"
+  ],
+  "escalationTriggers": [
+    {
+      "risk": "cross-domain-impact",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "provider-contract-or-version",
+      "targets": [
+        "architect",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tenant-secret-or-access-boundary",
+      "targets": [
+        "control-plane-expert",
+        "identity-access-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "inventory-mutation-or-cost",
+      "targets": [
+        "inventory-expert",
+        "audit-integrity-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "organizational-mapping",
+      "targets": [
+        "tenant-organization-expert",
+        "inventory-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "tax-enrichment",
+      "targets": [
+        "tax-expert",
+        "control-plane-expert",
+        "reviewer"
+      ]
+    },
+    {
+      "risk": "production-activation",
+      "targets": [
+        "po",
+        "architect",
+        "reviewer"
+      ]
+    }
+  ],
+  "prohibitedActions": {
+    "absolute": [
+      "bypass-bff",
+      "bypass-tenant-isolation",
+      "store-secret-in-plaintext",
+      "write-domain-database-directly",
+      "mutate-admin-role-directly",
+      "mutate-owner-role-directly",
+      "use-baq-sql-or-screen-scraping-as-fallback"
+    ],
+    "withoutApproval": [
+      "activate-tenant-integration",
+      "execute-inventory-bootstrap",
+      "enable-continuous-sync",
+      "change-provider-contract",
+      "add-provider-version",
+      "import-tax-mappings",
+      "production-deploy"
+    ]
+  },
+  "handoffTargets": [
+    "architect",
+    "reviewer",
+    "po",
+    "compliance",
+    "control-plane-expert",
+    "identity-access-expert",
+    "audit-integrity-expert",
+    "inventory-expert",
+    "tenant-organization-expert",
+    "tax-expert"
+  ],
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0006 Control Plane",
+      "ADR-0021 Inventario y Sucursales",
+      "configurations_capabilityconfiguration_capabilityconfiguration",
+      "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+      "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+      "ubp_inventory_domain_stockbalance_stockbalance",
+      "ubp_inventory_domain_stockmovement_stockmovement"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Integrations expert published from accepted ADR-0093 on 2026-09-16 using pinned Control Plane and Inventory evidence. The anchors prove capability governance and append-only inventory ownership; runtime Epicor support remains unimplemented and blocked."
+  },
+  "knowledgeSources": {
+    "ubp": [
+      {
+        "id": "adr-0006",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0006-control-plane.md",
+        "purpose": "Capability catalog tenant configuration permission scopes and governed runtime policy"
+      },
+      {
+        "id": "adr-0021",
+        "type": "adr",
+        "reference": "btw-ubp-backend/docs/adr/ADR-0021-inventario-y-sucursales.md",
+        "purpose": "Inventory ownership of item location quantity cost and append-only stock movements"
+      },
+      {
+        "id": "integration-capability",
+        "type": "capability-manifest",
+        "reference": "catalog/ubp/capabilities/integrations-epicor-inventory-bootstrap.manifest.json",
+        "purpose": "Published routing restrictions dependencies and governance for the first external integration flow"
+      },
+      {
+        "id": "integrations-market-lens",
+        "type": "market-lens",
+        "reference": "knowledge/integrations/market-lens.md",
+        "purpose": "Curated provider-adapter comparison without asserting UBP implementation"
+      }
+    ],
+    "market": [
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en-us/products/enterprise-resource-planning-erp/kinetic/tools-and-technology/open-rest-api/",
+        "purpose": "Official description of versioned REST access to Epicor business objects processes reports BAQs and functions",
+        "sourcePolicy": "comparison-only"
+      }
+    ]
+  },
+  "semanticAnchors": [
+    {
+      "term": "external-connection",
+      "ubpMeaning": "Tenant-owned reference to one provider endpoint identity secret binding detected version and administrative state.",
+      "marketLens": "ERP integrations commonly bind credentials and endpoints per company or environment.",
+      "decisionRule": "Control Plane owns metadata and secret references; connector services consume them without exposing secret material."
+    },
+    {
+      "term": "provider-adapter",
+      "ubpMeaning": "Version-specific implementation behind a provider-neutral port that translates native operations into canonical contracts.",
+      "marketLens": "Epicor publishes versioned API surfaces whose available operations and authentication vary by installation.",
+      "decisionRule": "Provider and version conditionals stay inside adapters; core domains never branch on Epicor version."
+    },
+    {
+      "term": "integration-flow",
+      "ubpMeaning": "Independently enabled directional exchange with a declared system of record scope mapping idempotency checkpoint and conflict policy.",
+      "marketLens": "Enterprise integration suites separate flows so one failed object or direction does not disable all exchanges.",
+      "decisionRule": "Every new object and direction requires its own CAPA and cannot inherit authority from provider enablement."
+    },
+    {
+      "term": "organizational-mapping",
+      "ubpMeaning": "Explicit tenant-scoped relation from provider organization and location coordinates to UBP-owned identities.",
+      "marketLens": "ERP sites plants warehouses and bins are installation-specific and cannot be inferred safely by display name.",
+      "decisionRule": "Missing or invalid mappings block affected rows; connectors never create organizational structure implicitly."
+    },
+    {
+      "term": "inventory-bootstrap",
+      "ubpMeaning": "Manual idempotent initial load that reads external items and location balances then invokes canonical Inventory commands.",
+      "marketLens": "Initial ERP migrations commonly use bulk snapshots before incremental synchronization.",
+      "decisionRule": "Bootstrap is not continuous sync; Inventory creates items and append-only movements and the connector never overwrites balances."
+    }
+  ],
+  "northStar": {
+    "bestVersion": "A tenant-governed integration fabric where providers and versions are isolated adapters, every flow is independently authorized and observable, and UBP domains remain the only owners and writers of business facts.",
+    "businessOutcomes": [
+      "Connect a tenant to an ERP without customer forks or provider logic in UBP domains.",
+      "Bootstrap inventory with complete traceability and safe replay before enabling continuous synchronization.",
+      "Add providers and business flows through reusable contracts and governed mappings."
+    ],
+    "invariants": [
+      "Every connection flow run and row is tenant-scoped and attributable.",
+      "Secrets never appear in reads logs events or functional audit payloads.",
+      "Connector services translate protocols and never write domain databases.",
+      "Every flow declares direction system of record idempotency checkpoints and conflict policy.",
+      "Inventory history remains append-only and domain-owned.",
+      "Unsupported provider versions fail explicitly instead of falling back to ungoverned access."
+    ],
+    "configurationBoundary": "Provider catalog connection schema secret references supported versions organizational mappings flow activation and retry policy are Control Plane data; code changes only for a universal integration primitive or isolated provider adapter."
+  },
+  "marketIntelligence": {
+    "verifiedAt": "2026-09-16",
+    "refreshDays": 180,
+    "lessons": [
+      {
+        "vendor": "epicor",
+        "reference": "https://www.epicor.com/en-us/products/enterprise-resource-planning-erp/kinetic/tools-and-technology/open-rest-api/",
+        "observedCapability": "Epicor Kinetic exposes a versioned REST surface over business objects processes reports BAQs and functions.",
+        "lesson": "A provider name alone is not a stable contract; version authentication and operation availability must be isolated and detected.",
+        "ubpDecision": "Use one canonical connector port with separate Epicor 9 and 10 adapters, require native-operation proof per installation, and reject unsupported revisions explicitly."
+      }
+    ]
+  },
+  "enforcement": {
+    "gates": [
+      {
+        "id": "manifest-structure",
+        "reference": "npm run check",
+        "purpose": "Validate the closed V11 expert and capability contracts."
+      },
+      {
+        "id": "authority-readiness",
+        "reference": "tools/governance-readiness-gate.mjs",
+        "purpose": "Require active ownership approval pinned revision fresh market evidence and verified seeds."
+      },
+      {
+        "id": "integrations-seed-audit",
+        "reference": "tools/audit-expert-seeds.mjs",
+        "purpose": "Resolve Control Plane and Inventory ownership anchors against the pinned UBP graph."
+      },
+      {
+        "id": "epicor-bootstrap-e2e",
+        "reference": "ADR-0093: epicor-inventory-bootstrap",
+        "purpose": "Require tenant isolation secret redaction mapping validation idempotent replay and canonical Inventory writes before runtime readiness."
+      }
+    ],
+    "readyWhen": "The manifest is active with verified seeds and current evidence for the requested provider flow. Epicor runtime readiness remains BLOCK until connection adapters mappings bootstrap orchestration and end-to-end Inventory evidence exist."
+  },
+  "policies": [
+    {
+      "id": "context-order",
+      "reference": "policies/context/context-order.md",
+      "scope": "mandatory context retrieval order"
+    },
+    {
+      "id": "route-conformance",
+      "reference": "policies/context/route-conformance.md",
+      "scope": "mandatory route and handoff conformance"
+    },
+    {
+      "id": "design-patterns",
+      "reference": "policies/architecture/design-patterns.md",
+      "scope": "mandatory provider adapter and domain ownership patterns"
+    },
+    {
+      "id": "configuration-governance",
+      "reference": "policies/architecture/configuration-governance.md",
+      "scope": "mandatory config-no-code provider connection and mapping policy"
+    },
+    {
+      "id": "agnostic-engine-sovereignty",
+      "reference": "policies/architecture/agnostic-engine-sovereignty.md",
+      "scope": "mandatory provider-agnostic core and isolated adapter policy"
+    },
+    {
+      "id": "tenant-boundaries",
+      "reference": "policies/security/tenant-boundaries.md",
+      "scope": "mandatory tenant ownership anti-IDOR and role boundary policy"
+    },
+    {
+      "id": "testing-gates",
+      "reference": "policies/testing/gates.md",
+      "scope": "mandatory validation policy"
+    },
+    {
+      "id": "approval-boundaries",
+      "reference": "policies/approvals/approval-boundaries.md",
+      "scope": "mandatory activation execution migration and production approval policy"
+    },
+    {
+      "id": "escalation-recommendations",
+      "reference": "protocol/escalation-recommendations.md",
+      "scope": "mandatory recommendation package for cross-domain integration decisions"
+    },
+    {
+      "id": "domain-deliberation",
+      "reference": "protocol/domain-deliberation.md",
+      "scope": "mandatory governed deliberation for flows that affect owning domains"
+    }
+  ]
+}

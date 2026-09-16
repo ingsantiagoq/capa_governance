@@ -65,9 +65,11 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Experto Treasury](catalog/ubp/experts/treasury.expert.manifest.json): caja, pagos, recaudos, depósitos, settlements, bancos y conciliación.
 - [Experto Document Management](catalog/ubp/experts/document-management.expert.manifest.json): identidad documental, versiones, object links, grants, retención, integridad y evidencia compartida.
 - [Experto Inventory](catalog/ubp/experts/inventory.expert.manifest.json): stock, reservas, trazabilidad, AVG/FIFO, valuación, deterioro y frontera con Ledger/Fixed Assets.
+- [Experto Integrations](catalog/ubp/experts/integrations.expert.manifest.json): conexiones por tenant, adaptadores por proveedor/versión, mappings, idempotencia y fronteras de dominio.
 - [Experto Fixed Assets](catalog/ubp/experts/fixed-assets.expert.manifest.json): capitalización, libros, depreciación, reversa, baja, rollforward y conciliación con Ledger.
 - [Fixed Assets Market Lens](knowledge/fixed-assets/market-lens.md): contraste oficial con SAP, Dynamics, Epicor, Oracle y Odoo.
 - [Inventory Market Lens](knowledge/inventory/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
+- [Integrations Market Lens](knowledge/integrations/market-lens.md): presión de diseño oficial para aislar contratos y versiones de proveedores externos.
 - [Document Management Market Lens](knowledge/document-management/market-lens.md): contraste oficial con SAP, Dynamics, Epicor y Odoo.
 - [Treasury Market Lens](knowledge/treasury/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
 - [FX Market Lens](knowledge/fx/market-lens.md): contraste oficial con SAP, Dynamics y Odoo.
@@ -90,6 +92,7 @@ una implementacion completa. No valida existencia de nodos, frescura ni permisos
 - [Broker](protocol/context-broker-state-machine.md): prioridades y transiciones.
 - [Router](protocol/capability-router.md): resolucion de intencion y recuperacion.
 - [Inventory](catalog/ubp/capabilities/inventory.manifest.json) está publicado en el catálogo UBP.
+- [Epicor Inventory Bootstrap](catalog/ubp/capabilities/integrations-epicor-inventory-bootstrap.manifest.json) publica el primer flujo externo gobernado; no afirma runtime implementado.
   [AP](catalog/ubp/capabilities/ap.manifest.json), [Document Reception](catalog/ubp/capabilities/document-reception.manifest.json),
   [Ledger](catalog/ubp/capabilities/ledger.manifest.json),
   [Cost Center](catalog/ubp/capabilities/cost-center.manifest.json),

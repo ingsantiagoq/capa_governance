@@ -1,0 +1,104 @@
+{
+  "capability": {
+    "id": "integrations-epicor-inventory-bootstrap",
+    "name": "Integraciones · Bootstrap de inventario Epicor",
+    "intents": [
+      "configurar conexion Epicor por tenant",
+      "probar conexion Epicor y detectar version soportada",
+      "mapear planta warehouse y bin de Epicor con sucursal bodega y ubicacion UBP",
+      "obtener inventario de Epicor para bootstrap manual",
+      "crear candidato de item faltante antes de aplicar existencia",
+      "consultar estado errores y resultado del bootstrap de inventario"
+    ]
+  },
+  "services": [
+    "admin-service",
+    "ubp-bff",
+    "inventory-service",
+    "epicor-connector-service planned"
+  ],
+  "contracts": [
+    "TenantIntegrationConnection planned",
+    "TenantIntegrationLocationMap planned",
+    "InventoryBootstrapRun planned",
+    "EpicorInventoryAdapter planned",
+    "Inventory item and movement commands"
+  ],
+  "dependencies": [
+    "tenant context and actor permissions",
+    "control plane capability catalog",
+    "config tenant read and write capabilities",
+    "secret reference without plaintext persistence",
+    "inventory item branch warehouse bin and movement authority",
+    "auditable idempotency key and external coordinate"
+  ],
+  "restrictions": [
+    "BFF remains the user-facing boundary",
+    "connection mapping run and result are tenant-scoped",
+    "credentials and tokens never appear in reads logs or audit payloads",
+    "provider adapters never write UBP domain databases",
+    "inventory creates items and append-only movements through canonical use cases",
+    "Epicor version behavior remains isolated behind adapters",
+    "BAQ direct SQL table access and screen scraping are not generic fallbacks",
+    "capability publication does not activate any tenant or assert runtime support"
+  ],
+  "governance": {
+    "deterministic": [
+      "resolve whether the tenant is entitled to configure or execute the integration",
+      "resolve provider and supported adapter version",
+      "validate completeness of organizational mappings",
+      "explain bootstrap status by tenant connection run and row",
+      "identify the owning UBP domain for each canonical command"
+    ],
+    "poDecision": [
+      "commercial packaging and tenant availability",
+      "provider and version support policy",
+      "bootstrap direction and system of record",
+      "permissions exposed by the capability",
+      "rollout from manual bootstrap to continuous synchronization"
+    ],
+    "architectHandoff": [
+      "provider trust and authentication model",
+      "connector service boundary and canonical contracts",
+      "cross-domain orchestration and outbox design",
+      "idempotency checkpoint retry and conflict semantics",
+      "new adapter mechanism or provider version"
+    ],
+    "reviewerGate": [
+      "tenant isolation and anti-IDOR",
+      "BFF-only user boundary",
+      "secret redaction and storage boundary",
+      "no direct writes to domain databases",
+      "inventory append-only movement semantics",
+      "idempotency and audit completeness",
+      "no customer fork or provider logic in core domains"
+    ],
+    "forbiddenWithoutApproval": [
+      "activate integration capability for a tenant",
+      "execute inventory bootstrap",
+      "enable continuous synchronization",
+      "add a provider or supported version",
+      "change provider authentication policy",
+      "production deploy"
+    ]
+  },
+  "retrieval": {
+    "order": [
+      "manifest",
+      "graphify",
+      "source"
+    ],
+    "seedNodes": [
+      "ADR-0006 Control Plane",
+      "ADR-0021 Inventario y Sucursales",
+      "configurations_capabilityconfiguration_capabilityconfiguration",
+      "capabilities_capabilitydependencyservice_capabilitydependencyservice",
+      "capabilities_tenantcapabilityinstallservice_tenantcapabilityinstallservice",
+      "ubp_inventory_domain_stockbalance_stockbalance",
+      "ubp_inventory_domain_stockmovement_stockmovement"
+    ],
+    "maxExpansions": 1,
+    "sourcePolicy": "only-after-manifest-and-graph",
+    "provenance": "Published from accepted ADR-0093 scope on 2026-09-16. Existing Control Plane and Inventory anchors prove governance and domain ownership only; they do not prove an Epicor connector, adapter, connection, mapping or bootstrap runtime."
+  }
+}
