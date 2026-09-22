@@ -16,7 +16,7 @@
   "seedNodes": [
     "ADR-0009 Auditoria e Integridad Contable",
     "ubp_buildingblocks_auditchange_auditchange",
-    "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+    "ubp_buildingblocks_auditchangerecorded_auditchangerecorded",
     "ubp_ledger_application_journalpostingservice_journalpostingservice",
     "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
     "ubp_ledger_domain_accountingperiod_accountingperiod",
@@ -106,7 +106,7 @@
     "seedNodes": [
       "ADR-0009 Auditoria e Integridad Contable",
       "ubp_buildingblocks_auditchange_auditchange",
-      "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+      "ubp_buildingblocks_auditchangerecorded_auditchangerecorded",
       "ubp_ledger_application_journalpostingservice_journalpostingservice",
       "ubp_ledger_infrastructure_postingpersistencetransaction_postingpersistencetransaction",
       "ubp_ledger_domain_accountingperiod_accountingperiod",
