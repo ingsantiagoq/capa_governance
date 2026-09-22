@@ -150,14 +150,14 @@
     },
     {
       "expertId": "audit-integrity-expert",
-      "manifestSha256": "a2f693e755112b86ce5aaa9177295766bb2d2a0f0be527930e0ba25c27320f0e",
+      "manifestSha256": "4e12abdbba7c37202f079c33108c8ebc102b65c30d27ab3d53959d0b5c22383c",
       "decision": "READY",
       "counts": {
         "resolved": 10,
         "ambiguous": 0,
         "missing": 0
       },
-      "seedVerificationSha256": "3f39e1dad5c2db77a40e0236fb12274c9c5bb739ea6721b227cc9448dd95f79f",
+      "seedVerificationSha256": "d1be8300eef5107c4c1f37ebd3a7dfd4bc90f3e05ad9f6b3572dbf619582c777",
       "seeds": [
         {
           "seed": "ADR-0009 Auditoria e Integridad Contable",
@@ -184,12 +184,12 @@
           "matchCount": 1
         },
         {
-          "seed": "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+          "seed": "ubp_buildingblocks_auditchangerecorded_auditchangerecorded",
           "status": "resolved",
           "method": "exact-id",
           "matches": [
             {
-              "id": "building_blocks_ubp_buildingblocks_auditchangerecorded_cs_auditchangerecorded",
+              "id": "ubp_buildingblocks_auditchangerecorded_auditchangerecorded",
               "sourceFile": "building-blocks/Ubp.BuildingBlocks/AuditChangeRecorded.cs"
             }
           ],
